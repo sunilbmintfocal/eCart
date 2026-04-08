@@ -6,8 +6,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
       <div className="mb-8 px-2 py-2 flex items-center justify-between">
         {!isCollapsed && (
           <div>
-            <h2 className="text-lg font-bold text-on-surface font-headline overflow-hidden text-ellipsis whitespace-nowrap">Emerald Precision</h2>
-            <p className="text-[10px] text-on-surface-variant font-medium uppercase tracking-[0.1em]">The Clinical Artisan</p>
+            <h2 className="text-lg font-bold text-on-surface font-headline overflow-hidden text-ellipsis whitespace-nowrap">eCart</h2>
+            <p className="text-[10px] text-on-surface-variant font-medium uppercase tracking-[0.1em]">Enterprise Commerce Ledger</p>
           </div>
         )}
         <button 
