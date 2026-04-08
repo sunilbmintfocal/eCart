@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .glass {
+    @apply bg-white/80 backdrop-blur-[24px];
+  }
+  
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary to-primary-container text-on-primary shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all active:scale-95;
+  }
+
+  .ambient-shadow {
+    box-shadow: 0 20px 40px rgba(25, 28, 29, 0.05);
+  }
+}
+
+@layer base {
+  html {
+    /* Dynamic root font size for global scaling. 
+       Tailwind uses rem for consistent UI compression. */
+    font-size: var(--root-font-size, 14px);
+  }
+  
+  /* If you want it even denser on mobile screens, we can scale down further */
+  @media (max-width: 640px) {
+    html {
+      font-size: 12px;
+    }
+  }
+
+  body {
+    @apply bg-surface text-on-surface antialiased font-body;
+  }
+}
+
+.font-headline { font-family: 'Manrope', sans-serif; }
+.font-body { font-family: 'Inter', sans-serif; }
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
