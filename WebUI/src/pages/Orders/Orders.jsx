@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DataTable from '../../components/DataTable';
 
 const MOCK_ORDERS = [
   { id: 'ORD-7721', customer: 'Sarah Jenkins', product: 'Zenith Watch', date: 'Oct 24, 2023', amount: '$1,240', status: 'Completed' },
@@ -43,6 +44,56 @@ export default function Orders() {
     }
   };
 
+  const columns = [
+    { 
+      header: 'Order ID', 
+      key: 'id', 
+      className: 'font-mono font-bold text-primary italic' 
+    },
+    { 
+      header: 'Customer', 
+      key: 'customer', 
+      className: 'font-bold' 
+    },
+    { 
+      header: 'Product', 
+      key: 'product', 
+      className: 'font-medium text-on-surface-variant' 
+    },
+    { 
+      header: 'Date', 
+      key: 'date', 
+      className: 'font-medium text-on-surface-variant' 
+    },
+    { 
+      header: 'Amount', 
+      key: 'amount', 
+      className: 'font-mono font-bold tracking-tight text-on-surface' 
+    },
+    { 
+      header: 'Status', 
+      align: 'center',
+      render: (order) => (
+        <span className={`inline-block px-3 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider ${getStatusStyle(order.status)}`}>
+          {order.status}
+        </span>
+      )
+    },
+    { 
+      header: 'Actions', 
+      align: 'right',
+      render: (order) => (
+        <button 
+          onClick={() => handleEdit(order)}
+          className="w-8 h-8 flex items-center justify-center rounded-none hover:bg-primary/10 text-primary transition-all active:scale-95 group-hover:scale-110"
+          title="Edit Order"
+        >
+          <span className="material-symbols-outlined text-[18px]">edit</span>
+        </button>
+      )
+    }
+  ];
+
   return (
     <section className="p-8 bg-surface min-h-screen">
       <div className="flex justify-between items-end mb-10">
@@ -68,46 +119,7 @@ export default function Orders() {
           <h3 className="text-xl font-headline font-bold text-on-surface tracking-tight">Recent Orders</h3>
           <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.15em]">Total: {MOCK_ORDERS.length}</span>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-primary/20 text-primary relative z-10">
-              <tr>
-                <th className="px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20">Order ID</th>
-                <th className="px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20">Customer</th>
-                <th className="px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20">Product</th>
-                <th className="px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20">Date</th>
-                <th className="px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20">Amount</th>
-                <th className="px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20 text-center">Status</th>
-                <th className="px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-outline-variant/10 text-on-surface">
-              {currentOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-primary/5 transition-all duration-150 group">
-                  <td className="px-8 py-5 text-sm font-mono font-bold text-primary border-r border-outline-variant/10">{order.id}</td>
-                  <td className="px-8 py-5 text-sm font-bold border-r border-outline-variant/10">{order.customer}</td>
-                  <td className="px-8 py-5 text-sm font-medium text-on-surface-variant border-r border-outline-variant/10">{order.product}</td>
-                  <td className="px-8 py-5 text-sm font-medium text-on-surface-variant border-r border-outline-variant/10">{order.date}</td>
-                  <td className="px-8 py-5 text-sm font-mono font-bold border-r border-outline-variant/10 tracking-tight text-on-surface">{order.amount}</td>
-                  <td className="px-8 py-5 text-center border-r border-outline-variant/10">
-                    <span className={`inline-block px-3 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider ${getStatusStyle(order.status)}`}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="px-8 py-5 text-right">
-                    <button 
-                      onClick={() => handleEdit(order)}
-                      className="w-8 h-8 flex items-center justify-center rounded-none hover:bg-primary/10 text-primary transition-all active:scale-95 group-hover:scale-110"
-                      title="Edit Order"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">edit</span>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTable data={currentOrders} columns={columns} />
       </div>
 
       {/* Pagination */}
