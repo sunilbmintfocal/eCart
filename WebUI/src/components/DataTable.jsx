@@ -1,77 +1,142 @@
-import React from 'react';
+import { useState } from 'react';
 
 /**
  * A reusable data table component designed for the eCart enterprise aesthetic.
- * 
- * @param {Array} data - The JSON data to render (array of objects).
- * @param {Array} columns - Configuration for columns: 
- *    { 
- *      header: string, 
- *      key: string, 
- *      render: (item) => ReactNode, 
- *      className: string,
- *      headerClassName: string,
- *      align: 'left' | 'center' | 'right'
- *    }
- * @param {string} className - Additional table container styling.
- * @param {boolean} hoverEffect - Whether to show hover highlights on rows.
- * @param {string} emptyMessage - Message to show when data is empty.
+ *
+ * @param {Array}   data          - The full JSON dataset (array of objects).
+ * @param {Array}   columns       - Column config: { header, key, render, className, headerClassName, align }
+ * @param {number}  defaultPageSize - Default rows per page (default: 10). Set to 0 to disable pagination.
+ * @param {string}  className     - Additional table container styling.
+ * @param {boolean} hoverEffect   - Whether to show hover highlights on rows.
+ * @param {string}  emptyMessage  - Message shown when data is empty.
  */
-export default function DataTable({ 
-  data = [], 
-  columns = [], 
-  className = "", 
+export default function DataTable({
+  data = [],
+  columns = [],
+  defaultPageSize = 10,
+  pageSizeOptions = [10, 20, 50],
+  className = '',
   hoverEffect = true,
-  emptyMessage = "No records found."
+  emptyMessage = 'No records found.',
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(defaultPageSize);
+
+  const paginate = pageSize > 0;
+  const totalPages = paginate ? Math.ceil(data.length / pageSize) : 1;
+  const startIndex = paginate ? (currentPage - 1) * pageSize : 0;
+  const visibleData = paginate ? data.slice(startIndex, startIndex + pageSize) : data;
+
+  const goToPage = (page) => setCurrentPage(Math.min(Math.max(page, 1), totalPages));
+
+  const handlePageSizeChange = (e) => {
+    setPageSize(Number(e.target.value));
+    setCurrentPage(1);
+  };
+
   return (
-    <div className={`overflow-x-auto ${className}`}>
-      <table className="w-full text-left border-collapse">
-        <thead className="bg-primary/20 text-primary sticky top-0 z-10">
-          <tr>
-            {columns.map((col, index) => (
-              <th 
-                key={index} 
-                className={`px-8 py-5 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
-                  col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
+    <div className={className}>
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-primary/20 text-primary sticky top-0 z-10">
+            <tr>
+              {columns.map((col, index) => (
+                <th
+                  key={index}
+                  className={`px-6 py-2 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
+                    col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
+                  }`}
+                >
+                  {col.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-outline-variant/10 text-on-surface">
+            {visibleData.length > 0 ? (
+              visibleData.map((item, rowIndex) => (
+                <tr
+                  key={item.id || rowIndex}
+                  className={hoverEffect ? 'hover:bg-primary/5 transition-all duration-150 group' : ''}
+                >
+                  {columns.map((col, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className={`px-6 py-2 text-sm border-r border-outline-variant/10 last:border-r-0 ${col.className || ''} ${
+                        col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
+                      }`}
+                    >
+                      {col.render ? col.render(item) : item[col.key]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-6 py-12 text-center text-sm font-medium text-on-surface-variant italic"
+                >
+                  {emptyMessage}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      {paginate && totalPages > 1 && (
+        <div className="flex items-center justify-between border-t border-outline-variant/10 px-6 py-4">
+          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+            Showing {startIndex + 1}–{Math.min(startIndex + pageSize, data.length)} of {data.length}
+          </span>
+          {/* Items-per-page combobox */}
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Rows</span>
+            <select
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              className="bg-surface-container-lowest border border-outline-variant/20 rounded-none px-2 py-1 text-xs font-bold text-on-surface-variant focus:border-primary focus:outline-none transition-all appearance-none cursor-pointer hover:bg-surface-container-low"
+            >
+              {pageSizeOptions.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex gap-1.5 items-center">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => goToPage(currentPage - 1)}
+              className="px-4 py-1.5 rounded-none border border-outline-variant/20 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low transition-all disabled:opacity-30 disabled:pointer-events-none"
+            >
+              Previous
+            </button>
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goToPage(i + 1)}
+                className={`w-8 h-8 flex items-center justify-center rounded-none font-bold text-[10px] transition-all ${
+                  currentPage === i + 1
+                    ? 'bg-primary text-on-primary shadow-sm'
+                    : 'hover:bg-surface-container-low text-on-surface-variant'
                 }`}
               >
-                {col.header}
-              </th>
+                {i + 1}
+              </button>
             ))}
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-outline-variant/10 text-on-surface">
-          {data.length > 0 ? (
-            data.map((item, rowIndex) => (
-              <tr 
-                key={item.id || rowIndex} 
-                className={`${hoverEffect ? 'hover:bg-primary/5 transition-all duration-150 group' : ''}`}
-              >
-                {columns.map((col, colIndex) => (
-                  <td 
-                    key={colIndex} 
-                    className={`px-8 py-5 text-sm border-r border-outline-variant/10 last:border-r-0 ${col.className || ''} ${
-                      col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
-                    }`}
-                  >
-                    {col.render ? col.render(item) : item[col.key]}
-                  </td>
-                ))}
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td 
-                colSpan={columns.length} 
-                className="px-8 py-12 text-center text-sm font-medium text-on-surface-variant italic"
-              >
-                {emptyMessage}
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => goToPage(currentPage + 1)}
+              className="px-4 py-1.5 rounded-none border border-outline-variant/20 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low transition-all disabled:opacity-30 disabled:pointer-events-none"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

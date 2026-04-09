@@ -20,14 +20,8 @@ const MOCK_ORDERS = [
 ];
 
 export default function Orders() {
-  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const itemsPerPage = 8;
-
-  const totalPages = Math.ceil(MOCK_ORDERS.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentOrders = MOCK_ORDERS.slice(startIndex, startIndex + itemsPerPage);
 
   const handleEdit = (order) => {
     setSelectedOrder(order);
@@ -119,40 +113,10 @@ export default function Orders() {
           <h3 className="text-xl font-headline font-bold text-on-surface tracking-tight">Recent Orders</h3>
           <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.15em]">Total: {MOCK_ORDERS.length}</span>
         </div>
-        <DataTable data={currentOrders} columns={columns} />
+        <DataTable data={MOCK_ORDERS} columns={columns} defaultPageSize={10} />
       </div>
 
-      {/* Pagination */}
-      <div className="mt-10 flex items-center justify-between border-t border-outline-variant/10 pt-8">
-        <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
-          Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, MOCK_ORDERS.length)} of {MOCK_ORDERS.length}
-        </span>
-        <div className="flex gap-1.5">
-          <button 
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-            className="px-4 py-2 rounded-none border border-outline-variant/20 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low transition-all disabled:opacity-30 disabled:hover:bg-transparent"
-          >
-            Previous
-          </button>
-          {[...Array(totalPages)].map((_, i) => (
-            <button 
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`w-8 h-8 flex items-center justify-center rounded-none font-bold text-[10px] transition-all ${currentPage === i + 1 ? 'bg-primary text-on-primary shadow-sm' : 'hover:bg-surface-container-low text-on-surface-variant'}`}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button 
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
-            className="px-4 py-2 rounded-none border border-outline-variant/20 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low transition-all disabled:opacity-30 disabled:hover:bg-transparent"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+
 
       {/* Edit Modal */}
       {isModalOpen && selectedOrder && (
