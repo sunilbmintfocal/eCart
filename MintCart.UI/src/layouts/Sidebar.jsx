@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import Logo from '../components/Logo';
 
 export default function Sidebar({ isCollapsed, setIsCollapsed }) {
   return (
@@ -6,8 +7,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
       <div className="mb-8 px-2 py-2 flex items-center justify-between">
         {!isCollapsed && (
           <div>
-            <h2 className="text-lg font-bold text-on-surface font-headline overflow-hidden text-ellipsis whitespace-nowrap">eCart</h2>
-            <p className="text-[10px] text-on-surface-variant font-medium uppercase tracking-[0.1em]">Enterprise Commerce Ledger</p>
+            <Logo showText={true} iconSize="h-6" />
+            <p className="text-[10px] text-on-surface-variant font-medium uppercase tracking-[0.1em] mt-1">Inventory Suite</p>
           </div>
         )}
         <button 

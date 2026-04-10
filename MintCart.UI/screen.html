@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Emerald Precision | Inventory Suite</title>
+<!-- Typography & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#f2f4f4",
+                    "surface-container-high": "#e6e8e9",
+                    "outline": "#6d7a77",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#eff1f1",
+                    "inverse-surface": "#2e3131",
+                    "on-background": "#191c1d",
+                    "tertiary-container": "#f29271",
+                    "surface-container-highest": "#e1e3e3",
+                    "on-tertiary-container": "#6d2a11",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#00201d",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#95482d",
+                    "surface-dim": "#d8dada",
+                    "surface-variant": "#e1e3e3",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#bfe8e1",
+                    "on-secondary-container": "#446964",
+                    "on-secondary-fixed-variant": "#274d48",
+                    "tertiary-fixed": "#ffdbcf",
+                    "on-primary-container": "#004841",
+                    "on-primary-fixed": "#00201d",
+                    "on-primary-fixed-variant": "#005049",
+                    "secondary": "#3f6560",
+                    "primary-container": "#4cbcaf",
+                    "on-surface-variant": "#3d4947",
+                    "primary-fixed": "#89f5e7",
+                    "tertiary-fixed-dim": "#ffb59c",
+                    "surface": "#f8fafa",
+                    "on-error": "#ffffff",
+                    "background": "#f8fafa",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#390c00",
+                    "surface-container": "#eceeee",
+                    "outline-variant": "#bcc9c6",
+                    "secondary-fixed": "#c2ebe4",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#a6cfc8",
+                    "surface-bright": "#f8fafa",
+                    "on-surface": "#191c1d",
+                    "primary": "#006a61",
+                    "on-tertiary-fixed-variant": "#773218",
+                    "inverse-primary": "#6bd8cb",
+                    "surface-tint": "#006a61",
+                    "primary-fixed-dim": "#6bd8cb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafa;
+        color: #191c1d;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+      .active-nav-indicator {
+        position: absolute;
+        right: 0;
+        width: 4px;
+        height: 24px;
+        background-color: #006a61;
+        border-radius: 2px 0 0 2px;
+      }
+      .asymmetric-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1.5fr;
+        gap: 1.5rem;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-3 border-b border-slate-100/10">
+<div class="flex items-center gap-4">
+<span class="text-xl font-extrabold tracking-tighter text-teal-700 dark:text-teal-400 font-['Manrope']">Emerald Precision</span>
+<div class="hidden md:flex ml-8 gap-6 items-center">
+<span class="text-teal-600 font-semibold cursor-pointer font-['Manrope'] text-sm tracking-tight border-b-2 border-teal-500 pb-1">Dashboard</span>
+<span class="text-slate-500 hover:text-teal-600 transition-colors cursor-pointer font-['Manrope'] text-sm tracking-tight">Inventory</span>
+<span class="text-slate-500 hover:text-teal-600 transition-colors cursor-pointer font-['Manrope'] text-sm tracking-tight">Analytics</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded-xl flex items-center gap-2 group hover:bg-slate-100 transition-all duration-200">
+<span class="material-symbols-outlined text-slate-500 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-['Inter'] w-48 placeholder:text-slate-400" placeholder="Search Inventory..." type="text"/>
+</div>
+<div class="flex items-center gap-2 ml-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all duration-200">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all duration-200">
+<span class="material-symbols-outlined text-slate-600">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Side Navigation Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-16 bg-slate-50 dark:bg-slate-950 flex flex-col h-full border-r border-slate-100/10 hidden md:flex">
+<div class="px-6 py-8">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg">precision_manufacturing</span>
+</div>
+<div>
+<h2 class="font-['Manrope'] font-bold text-teal-700 text-sm leading-tight">Inventory Suite</h2>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-medium">Clinical Precision</p>
+</div>
+</div>
+</div>
+<nav class="flex-1">
+<a class="text-teal-700 dark:text-teal-300 font-bold border-r-4 border-teal-500 bg-teal-50/50 dark:bg-teal-900/20 px-6 py-4 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Inter'] text-sm font-medium">Dashboard</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-6 py-4 flex items-center gap-3 hover:bg-teal-50/30 dark:hover:bg-teal-900/10 hover:text-teal-600 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-['Inter'] text-sm font-medium">Inventory</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-6 py-4 flex items-center gap-3 hover:bg-teal-50/30 dark:hover:bg-teal-900/10 hover:text-teal-600 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-['Inter'] text-sm font-medium">Orders</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-6 py-4 flex items-center gap-3 hover:bg-teal-50/30 dark:hover:bg-teal-900/10 hover:text-teal-600 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-['Inter'] text-sm font-medium">Billing</span>
+</a>
+</nav>
+<div class="p-6">
+<button class="w-full py-3 bg-gradient-to-r from-primary to-primary-container text-white rounded-xl text-sm font-bold tracking-tight shadow-lg shadow-teal-500/20">
+                Quick Audit
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 px-8 pb-12">
+<!-- Dashboard Header -->
+<header class="mb-12 flex justify-between items-end">
+<div>
+<h1 class="font-['Manrope'] text-[1.75rem] font-extrabold tracking-tight text-on-surface mb-2">Portfolio Overview</h1>
+<p class="text-outline font-['Inter'] text-sm">System synchronized 4 minutes ago. All metrics within clinical limits.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-container-high text-primary px-5 py-2 rounded-xl text-sm font-semibold transition-all hover:brightness-95">
+                    Download Report
+                </button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-5 py-2 rounded-xl text-sm font-bold shadow-md">
+                    Manage Stock
+                </button>
+</div>
+</header>
+<!-- Metrics Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+<!-- Total Stock -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border-none ring-1 ring-outline-variant/10 shadow-sm flex flex-col justify-between">
+<div>
+<span class="text-label-sm uppercase tracking-widest text-outline font-semibold mb-6 block">Total Stock Units</span>
+<h2 class="font-['Manrope'] text-[3.5rem] font-extrabold tracking-tighter leading-none text-on-surface">12,840</h2>
+</div>
+<div class="mt-8 flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-xs font-bold font-['Inter']">+14.2% from last month</span>
+</div>
+</div>
+<!-- Total Value -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl border-none ring-1 ring-outline-variant/10 shadow-sm flex flex-col justify-between md:col-span-1">
+<div>
+<span class="text-label-sm uppercase tracking-widest text-outline font-semibold mb-6 block">Total Valuation</span>
+<h2 class="font-['Manrope'] text-[3.5rem] font-extrabold tracking-tighter leading-none text-on-surface">$1.4M</h2>
+</div>
+<div class="mt-8 flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="text-xs font-bold font-['Inter']">Net Asset Value</span>
+</div>
+</div>
+<!-- Low Stock & Pending -->
+<div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-tertiary-fixed p-6 rounded-2xl flex flex-col justify-between">
+<div>
+<span class="text-[10px] uppercase tracking-widest text-on-tertiary-fixed-variant font-bold mb-4 block">Low Stock Alerts</span>
+<h3 class="font-['Manrope'] text-[2rem] font-extrabold tracking-tighter text-on-tertiary-fixed leading-none">24</h3>
+</div>
+<div class="mt-4 bg-white/40 p-3 rounded-lg flex items-center justify-between">
+<span class="text-xs font-semibold text-on-tertiary-fixed-variant">8 items critical</span>
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">arrow_forward</span>
+</div>
+</div>
+<div class="bg-primary-fixed p-6 rounded-2xl flex flex-col justify-between">
+<div>
+<span class="text-[10px] uppercase tracking-widest text-on-primary-fixed-variant font-bold mb-4 block">Pending Orders</span>
+<h3 class="font-['Manrope'] text-[2rem] font-extrabold tracking-tighter text-on-primary-fixed leading-none">162</h3>
+</div>
+<div class="mt-4 bg-white/40 p-3 rounded-lg flex items-center justify-between">
+<span class="text-xs font-semibold text-on-primary-fixed-variant">42 priority shipping</span>
+<span class="material-symbols-outlined text-on-primary-fixed-variant">local_shipping</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Visualization Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Chart Card -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-2xl ring-1 ring-outline-variant/10 shadow-sm relative overflow-hidden">
+<div class="flex justify-between items-center mb-12">
+<div>
+<h3 class="font-['Manrope'] text-xl font-bold text-on-surface">Inventory Value Over Time</h3>
+<p class="text-outline text-xs mt-1">Valuation performance for FY 2024</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-low px-3 py-1 rounded text-[10px] font-bold text-outline">WEEK</button>
+<button class="bg-primary text-white px-3 py-1 rounded text-[10px] font-bold">MONTH</button>
+<button class="bg-surface-container-low px-3 py-1 rounded text-[10px] font-bold text-outline">YEAR</button>
+</div>
+</div>
+<!-- Simulated Line Chart -->
+<div class="relative h-64 w-full flex items-end justify-between px-2">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5">
+<div class="w-full border-t border-outline"></div>
+<div class="w-full border-t border-outline"></div>
+<div class="w-full border-t border-outline"></div>
+<div class="w-full border-t border-outline"></div>
+</div>
+<!-- Chart Vector Graphic (Simulation) -->
+<div class="absolute bottom-12 left-0 w-full h-40">
+<svg class="w-full h-full" viewbox="0 0 800 200">
+<path d="M0,180 C50,160 100,120 150,140 C200,160 250,80 300,60 C350,40 400,100 450,110 C500,120 550,40 600,30 C650,20 700,50 800,10" fill="none" stroke="#4cbcaf" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="300" cy="60" fill="#006a61" r="4"></circle>
+<circle cx="600" cy="30" fill="#006a61" r="4"></circle>
+</svg>
+</div>
+<!-- Labeling -->
+<div class="w-full flex justify-between pt-4 mt-auto border-t border-outline-variant/15">
+<span class="text-[10px] text-outline font-medium">JAN</span>
+<span class="text-[10px] text-outline font-medium">FEB</span>
+<span class="text-[10px] text-outline font-medium">MAR</span>
+<span class="text-[10px] text-outline font-medium">APR</span>
+<span class="text-[10px] text-outline font-medium">MAY</span>
+<span class="text-[10px] text-outline font-medium">JUN</span>
+</div>
+</div>
+</div>
+<!-- Inventory Health Panel -->
+<div class="lg:col-span-1 bg-surface-container-low p-8 rounded-2xl flex flex-col">
+<h3 class="font-['Manrope'] text-xl font-bold text-on-surface mb-8">Stock Accuracy</h3>
+<div class="flex-1 flex flex-col justify-center items-center relative">
+<!-- Donut Gauge Simulation -->
+<div class="relative w-48 h-48 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-high" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary-container" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502.6" stroke-dashoffset="50.2" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-['Manrope'] text-4xl font-extrabold text-on-surface">98.2%</span>
+<span class="text-[10px] uppercase font-bold text-outline tracking-wider">Operational</span>
+</div>
+</div>
+</div>
+<div class="mt-8 space-y-4">
+<div class="flex justify-between items-center text-xs">
+<span class="text-outline font-medium">Audit Discrepancy</span>
+<span class="text-on-surface font-bold">1.8%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[1.8%]"></div>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-outline font-medium">System Lag</span>
+<span class="text-on-surface font-bold">45ms</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Table Section -->
+<section class="bg-surface-container-lowest rounded-2xl ring-1 ring-outline-variant/10 shadow-sm overflow-hidden">
+<div class="px-8 py-6 flex justify-between items-center border-b border-outline-variant/10">
+<h3 class="font-['Manrope'] text-xl font-bold text-on-surface">Recent Activity</h3>
+<button class="text-sm font-bold text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                    View Ledger <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low/30">
+<th class="px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-outline font-bold">Reference SKU</th>
+<th class="px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-outline font-bold">Movement Type</th>
+<th class="px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-outline font-bold">Origin/Destination</th>
+<th class="px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-outline font-bold">Quantity</th>
+<th class="px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-outline font-bold">Status</th>
+<th class="px-8 py-4 font-['Inter'] text-[10px] uppercase tracking-widest text-outline font-bold">Timestamp</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="group hover:bg-surface transition-colors">
+<td class="px-8 py-6">
+<div class="font-['Inter'] font-semibold text-sm text-on-surface">EM-7724-X</div>
+<div class="text-[10px] text-outline">Clinical Reagent Pack</div>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">Inbound Shipment</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">Dock A-14</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-bold text-primary">+450</span>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant uppercase tracking-wider">Completed</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs text-outline">08:42 AM</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface transition-colors">
+<td class="px-8 py-6">
+<div class="font-['Inter'] font-semibold text-sm text-on-surface">EP-1102-L</div>
+<div class="text-[10px] text-outline">Digital Micromotor</div>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">Inter-Hub Transfer</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">Central Warehouse</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-bold text-outline">(-12)</span>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-secondary-fixed text-on-secondary-fixed-variant uppercase tracking-wider">Processing</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs text-outline">07:15 AM</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface transition-colors">
+<td class="px-8 py-6">
+<div class="font-['Inter'] font-semibold text-sm text-on-surface">SX-9980-B</div>
+<div class="text-[10px] text-outline">Titanium Alloy Rods</div>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">Direct Sales Order</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">North Bio-Clinic</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-bold text-error">-85</span>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed-variant uppercase tracking-wider">Stock Low</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs text-outline">06:50 AM</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface transition-colors">
+<td class="px-8 py-6">
+<div class="font-['Inter'] font-semibold text-sm text-on-surface">EM-4412-Z</div>
+<div class="text-[10px] text-outline">Protective Visors</div>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">Internal Audit</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-on-surface">QC Station 04</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-bold text-on-surface">0</span>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant uppercase tracking-wider">Completed</span>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs text-outline">05:22 AM</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-surface-container-low/50 text-center">
+<span class="text-xs text-outline font-medium">Viewing 4 of 248 recent movements</span>
+</div>
+</section>
+</main>
+<!-- Floating Action Button Contextual (Hidden on Dashboard based on prompt logic, but here for utility if needed) -->
+<div class="fixed bottom-8 right-8">
+<button class="w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-2xl flex items-center justify-center group transition-all hover:scale-110 active:scale-95">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</div>
+</body></html>

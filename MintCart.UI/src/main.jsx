@@ -7,11 +7,11 @@ import App from './App.jsx'
 
 const oidcConfig = {
   authority: "https://localhost:5001",
-  client_id: "ecart-webui",
+  client_id: "MintCart-webui",
   redirect_uri: window.location.origin,
   post_logout_redirect_uri: window.location.origin,
   response_type: "code",
-  scope: "openid profile ecart-api",
+  scope: "openid profile MintCart-api",
   onSigninCallback: () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   }

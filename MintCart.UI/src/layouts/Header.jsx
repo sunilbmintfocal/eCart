@@ -20,7 +20,6 @@ export default function Header() {
   return (
 <header className="w-full sticky top-0 z-40 glass bg-surface/80 ambient-shadow flex justify-between items-center px-8 py-4">
       <div className="flex items-center gap-10">
-        <div className="text-xl font-bold text-on-surface font-headline tracking-tighter">eCart</div>
         <div className="hidden md:flex items-center bg-surface-container-low/50 border border-outline-variant/20 rounded-none transition-all duration-300 focus-within:border-primary focus-within:bg-surface focus-within:shadow-md w-96 h-12 group">
           <span className="material-symbols-outlined text-on-surface-variant/50 text-[18px] pl-5 transition-colors duration-300 group-focus-within:text-primary" style={{ fontVariationSettings: "'wght' 700" }}>search</span>
           <input 

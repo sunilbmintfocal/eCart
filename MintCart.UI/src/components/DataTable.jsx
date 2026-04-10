@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 /**
- * A reusable data table component designed for the eCart enterprise aesthetic.
+ * A reusable data table component designed for the MintCart enterprise aesthetic.
  *
  * @param {Array}    data            - The full JSON dataset (array of objects).
  * @param {Array}    columns         - Column config: { header, key, render, className, headerClassName, align }

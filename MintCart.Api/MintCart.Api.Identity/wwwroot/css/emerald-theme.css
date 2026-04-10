@@ -1,20 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
 
 :root {
-    --primary: #11a08c;
-    --primary-dim: #0e8574;
-    --background: #f1f4f9;
+    --primary: #006a61;
+    --primary-dim: #004841;
+    --background: #f8fafa;
     --surface: #ffffff;
-    --on-surface: #3c4043;
-    --on-surface-variant: #70757a;
-    --outline: #dadce0;
+    --on-surface: #191c1d;
+    --on-surface-variant: #3d4947;
+    --outline: #6d7a77;
+    --outline-variant: #bcc9c6;
+    --primary-container: #4cbcaf;
+    --mint-green: #3EB489;
+    --charcoal: #36454F;
     
     --font-heading: 'Manrope', sans-serif;
     --font-body: 'Inter', sans-serif;
     
-    --radius-md: 0px;
-    --radius-lg: 0px;
-    --shadow-ambient: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --radius-md: 4px;
+    --radius-lg: 8px;
+    --shadow-ambient: 0 20px 40px rgba(42, 52, 57, 0.06);
 }
 
 body {
@@ -108,18 +112,22 @@ body:has(.split-login-container) .nav-page,
     margin-bottom: 2rem;
     font-family: var(--font-heading);
     font-weight: 700;
-    color: var(--on-surface);
+    color: var(--charcoal);
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.brand-section .mint-text {
+    color: var(--mint-green);
 }
 
 .brand-icon {
-    width: 24px;
-    height: 24px;
-    background: var(--primary);
-    border-radius: 0px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    background: transparent !important; /* Removed background color */
 }
 
 .login-header h2 {

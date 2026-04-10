@@ -116,35 +116,45 @@ public class SeedData
             var configContext = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
             configContext.Database.Migrate();
 
-            if (!configContext.Clients.Any())
+            // Sync Clients
+            foreach (var client in Config.Clients)
             {
-                foreach (var client in Config.Clients)
+                var existingClient = configContext.Clients.Include(x => x.AllowedScopes).FirstOrDefault(x => x.ClientId == client.ClientId);
+                if (existingClient == null)
                 {
                     configContext.Clients.Add(client.ToEntity());
+                    Log.Debug("Seeded new client: {ClientId}", client.ClientId);
                 }
-                configContext.SaveChanges();
-                Log.Debug("Clients seeded");
+                else
+                {
+                    // Update existing client if needed (simplified for this task)
+                    // In a real scenario, you'd sync properties, but here we just ensure it exists.
+                    Log.Debug("Client {ClientId} already exists in database", client.ClientId);
+                }
             }
+            configContext.SaveChanges();
 
-            if (!configContext.IdentityResources.Any())
+            // Sync IdentityResources
+            foreach (var resource in Config.IdentityResources)
             {
-                foreach (var resource in Config.IdentityResources)
+                if (!configContext.IdentityResources.Any(x => x.Name == resource.Name))
                 {
                     configContext.IdentityResources.Add(resource.ToEntity());
+                    Log.Debug("Seeded new identity resource: {Name}", resource.Name);
                 }
-                configContext.SaveChanges();
-                Log.Debug("IdentityResources seeded");
             }
+            configContext.SaveChanges();
 
-            if (!configContext.ApiScopes.Any())
+            // Sync ApiScopes
+            foreach (var scopeResource in Config.ApiScopes)
             {
-                foreach (var scopeResource in Config.ApiScopes)
+                if (!configContext.ApiScopes.Any(x => x.Name == scopeResource.Name))
                 {
                     configContext.ApiScopes.Add(scopeResource.ToEntity());
+                    Log.Debug("Seeded new api scope: {Name}", scopeResource.Name);
                 }
-                configContext.SaveChanges();
-                Log.Debug("ApiScopes seeded");
             }
+            configContext.SaveChanges();
 
             var persistedGrantContext = scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantContext.Database.Migrate();
