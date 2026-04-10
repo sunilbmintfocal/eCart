@@ -1,0 +1,33 @@
+@using Duende.IdentityServer.Extensions
+@{
+    #nullable enable
+    string? name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = Context.User?.GetDisplayName();
+    }
+}
+
+<div class="nav-page">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a href="~/" class="navbar-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px; color:var(--primary);"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            eCart
+        </a>
+
+        @if (!string.IsNullOrWhiteSpace(name))
+        {
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+                    
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-page="/Account/Logout/Index">Logout</a>
+                    </div>
+              </li>
+            </ul>
+        }
+    
+    </nav>
+</div>

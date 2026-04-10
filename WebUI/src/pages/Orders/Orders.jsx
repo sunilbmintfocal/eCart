@@ -1,27 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DataTable from '../../components/DataTable';
-
-const MOCK_ORDERS = [
-  { id: 'ORD-7721', customer: 'Sarah Jenkins', product: 'Zenith Watch', date: 'Oct 24, 2023', amount: '₹1,240.00', status: 'Completed' },
-  { id: 'ORD-7722', customer: 'Michael Chen', product: 'Quantum Laptop', date: 'Oct 24, 2023', amount: '₹2,100.00', status: 'Processing' },
-  { id: 'ORD-7723', customer: 'Elena Rodriguez', product: 'Nordic Vase', date: 'Oct 23, 2023', amount: '₹420.00', status: 'Pending' },
-  { id: 'ORD-7724', customer: 'David Smith', product: 'Ergo Chair', date: 'Oct 23, 2023', amount: '₹850.00', status: 'Cancelled' },
-  { id: 'ORD-7725', customer: 'Lisa Wang', product: 'Aurelius Pendant', date: 'Oct 22, 2023', amount: '₹890.00', status: 'Completed' },
-  { id: 'ORD-7726', customer: 'James Wilson', product: 'Leather Briefcase', date: 'Oct 22, 2023', amount: '₹450.00', status: 'Completed' },
-  { id: 'ORD-7727', customer: 'Anna Muller', product: 'Desk Lamp', date: 'Oct 21, 2023', amount: '₹120.00', status: 'Processing' },
-  { id: 'ORD-7728', customer: 'Robert Taylor', product: 'Minimalist Shelf', date: 'Oct 21, 2023', amount: '₹340.00', status: 'Completed' },
-  { id: 'ORD-7729', customer: 'Sophie Martin', product: 'Ceramic Plate Set', date: 'Oct 20, 2023', amount: '₹280.00', status: 'Pending' },
-  { id: 'ORD-7730', customer: 'Kevin Lee', product: 'Wireless Mouse', date: 'Oct 20, 2023', amount: '₹85.00', status: 'Completed' },
-  { id: 'ORD-7731', customer: 'Rachel Green', product: 'Silk Cushion', date: 'Oct 19, 2023', amount: '₹150.00', status: 'Completed' },
-  { id: 'ORD-7732', customer: 'Chris Evans', product: 'Steel Water Bottle', date: 'Oct 19, 2023', amount: '₹45.00', status: 'Processing' },
-  { id: 'ORD-7733', customer: 'Emma Watson', product: 'Woolen Throw', date: 'Oct 18, 2023', amount: '₹220.00', status: 'Completed' },
-  { id: 'ORD-7734', customer: 'Tom Hardy', product: 'Canvas Print', date: 'Oct 18, 2023', amount: '₹310.00', status: 'Pending' },
-  { id: 'ORD-7735', customer: 'Natalie Portman', product: 'Scented Candle', date: 'Oct 17, 2023', amount: '₹35.00', status: 'Completed' },
-];
-
+import { getOrders } from '../../api/orders';
 export default function Orders() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const data = await getOrders();
+        setOrders(data);
+      } catch (error) {
+        console.error('Failed to fetch orders', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
 
   const handleEdit = (order) => {
     setSelectedOrder(order);
@@ -110,9 +109,14 @@ export default function Orders() {
       <div className="bg-surface-container-lowest rounded-none ambient-shadow border border-outline-variant/10 overflow-hidden">
         <div className="px-8 py-5 flex justify-between items-center border-b border-outline-variant/5">
           <h3 className="text-xl font-headline font-bold text-on-surface tracking-tight">Recent Orders</h3>
-          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.15em]">Total: {MOCK_ORDERS.length}</span>
+          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.15em]">Total: {orders.length}</span>
         </div>
-        <DataTable data={MOCK_ORDERS} columns={columns} defaultPageSize={10} />
+        <DataTable 
+          data={orders} 
+          columns={columns} 
+          defaultPageSize={10} 
+          emptyMessage={loading ? "Loading orders..." : "No records found."}
+        />
       </div>
 
 

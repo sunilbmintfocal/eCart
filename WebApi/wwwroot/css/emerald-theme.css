@@ -1,0 +1,290 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
+
+:root {
+    --primary: #11a08c;
+    --primary-dim: #0e8574;
+    --background: #f1f4f9;
+    --surface: #ffffff;
+    --on-surface: #3c4043;
+    --on-surface-variant: #70757a;
+    --outline: #dadce0;
+    
+    --font-heading: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    --radius-md: 0px;
+    --radius-lg: 0px;
+    --shadow-ambient: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+body {
+    background-color: var(--background);
+    font-family: var(--font-body);
+    color: var(--on-surface);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Hide navigation on login page */
+body:has(.split-login-container) .nav-page,
+.split-login-container ~ .nav-page {
+    display: none;
+}
+
+.login-page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: radial-gradient(circle at center, #ffffff 0%, #f1f4f9 100%);
+}
+
+.split-login-container {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.1);
+    overflow: hidden;
+    min-height: 520px;
+}
+
+/* Left Panel - Image */
+.login-image-panel {
+    flex: 1;
+    background: url('retail-bg.png') no-repeat center center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 3rem;
+}
+
+.login-image-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+}
+
+.reliability-card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 0px;
+    max-width: 240px;
+    font-size: 0.75rem;
+}
+
+.reliability-card h4 {
+    color: var(--primary);
+    margin: 0 0 0.5rem 0;
+    font-weight: 800;
+}
+
+.reliability-card p {
+    margin: 0;
+    color: var(--on-surface-variant);
+    line-height: 1.4;
+}
+
+/* Right Panel - Form */
+.login-form-panel {
+    flex: 1;
+    padding: 3rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--on-surface);
+}
+
+.brand-icon {
+    width: 24px;
+    height: 24px;
+    background: var(--primary);
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.login-header h2 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.login-header p {
+    color: var(--on-surface-variant);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--on-surface-variant);
+    margin-bottom: 0.5rem;
+}
+
+.emerald-input {
+    width: 100%;
+    padding: 0.75rem 0;
+    border: none;
+    border-bottom: 1px solid var(--outline);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.emerald-input:focus {
+    outline: none;
+    border-bottom-color: var(--primary);
+}
+
+.password-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-link {
+    font-size: 0.75rem;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.btn-sign-in {
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 0.875rem;
+    border-radius: 0px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background 0.2s;
+}
+
+.btn-sign-in:hover {
+    background: var(--primary-dim);
+}
+
+.remember-me-options {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--on-surface-variant);
+    margin-top: 1rem;
+}
+
+.login-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.625rem;
+    color: var(--on-surface-variant);
+    padding-top: 2rem;
+}
+
+.login-footer a {
+    color: inherit;
+    text-decoration: none;
+    margin-left: 0.75rem;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* External Providers */
+.external-section {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.external-section h5 {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    color: var(--on-surface-variant);
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.external-section h5::before,
+.external-section h5::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: var(--outline);
+}
+
+.external-section h5::before { left: 0; }
+.external-section h5::after { right: 0; }
+
+.provider-list {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-provider {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--outline);
+    border-radius: 0px;
+    background: white;
+    font-size: 0.75rem;
+    color: var(--on-surface);
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .login-image-panel {
+        display: none;
+    }
+    .split-login-container {
+        max-width: 440px;
+    }
+}
+
+/* Global overrides for full-page layout */
+.container.body-container {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
