@@ -16,6 +16,7 @@ public static class Config
         {
             new ApiScope("scope1"),
             new ApiScope("scope2"),
+            new ApiScope("ecart-api", "eCart Web API")
         };
 
     public static IEnumerable<Client> Clients =>
@@ -47,6 +48,25 @@ public static class Config
 
                 AllowOfflineAccess = true,
                 AllowedScopes = { "openid", "profile", "scope2" }
+            },
+
+            // WebUI client (SPA)
+            new Client
+            {
+                ClientId = "ecart-webui",
+                ClientName = "eCart Web Management",
+                ClientSecrets = { new Secret("secret".Sha256()) },
+
+                AllowedGrantTypes = GrantTypes.Code,
+                RequirePkce = true,
+                RequireClientSecret = false,
+
+                RedirectUris = { "http://localhost:5173/callback", "http://localhost:5173/silent-renew", "http://localhost:5173" },
+                PostLogoutRedirectUris = { "http://localhost:5173" },
+                AllowedCorsOrigins = { "http://localhost:5173" },
+
+                AllowedScopes = { "openid", "profile", "ecart-api" },
+                AllowOfflineAccess = true
             },
         };
 }

@@ -1,10 +1,20 @@
 import { useUI } from '../context/UIContext';
+import { useAuth } from 'react-oidc-context';
 
 export default function Header() {
   const { rootFontSize, setRootFontSize } = useUI();
+  const auth = useAuth();
 
   const handleScale = (delta) => {
     setRootFontSize((prev) => Math.min(Math.max(prev + delta, 10), 22));
+  };
+
+  const handleAuth = () => {
+    if (auth.isAuthenticated) {
+      auth.removeUser();
+    } else {
+      auth.signinRedirect();
+    }
   };
 
   return (
@@ -40,23 +50,43 @@ export default function Header() {
             <span className="material-symbols-outlined text-[18px]">add</span>
           </button>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded-none hover:bg-surface-container-low transition-all text-on-surface-variant">
-            <span className="material-symbols-outlined">notifications</span>
+        
+        {auth.isAuthenticated ? (
+          <>
+            <div className="flex items-center gap-2">
+              <button className="p-2 rounded-none hover:bg-surface-container-low transition-all text-on-surface-variant">
+                <span className="material-symbols-outlined">notifications</span>
+              </button>
+              <button className="p-2 rounded-none hover:bg-surface-container-low transition-all text-on-surface-variant">
+                <span className="material-symbols-outlined">settings</span>
+              </button>
+            </div>
+            <div className="flex items-center gap-3 pl-4 border-l border-outline-variant/15">
+              <div className="text-right hidden sm:block">
+                <p className="text-xs font-bold text-on-surface tracking-tight uppercase leading-none">
+                  {auth.user?.profile?.name || auth.user?.profile?.preferred_username || 'User'}
+                </p>
+                <button 
+                  onClick={() => auth.signoutRedirect()}
+                  className="text-[10px] font-medium text-primary mt-1.5 uppercase tracking-wider hover:underline"
+                >
+                  Sign Out
+                </button>
+              </div>
+              <div className="h-9 w-9 rounded-none overflow-hidden bg-primary-container/10 border border-outline-variant/10">
+                <img alt="User profile" src={auth.user?.profile?.picture || "https://lh3.googleusercontent.com/aida-public/AB6AXuBK2xTR1jss0lVyUlTE9LcpUzfe9fexevHdO-9N1OO3yuPVMiyh_HNsbjMuqyX4jSNYJkwy2NJavEjr7PvU0TRE0XTGCo_BMZAXwgBHqFeCrQoAE9_s0oq55GE6aVWFMLUSpIHo9fFEPOlFULmvSDjH3k2PpEazhZTJQewIzD-WmWYBOlABPKN7XdSNzUmUEZWUPYjikWo4SZu6NVChCsYfigWIpODmogJ0PzSmPtCU7--WUjWUwHlmnn59FyqlQHE2UTUW3n5o_Q"} />
+              </div>
+            </div>
+          </>
+        ) : (
+          <button 
+            onClick={() => auth.signinRedirect()}
+            className="px-6 py-2.5 bg-primary text-on-primary text-[12px] font-bold uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-[18px]">login</span>
+            Sign In
           </button>
-          <button className="p-2 rounded-none hover:bg-surface-container-low transition-all text-on-surface-variant">
-            <span className="material-symbols-outlined">settings</span>
-          </button>
-        </div>
-        <div className="flex items-center gap-3 pl-4 border-l border-outline-variant/15">
-          <div className="text-right hidden sm:block">
-            <p className="text-xs font-bold text-on-surface tracking-tight uppercase leading-none">Alexander V.</p>
-            <p className="text-[10px] font-medium text-on-surface-variant mt-1.5 uppercase tracking-wider">Chief Curator</p>
-          </div>
-          <div className="h-9 w-9 rounded-none overflow-hidden bg-primary-container/10 border border-outline-variant/10">
-            <img alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK2xTR1jss0lVyUlTE9LcpUzfe9fexevHdO-9N1OO3yuPVMiyh_HNsbjMuqyX4jSNYJkwy2NJavEjr7PvU0TRE0XTGCo_BMZAXwgBHqFeCrQoAE9_s0oq55GE6aVWFMLUSpIHo9fFEPOlFULmvSDjH3k2PpEazhZTJQewIzD-WmWYBOlABPKN7XdSNzUmUEZWUPYjikWo4SZu6NVChCsYfigWIpODmogJ0PzSmPtCU7--WUjWUwHlmnn59FyqlQHE2UTUW3n5o_Q" />
-          </div>
-        </div>
+        )}
       </div>
     </header>
   );

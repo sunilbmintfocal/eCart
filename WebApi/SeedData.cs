@@ -4,6 +4,8 @@ using eCartIdentity.Data;
 using eCartIdentity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Duende.IdentityServer.EntityFramework.DbContexts;
+using Duende.IdentityServer.EntityFramework.Mappers;
 using Serilog;
 
 namespace eCartIdentity;
@@ -111,6 +113,41 @@ public class SeedData
             {
                 Log.Debug("bob already exists");
             }
+            var configContext = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+            configContext.Database.Migrate();
+
+            if (!configContext.Clients.Any())
+            {
+                foreach (var client in Config.Clients)
+                {
+                    configContext.Clients.Add(client.ToEntity());
+                }
+                configContext.SaveChanges();
+                Log.Debug("Clients seeded");
+            }
+
+            if (!configContext.IdentityResources.Any())
+            {
+                foreach (var resource in Config.IdentityResources)
+                {
+                    configContext.IdentityResources.Add(resource.ToEntity());
+                }
+                configContext.SaveChanges();
+                Log.Debug("IdentityResources seeded");
+            }
+
+            if (!configContext.ApiScopes.Any())
+            {
+                foreach (var scopeResource in Config.ApiScopes)
+                {
+                    configContext.ApiScopes.Add(scopeResource.ToEntity());
+                }
+                configContext.SaveChanges();
+                Log.Debug("ApiScopes seeded");
+            }
+
+            var persistedGrantContext = scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
+            persistedGrantContext.Database.Migrate();
         }
     }
 }

@@ -3,11 +3,16 @@ import MainLayout from '../layouts/MainLayout';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Inventory from '../pages/Inventory/Inventory';
 import Orders from '../pages/Orders/Orders';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 const routes = [
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <Navigate to="/dashboard" replace /> },
       { path: "dashboard", element: <Dashboard /> },
