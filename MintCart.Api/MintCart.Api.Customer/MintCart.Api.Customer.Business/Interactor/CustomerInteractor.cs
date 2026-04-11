@@ -22,10 +22,20 @@ namespace MintCart.Api.Customer.Business.Interactor
             var entities = await _repository.GetCustomers();
             return entities.Select(e => new CustomerModel
             {
-                Id = Guid.Parse(e.Id),
-                FullName = $"{e.FirstName} {e.LastName}",
-                EmailAddress = e.Email,
-                Mobile = e.PhoneNumber
+                Id = e.Id,
+                CustomerName = e.vchCustomerName,
+                Address = e.vchAddress,
+                ShippingAddress = e.vchShippingAddress,
+                PhoneNo = e.vchPhoneNo,
+                OtherPhoneNo = e.vchOtherPhoneNo,
+                IdCardNo = e.vchIdCardNo,
+                AddedDate = e.dtAddedDate,
+                IsActive = e.bitIsActive,
+                GSTINNumber = e.vchGSTINNumber,
+                IsBusinessCustomer = e.bitIsBusinessCustomer,
+                State = e.vchState,
+                StateCode = e.vchStateCode,
+                VCNo = e.vchVCNo
             }).ToList();
         }
     }

@@ -1,20 +1,32 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using MintCart.Api.Customer.Domain.Entities.Base;
 
 namespace MintCart.Api.Customer.Domain.Entities.Customer
 {
-    public class CustomerEntity : BaseEntityAudit<string>
+    [Table("Customer", Schema = "dbo")]
+    public class CustomerEntity 
     {
         public CustomerEntity()
         {
-            Id = Guid.NewGuid().ToString();
-            IsDeleted = false;
+            bitIsActive = true;
         }
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
+        [Column("intCustomerId")]
+        public int Id { get; set; }
+
+        public string? vchCustomerName { get; set; }
+        public string? vchAddress { get; set; }
+        public string? vchShippingAddress { get; set; }
+        public string? vchPhoneNo { get; set; }
+        public string? vchOtherPhoneNo { get; set; }
+        public string? vchIdCardNo { get; set; }
+        public DateTime? dtAddedDate { get; set; }
+        public bool? bitIsActive { get; set; }
+        public string? vchGSTINNumber { get; set; }
+        public bool? bitIsBusinessCustomer { get; set; }
+        public string? vchState { get; set; }
+        public string? vchStateCode { get; set; }
+        public string? vchVCNo { get; set; }
     }
 }
-

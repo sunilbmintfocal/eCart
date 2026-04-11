@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Npgsql;
+using Microsoft.Data.SqlClient;
 using Polly;
 using System;
 
@@ -39,7 +39,7 @@ namespace MintCart.Extensions
                     else
                     {
                         var retries = 10;
-                        var retry = Policy.Handle<NpgsqlException>()
+                        var retry = Policy.Handle<SqlException>()
                             .WaitAndRetry(
                                 retryCount: retries,
                                 sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),

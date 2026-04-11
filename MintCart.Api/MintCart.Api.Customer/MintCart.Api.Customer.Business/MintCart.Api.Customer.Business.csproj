@@ -18,10 +18,5 @@
 	  <ProjectReference Include="..\MintCart.Api.Customer.Data\MintCart.Api.Customer.Data.csproj" />
 	  <ProjectReference Include="..\MintCart.Api.Customer.Domain\MintCart.Api.Customer.Domain.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Reference Include="Nvg.HelperServices">
-	    <HintPath>..\..\Library\Nvg.HelperServices.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
 </Project>
 
