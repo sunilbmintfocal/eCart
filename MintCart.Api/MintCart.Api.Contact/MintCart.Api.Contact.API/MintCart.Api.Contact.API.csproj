@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <UserSecretsId>17ee819a-26e4-4a34-9bd2-bc7194732490</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="8.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.25.2" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.60.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+  <ItemGroup>
+
+
+    <ProjectReference Include="..\..\BuildingBlocks\HelperService\MintCart.Caching\MintCart.Caching.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\HelperService\MintCart.Configuration\MintCart.Configuration.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\HelperService\MintCart.Enum\MintCart.Enum.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\HelperService\MintCart.Extensions\MintCart.Extensions.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\HelperService\MintCart.Permission\MintCart.Permission.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\HelperService\MintCart.Validator\MintCart.Validator.csproj" />
+    <ProjectReference Include="..\MintCart.Api.Contact.Business\MintCart.Api.Contact.Business.csproj" />
+    <ProjectReference Include="..\MintCart.Api.Contact.Domain\MintCart.Api.Contact.Domain.csproj" />
+    <ProjectReference Include="..\..\MintCart.Api.Core\MintCart.Api.Core.csproj" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+
+</Project>

@@ -27,7 +27,7 @@ namespace MintCart.Common
 
     public class ValidatorMessage
     {
-        public const string ValidationException = "Petro Hub Validation Exception";
+        public const string ValidationException = "MintCart Validation Exception";
     }
 
     public class RefreshTokenDtoValidatorMessage
@@ -148,7 +148,7 @@ namespace MintCart.Common
         public const string LastInitialReadingValidationException = "Last Initial Reading is required";
         public const string DispenserNumberValidationException = "Dispenser Number is required";
 
-        //fuelManagementService
+        //MintCartService
         public const string RequestTypeValidationException = "Request Type is required";
         public const string UnitPriceValidationException = "Unit Price is required";
         public const string TotalPriceValidationException = "Total Price is required";
@@ -270,3 +270,4 @@ namespace MintCart.Common
         public const string InternalInspectionId = "7b792f70-df80-486b-b4de-3b159f4bb495";
     }
 }
+

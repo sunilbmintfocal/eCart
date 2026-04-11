@@ -354,7 +354,7 @@ namespace MintCart.Caching
 
         public virtual T GetSetting<T>(string tenantID, Func<T> acquire, int? cacheTime = null)
         {
-            string key = $"FH.{tenantID}.Settings.{typeof(T).Name}";
+            string key = $"MintCart.{tenantID}.Settings.{typeof(T).Name}";
             //item already is in cache, so return it
             if (IsSet(key))
             {

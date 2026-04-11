@@ -1,4 +1,26 @@
 <Solution>
+
+  <Folder Name="/Contact/">
+    <Project Path="MintCart.Api.Contact/MintCart.Api.Contact.API/MintCart.Api.Contact.API.csproj" />
+    <Project Path="MintCart.Api.Contact/MintCart.Api.Contact.Business/MintCart.Api.Contact.Business.csproj" Id="a7e3012d-3617-47d6-93bb-a620b96e6fdd" />
+    <Project Path="MintCart.Api.Contact/MintCart.Api.Contact.Data/MintCart.Api.Contact.Data.csproj" />
+    <Project Path="MintCart.Api.Contact/MintCart.Api.Contact.Domain/MintCart.Api.Contact.Domain.csproj" />
+  </Folder>
+
+  <Folder Name="/BuildingBlocks/">
+    <Project Path="BuildingBlocks/HelperService/MintCart.Caching/MintCart.Caching.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Common/MintCart.Common.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Configuration/MintCart.Configuration.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Enum/MintCart.Enum.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Extensions/MintCart.Extensions.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Identity/MintCart.Identity.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Logging/MintCart.Logging.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Permission/MintCart.Permission.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.RestClient/MintCart.RestClient.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Security/MintCart.Security.csproj" />
+    <Project Path="BuildingBlocks/HelperService/MintCart.Validator/MintCart.Validator.csproj" />
+    <Project Path="BuildingBlocks/Infra/Nvg.Infra/Nvg.Infra.csproj" />
+  </Folder>
   <Project Path="MintCart.Api.Core/MintCart.Api.Core.csproj" />
   <Project Path="MintCart.Api.Identity/MintCart.Api.Identity.csproj" />
 </Solution>

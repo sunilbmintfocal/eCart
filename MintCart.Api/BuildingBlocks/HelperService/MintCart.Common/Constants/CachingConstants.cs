@@ -9,17 +9,18 @@ namespace MintCart.Common.Constants
         public const string PermissionKeysCacheKey = "MintCart.Cache.PermissionKeys";
         public const string Permissions = "Permissions";
         public const string TenantRolePermission = "TenantRolePermission";
-        public const string TelemetryDeviceDetailsCacheKey = "FH.TelemetryDataReceiver.TelemetryDeviceDetails";
-        public const string TelemetryDeviceCacheKey = "FH.TelemetryDataProcessor.TelemetryDeviceDetails";
-        public const string TelemetryDeviceStationMapCacheKey = "FH.TelemetryDataProcessor.TelemetryDeviceStationMapDetails";
-        public const string StationCacheKey = "FH.TelemetryDataProcessor.StationMap";
-        public const string TankCacheKey = "FH.TelemetryDataProcessor.TankMap";
-        public const string DispenserCacheKey = "FH.TelemetryDataProcessor.DispenserMap";
-        public const string NozzleCacheKey = "FH.TelemetryDataProcessor.NozzleMap";
-        public const string UserCacheKey = "FH.TelemetryDataProcessor.UserMap";
-        public const string UserStationCacheKey = "FH.TelemetryDataProcessor.UserStationMap";
-        public const string FuelTypeCacheKey = "FH.TelemetryDataProcessor.FuelTypeMap";
-        public const string TenantCacheKey = "FH.TelemetryDataProcessor.TenantMap";
+        public const string TelemetryDeviceDetailsCacheKey = "MintCart.TelemetryDataReceiver.TelemetryDeviceDetails";
+        public const string TelemetryDeviceCacheKey = "MintCart.TelemetryDataProcessor.TelemetryDeviceDetails";
+        public const string TelemetryDeviceStationMapCacheKey = "MintCart.TelemetryDataProcessor.TelemetryDeviceStationMapDetails";
+        public const string StationCacheKey = "MintCart.TelemetryDataProcessor.StationMap";
+        public const string TankCacheKey = "MintCart.TelemetryDataProcessor.TankMap";
+        public const string DispenserCacheKey = "MintCart.TelemetryDataProcessor.DispenserMap";
+        public const string NozzleCacheKey = "MintCart.TelemetryDataProcessor.NozzleMap";
+        public const string UserCacheKey = "MintCart.TelemetryDataProcessor.UserMap";
+        public const string UserStationCacheKey = "MintCart.TelemetryDataProcessor.UserStationMap";
+        public const string FuelTypeCacheKey = "MintCart.TelemetryDataProcessor.FuelTypeMap";
+        public const string TenantCacheKey = "MintCart.TelemetryDataProcessor.TenantMap";
         public const string TelemetryOnDemandRequestsCacheKey = "TelemetryOnDemandRequests";
     }
 }
+

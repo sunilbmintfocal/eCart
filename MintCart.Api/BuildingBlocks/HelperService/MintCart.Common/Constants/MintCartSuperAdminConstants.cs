@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MintCart.Common.Constants
+{
+    public class MintCartSuperAdminConstants
+    {
+        public const string Email = "MintCartAdmin@future-hubs.com";
+        public const string FirstName = "MintCartAdmin";
+        public const string MiddleName = "";
+        public const string LastName = "";
+        public const string UserUniqueId = "";
+        public const string PhoneNumber = "6543221684654";
+        public const string UserName = "MintCartAdmin@future-hubs.com";
+        public const string Gender = "Male";
+        public const string NID = "2222222221";
+        public const string RoleName = "MintCartSuperAdmin";
+        public const string UserId = "bfbf67dc-1bd7-4e97-936a-e7b18f28c282";//User ID for the MintCart Admin Tenant
+    }
+}
+

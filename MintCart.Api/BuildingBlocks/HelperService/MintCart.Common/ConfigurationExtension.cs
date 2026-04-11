@@ -19,7 +19,8 @@ namespace MintCart.Common
         }
         public static List<T> GetAppSection<T>(this IConfiguration configuration, string key)
         {
-            return configuration.GetSection(key).Get<T[]>().ToList();
+            var section = configuration.GetSection(key).Get<T[]>();
+            return section != null ? section.ToList() : new List<T>();
         }
         public static bool IsKeyExists(this IConfiguration configuration, string keyName)
         {

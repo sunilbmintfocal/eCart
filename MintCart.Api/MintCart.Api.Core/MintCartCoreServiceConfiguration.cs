@@ -24,9 +24,9 @@ namespace MintCart.Api.Core
 {
     public static class MintCartCoreServiceConfiguration
     {
-        private static readonly string swaggerBasePath = "fuelmanagement";
-        private static readonly string eventStreamUrl = "/fuelmanagement/livestream/hubs/event";
-        public static IServiceCollection ConfigureCoreFuelManagementService(this WebApplicationBuilder webApplicationBuilder)
+        private static readonly string swaggerBasePath = "mintcart";
+        private static readonly string eventStreamUrl = "/mintcart/livestream/hubs/event";
+        public static IServiceCollection ConfigureCoreMintCartService(this WebApplicationBuilder webApplicationBuilder)
         {
             var services = webApplicationBuilder.Services;
             var configuration = webApplicationBuilder.Configuration;
@@ -65,19 +65,17 @@ namespace MintCart.Api.Core
             services.AddIdentityHelper();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHealthChecks();
 
             // services.AddScoped<GrpcCallerService>();
 
-            services.AddControllers(options =>
-            {
-                options.Conventions.Insert(0, new RoutePrefixConvention(new RouteAttribute("fuelmanagement")));
-            });
+            services.AddControllers().AddApplicationPart(System.Reflection.Assembly.GetEntryAssembly());
 
             services.AddRouting(options => options.LowercaseUrls = true);
 
             return services;
         }
-        public static void ConfigureFuelManagementCore(this WebApplication app)
+        public static void ConfigureMintCartCore(this WebApplication app)
         {
             if (app.Environment.IsDevelopment())
             {
@@ -85,6 +83,8 @@ namespace MintCart.Api.Core
             }
 
             app.UseSerilogRequestLogging();
+
+            app.UseRouting();
 
             app.UseMiddleware<RequestResponseHelperMiddleware>();
 
@@ -99,7 +99,7 @@ namespace MintCart.Api.Core
                 c.RoutePrefix = $"{swaggerBasePath}/swagger";
             });
 
-            app.UseRouting();
+
 
             //HealthCheck Middleware
             app.MapHealthChecks("/api/startup");
@@ -121,7 +121,7 @@ namespace MintCart.Api.Core
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Petro Hub", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MintCart", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
