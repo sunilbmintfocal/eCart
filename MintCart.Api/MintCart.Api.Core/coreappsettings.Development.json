@@ -1,0 +1,5 @@
+{
+  "AllowedHosts": [ "*" ],
+  "IdentityUrl": "https://dev-auth.future-hubs.com",
+  "IdentityAudience": "web.api"
+}

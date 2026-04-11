@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="MintCart.Api.Core/MintCart.Api.Core.csproj" />
   <Project Path="MintCart.Api.Identity/MintCart.Api.Identity.csproj" />
 </Solution>

@@ -33,7 +33,7 @@
 
             <div class="login-header">
                 <h2>Account Login</h2>
-                <p>Enter your email and password to access your account.</p>
+                <p>Enter your Username and Password to access your account.</p>
             </div>
 
             @if (!ViewData.ModelState.IsValid)
@@ -49,7 +49,7 @@
                     <input type="hidden" asp-for="Input.ReturnUrl" />
 
                     <div class="form-group">
-                        <input class="emerald-input" placeholder="customer@MintCart.com" asp-for="Input.Username" autofocus>
+                        <input class="emerald-input" placeholder="Username" asp-for="Input.Username" autofocus>
                     </div>
 
                     <div class="form-group">

@@ -1,0 +1,6 @@
+@MintCart.Api.Core_HostAddress = http://localhost:5191
+
+GET {{MintCart.Api.Core_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

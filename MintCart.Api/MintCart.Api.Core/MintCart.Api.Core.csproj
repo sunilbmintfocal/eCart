@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="13.0.1" />
+	  <PackageReference Include="FluentValidation" Version="11.9.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	  <PackageReference Include="Serilog" Version="3.1.1" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BuildingBlocks\HelperService\MintCart.Common\MintCart.Common.csproj" />
+		<ProjectReference Include="..\BuildingBlocks\HelperService\MintCart.Configuration\MintCart.Configuration.csproj" />
+		<ProjectReference Include="..\BuildingBlocks\HelperService\MintCart.Extensions\MintCart.Extensions.csproj" />
+		<ProjectReference Include="..\BuildingBlocks\HelperService\MintCart.Logging\MintCart.Logging.csproj" />
+		<ProjectReference Include="..\BuildingBlocks\HelperService\MintCart.Validator\MintCart.Validator.csproj" />
+	</ItemGroup>
+
+</Project>
