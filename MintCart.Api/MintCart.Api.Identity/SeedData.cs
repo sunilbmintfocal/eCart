@@ -39,7 +39,8 @@ public class SeedData
                     if (result.Succeeded)
                     {
                         userMgr.AddClaimsAsync(user, new Claim[] {
-                            new Claim(JwtClaimTypes.Name, legacyUser.vchName)
+                            new Claim(JwtClaimTypes.Name, legacyUser.vchName),
+                            new Claim(JwtClaimTypes.Email, user.Email)
                         }).Wait();
                         Log.Debug("Migrated legacy user: {username}", legacyUser.vchUserName);
                     }
@@ -68,6 +69,7 @@ public class SeedData
                             new Claim(JwtClaimTypes.Name, "Alice Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Alice"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                            new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
                             new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
                         }).Result;
                 if (!result.Succeeded)
@@ -100,6 +102,7 @@ public class SeedData
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                            new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                             new Claim("location", "somewhere")
                         }).Result;
@@ -119,7 +122,13 @@ public class SeedData
             // Sync Clients
             foreach (var client in Config.Clients)
             {
-                var existingClient = configContext.Clients.Include(x => x.AllowedScopes).FirstOrDefault(x => x.ClientId == client.ClientId);
+                var existingClient = configContext.Clients
+                    .Include(x => x.AllowedScopes)
+                    .Include(x => x.RedirectUris)
+                    .Include(x => x.PostLogoutRedirectUris)
+                    .Include(x => x.AllowedCorsOrigins)
+                    .FirstOrDefault(x => x.ClientId == client.ClientId);
+
                 if (existingClient == null)
                 {
                     configContext.Clients.Add(client.ToEntity());
@@ -127,9 +136,38 @@ public class SeedData
                 }
                 else
                 {
-                    // Update existing client if needed (simplified for this task)
-                    // In a real scenario, you'd sync properties, but here we just ensure it exists.
-                    Log.Debug("Client {ClientId} already exists in database", client.ClientId);
+                    // Update existing client properties
+                    existingClient.ClientName = client.ClientName;
+                    
+                    // Sync RedirectUris
+                    existingClient.RedirectUris.Clear();
+                    foreach (var uri in client.RedirectUris)
+                    {
+                        existingClient.RedirectUris.Add(new Duende.IdentityServer.EntityFramework.Entities.ClientRedirectUri { RedirectUri = uri });
+                    }
+
+                    // Sync PostLogoutRedirectUris
+                    existingClient.PostLogoutRedirectUris.Clear();
+                    foreach (var uri in client.PostLogoutRedirectUris)
+                    {
+                        existingClient.PostLogoutRedirectUris.Add(new Duende.IdentityServer.EntityFramework.Entities.ClientPostLogoutRedirectUri { PostLogoutRedirectUri = uri });
+                    }
+
+                    // Sync AllowedCorsOrigins
+                    existingClient.AllowedCorsOrigins.Clear();
+                    foreach (var origin in client.AllowedCorsOrigins)
+                    {
+                        existingClient.AllowedCorsOrigins.Add(new Duende.IdentityServer.EntityFramework.Entities.ClientCorsOrigin { Origin = origin });
+                    }
+
+                    // Sync AllowedScopes
+                    existingClient.AllowedScopes.Clear();
+                    foreach (var scopeName in client.AllowedScopes)
+                    {
+                        existingClient.AllowedScopes.Add(new Duende.IdentityServer.EntityFramework.Entities.ClientScope { Scope = scopeName });
+                    }
+
+                    Log.Debug("Updated existing client configuration for: {ClientId}", client.ClientId);
                 }
             }
             configContext.SaveChanges();

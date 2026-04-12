@@ -20,12 +20,12 @@ export default function Header() {
   return (
 <header className="w-full sticky top-0 z-40 glass bg-surface/80 ambient-shadow flex justify-between items-center px-8 py-4">
       <div className="flex items-center gap-10">
-        <div className="hidden md:flex items-center bg-surface-container-low/50 border border-outline-variant/20 rounded-none transition-all duration-300 focus-within:border-primary focus-within:bg-surface focus-within:shadow-md w-96 h-12 group">
-          <span className="material-symbols-outlined text-on-surface-variant/50 text-[18px] pl-5 transition-colors duration-300 group-focus-within:text-primary" style={{ fontVariationSettings: "'wght' 700" }}>search</span>
-          <input 
-            className="flex-1 bg-transparent border-none focus:ring-0 text-[15px] font-body font-bold text-on-surface placeholder:text-on-surface-variant/40 h-full w-full px-4 leading-none" 
-            placeholder="Search inventory..." 
-            type="text" 
+        <div className="hidden md:flex relative group">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-base group-focus-within:text-primary transition-colors">search</span>
+          <input
+            type="text"
+            placeholder="Search everything..."
+            className="pl-10 pr-4 py-2 bg-surface-container-low/50 border border-outline-variant/20 rounded-none text-[13px] font-medium text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/10 transition-all outline-none min-w-[320px] h-11"
           />
         </div>
       </div>
@@ -63,7 +63,11 @@ export default function Header() {
             <div className="flex items-center gap-3 pl-4 border-l border-outline-variant/15">
               <div className="text-right hidden sm:block">
                 <p className="text-xs font-bold text-on-surface tracking-tight uppercase leading-none">
-                  {auth.user?.profile?.name || auth.user?.profile?.preferred_username || 'User'}
+                  {auth.user?.profile?.name || 
+                   auth.user?.profile?.given_name || 
+                   auth.user?.profile?.preferred_username || 
+                   auth.user?.profile?.email || 
+                   'User'}
                 </p>
                 <button 
                   onClick={() => auth.signoutRedirect()}

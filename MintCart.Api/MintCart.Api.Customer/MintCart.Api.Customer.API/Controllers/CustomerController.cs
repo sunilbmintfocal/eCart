@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace MintCart.Api.Customer.API.Controllers
 {
     [Route("api/customer")]
-    [AllowAnonymous]
     public class CustomerController : BaseController<CustomerController>
     {
         private readonly ILogger<CustomerController> _logger;

@@ -11,8 +11,8 @@ namespace MintCart.Api.Core.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
 	[EnableCors(MintCartApiCorsOptions.CorsOriginPolicy)]
-	[Authorize]
-	[ModelValidator]
+    [Authorize]
+    [ModelValidator]
 	public class BaseController<T> : ControllerBase
 	{
 		private readonly ILogger<T> _logger;

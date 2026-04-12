@@ -1,15 +1,5 @@
 {
   "profiles": {
-    "http": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "mintcart/docs/v1",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5087"
-    },
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
@@ -19,6 +9,16 @@
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7200;http://localhost:5087"
+    },
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "mintcart/docs/v1",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5087"
     },
     "IIS Express": {
       "commandName": "IISExpress",

@@ -9,6 +9,7 @@ public static class Config
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
+            new IdentityResources.Email(),
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
@@ -61,11 +62,12 @@ public static class Config
                 RequirePkce = true,
                 RequireClientSecret = false,
 
-                RedirectUris = { "http://localhost:5173/callback", "http://localhost:5173/silent-renew", "http://localhost:5173" },
-                PostLogoutRedirectUris = { "http://localhost:5173" },
-                AllowedCorsOrigins = { "http://localhost:5173" },
+                RedirectUris = { "https://localhost:5173/callback", "https://localhost:5173/silent-renew", "https://localhost:5173", "http://localhost:5173/callback", "http://localhost:5173/silent-renew", "http://localhost:5173" },
+                PostLogoutRedirectUris = { "https://localhost:5173", "http://localhost:5173" },
+                AllowedCorsOrigins = { "https://localhost:5173", "http://localhost:5173" },
+                AlwaysIncludeUserClaimsInIdToken = true,
 
-                AllowedScopes = { "openid", "profile", "MintCart-api" },
+                AllowedScopes = { "openid", "profile", "email", "MintCart-api" },
                 AllowOfflineAccess = true
             },
         };

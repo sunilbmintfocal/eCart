@@ -112,6 +112,7 @@ namespace MintCart.Api.Core
             }
 
             app.UseSerilogRequestLogging();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -167,6 +168,7 @@ namespace MintCart.Api.Core
             {
                 OnAuthenticationFailed = c =>
                 {
+                    Log.Error("Authentication Failed. Authority: {Authority}, Error: {Message}", c.Options.Authority, c.Exception.Message);
                     //c.NoResult();
                     //c.Response.ContentType = "text/plain";
                     //return c.Response.WriteAsync("Not authorized.: " + c.Exception.ToString());

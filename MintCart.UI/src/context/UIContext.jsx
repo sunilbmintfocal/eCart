@@ -1,16 +1,31 @@
-import { createContext, useContext, useState, useLayoutEffect } from 'react';
+import { createContext, useContext, useState, useLayoutEffect, useEffect } from 'react';
+import { subscribeLoading } from '../api/loadingService';
 
 const UIContext = createContext();
 
 export function UIProvider({ children }) {
   const [rootFontSize, setRootFontSize] = useState(15);
+  const [globalLoading, setGlobalLoading] = useState(false);
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty('--root-font-size', `${rootFontSize}px`);
   }, [rootFontSize]);
 
+  useEffect(() => {
+    subscribeLoading(setGlobalLoading);
+  }, []);
+
   return (
-    <UIContext.Provider value={{ rootFontSize, setRootFontSize }}>
+    <UIContext.Provider value={{ rootFontSize, setRootFontSize, globalLoading }}>
+      {/* Global API Loading Indicator */}
+      {globalLoading && (
+        <div className="fixed top-0 left-0 right-0 z-[100] h-1.5 bg-primary/20 overflow-hidden animate-in fade-in duration-300">
+          <div className="h-full bg-primary animate-progress origin-left"></div>
+          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-primary text-on-primary text-[10px] font-bold uppercase tracking-[0.2em] shadow-lg animate-in slide-in-from-top-full duration-300 pointer-events-none">
+            Syncing Data...
+          </div>
+        </div>
+      )}
       {children}
     </UIContext.Provider>
   );

@@ -1,9 +1,16 @@
+import { useEffect } from "react";
 import { useAuth } from "react-oidc-context";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function ProtectedRoute({ children }) {
   const auth = useAuth();
   const location = useLocation();
+
+  useEffect(() => {
+    if (!auth.isLoading && !auth.isAuthenticated && !auth.error) {
+      auth.signinRedirect();
+    }
+  }, [auth.isLoading, auth.isAuthenticated, auth.error]);
 
   if (auth.isLoading) {
     return (
@@ -35,7 +42,6 @@ export default function ProtectedRoute({ children }) {
   }
 
   if (!auth.isAuthenticated) {
-    auth.signinRedirect();
     return null;
   }
 

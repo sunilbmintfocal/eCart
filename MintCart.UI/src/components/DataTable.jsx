@@ -57,7 +57,7 @@ export default function DataTable({
               {columns.map((col, index) => (
                 <th
                   key={index}
-                  className={`px-6 py-2 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
+                  className={`px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
                     col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
                   }`}
                 >
@@ -116,15 +116,31 @@ export default function DataTable({
       {paginate && (
         <div className="flex items-center justify-between border-t border-outline-variant/10 px-6 py-4">
           {/* Record count — left */}
-          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+          <span className="text-[11px] font-bold text-on-surface-variant tracking-wide">
             Showing {data.length === 0 ? 0 : startIndex + 1}–{Math.min(startIndex + pageSize, data.length)} of {data.length}
           </span>
 
-          {/* Page nav + combobox — right */}
-          <div className="flex items-center gap-3">
-            {/* Page buttons — only when multiple pages */}
+          {/* Page nav + controls — right */}
+          <div className="flex items-center gap-6">
+            {/* Go to Page — only when multiple pages */}
             {totalPages > 1 && (
-              <div className="flex gap-1.5 items-center">
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-bold text-on-surface-variant tracking-wide whitespace-nowrap">Go to page</span>
+                <select
+                  value={currentPage}
+                  onChange={(e) => goToPage(Number(e.target.value))}
+                  className="bg-surface-container-lowest border border-outline-variant/20 rounded-none px-2 py-1 text-[11px] font-bold text-on-surface-variant focus:border-primary focus:outline-none transition-all appearance-none cursor-pointer hover:bg-surface-container-low min-w-[50px] text-center"
+                >
+                  {[...Array(totalPages)].map((_, i) => (
+                    <option key={i + 1} value={i + 1}>{i + 1}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Page buttons — max 3 visible */}
+            {totalPages > 1 && (
+              <div className="flex gap-1.5 items-center border-l border-outline-variant/15 pl-6">
                 <button
                   disabled={currentPage === 1}
                   onClick={() => goToPage(currentPage - 1)}
@@ -132,19 +148,31 @@ export default function DataTable({
                 >
                   Previous
                 </button>
-                {[...Array(totalPages)].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => goToPage(i + 1)}
-                    className={`w-8 h-8 flex items-center justify-center rounded-none font-bold text-[10px] transition-all ${
-                      currentPage === i + 1
-                        ? 'bg-primary text-on-primary shadow-sm'
-                        : 'hover:bg-surface-container-low text-on-surface-variant'
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+                
+                {(() => {
+                  const maxVisible = 3;
+                  let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                  let end = Math.min(totalPages, start + maxVisible - 1);
+                  if (end - start + 1 < maxVisible) start = Math.max(1, end - maxVisible + 1);
+                  
+                  return [...Array(end - start + 1)].map((_, i) => {
+                    const pageNum = start + i;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => goToPage(pageNum)}
+                        className={`w-8 h-8 flex items-center justify-center rounded-none font-bold text-[10px] transition-all ${
+                          currentPage === pageNum
+                            ? 'bg-primary text-on-primary shadow-sm'
+                            : 'hover:bg-surface-container-low text-on-surface-variant'
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  });
+                })()}
+
                 <button
                   disabled={currentPage === totalPages}
                   onClick={() => goToPage(currentPage + 1)}
@@ -155,13 +183,13 @@ export default function DataTable({
               </div>
             )}
 
-            {/* Items-per-page combobox — always visible */}
-            <div className="flex items-center gap-2 border-l border-outline-variant/15 pl-3">
-              <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Rows</span>
+            {/* Items-per-page selector */}
+            <div className="flex items-center gap-2 border-l border-outline-variant/15 pl-6">
+              <span className="text-[11px] font-bold text-on-surface-variant tracking-wide whitespace-nowrap">Rows per page</span>
               <select
                 value={pageSize}
                 onChange={handlePageSizeChange}
-                className="bg-surface-container-lowest border border-outline-variant/20 rounded-none px-2 py-1 text-xs font-bold text-on-surface-variant focus:border-primary focus:outline-none transition-all appearance-none cursor-pointer hover:bg-surface-container-low"
+                className="bg-surface-container-lowest border border-outline-variant/20 rounded-none px-2 py-1 text-[11px] font-bold text-on-surface-variant focus:border-primary focus:outline-none transition-all appearance-none cursor-pointer hover:bg-surface-container-low"
               >
                 {pageSizeOptions.map((opt) => (
                   <option key={opt} value={opt}>{opt}</option>

@@ -64,12 +64,23 @@ internal static class HostingExtensions
                 options.ClientSecret = "copy client secret from Google here";
             });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+        });
+
         return builder.Build();
     }
     
     public static WebApplication ConfigurePipeline(this WebApplication app)
     { 
         app.UseSerilogRequestLogging();
+        app.UseHttpsRedirection();
     
         if (app.Environment.IsDevelopment())
         {
@@ -78,6 +89,7 @@ internal static class HostingExtensions
 
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseCors("AllowAll");
         app.UseIdentityServer();
         app.UseAuthorization();
         
