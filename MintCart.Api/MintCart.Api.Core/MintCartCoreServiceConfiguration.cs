@@ -1,5 +1,6 @@
 using MintCart.Logging;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 using Serilog;
 using ILogger = Serilog.ILogger;
 using MintCart.Security;
@@ -24,7 +25,6 @@ namespace MintCart.Api.Core
 {
     public static class MintCartCoreServiceConfiguration
     {
-        private static readonly string swaggerBasePath = "mintcart";
         private static readonly string eventStreamUrl = "/mintcart/livestream/hubs/event";
         public static IServiceCollection ConfigureCoreMintCartService(this WebApplicationBuilder webApplicationBuilder)
         {
@@ -41,12 +41,43 @@ namespace MintCart.Api.Core
                 options.Filters.Add(typeof(MintCartExceptionFilter));
             }).AddJsonOptions(op =>
             {
-                //op.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                 op.JsonSerializerOptions.WriteIndented = true;
+            }).AddApplicationPart(System.Reflection.Assembly.GetEntryAssembly()!);
+
+            services.AddEndpointsApiExplorer();
+
+
+            services.AddOpenApi(options =>
+            {
+                options.AddDocumentTransformer((document, context, cancellationToken) =>
+                {
+                    document.Info.Title = "MintCart API";
+                    document.Info.Version = "v1";
+                    document.Components ??= new OpenApiComponents();
+                    document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Description = "Please insert JWT with Bearer into field"
+                    });
+                    document.SecurityRequirements.Add(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
+                    return Task.CompletedTask;
+                });
             });
-
-
-            AddSwaggerGenConfiguration(services);
 
             services.AddSecurity();
 
@@ -69,8 +100,6 @@ namespace MintCart.Api.Core
 
             // services.AddScoped<GrpcCallerService>();
 
-            services.AddControllers().AddApplicationPart(System.Reflection.Assembly.GetEntryAssembly());
-
             services.AddRouting(options => options.LowercaseUrls = true);
 
             return services;
@@ -88,15 +117,14 @@ namespace MintCart.Api.Core
 
             app.UseMiddleware<RequestResponseHelperMiddleware>();
 
-            app.UseSwagger(c =>
+            app.MapOpenApi("/openapi/{documentName}.json");
+            app.MapScalarApiReference(options =>
             {
-                c.RouteTemplate = swaggerBasePath + "/swagger/{documentName}/swagger.json";
-            });
-
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint($"/{swaggerBasePath}/swagger/v1/swagger.json", $"APP API - V1");
-                c.RoutePrefix = $"{swaggerBasePath}/swagger";
+                options
+                    .WithTitle("MintCart API")
+                    .WithTheme(ScalarTheme.DeepSpace)
+                    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+                    .WithEndpointPrefix("/mintcart/docs");
             });
 
 
@@ -117,26 +145,7 @@ namespace MintCart.Api.Core
             app.MapControllers();
         }
         #region "Private Methods"
-        private static void AddSwaggerGenConfiguration(IServiceCollection services)
-        {
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MintCart", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please insert JWT with Bearer into field",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                    {
-                        new OpenApiSecurityScheme { Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme,Id = "Bearer"}},
-                        new string[] { }
-                    }
-                });
-            });
-        }
+        // Removed SwaggerGen configuration as we are now using Microsoft.AspNetCore.OpenApi
         private static void ConfigureIdentityServer(IServiceCollection services)
         {
 
