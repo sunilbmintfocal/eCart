@@ -7,6 +7,7 @@ namespace MintCart.Api.Customer.Business.Interface
     public interface ICustomerInteractor
     {
         Task<List<CustomerModel>> GetCustomers();
+        Task<CustomerModel> UpsertCustomer(CustomerModel customer);
     }
 }
 

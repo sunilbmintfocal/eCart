@@ -3,96 +3,12 @@
   "WorkspaceRootPath": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\mintcartcoreserviceconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\mintcartcoreserviceconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C9216BD-27F8-800B-73B9-5D932C90C394}|MintCart.Api.Identity\\MintCart.Api.Identity.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.identity\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C9216BD-27F8-800B-73B9-5D932C90C394}|MintCart.Api.Identity\\MintCart.Api.Identity.csproj|solutionrelative:mintcart.api.identity\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C9216BD-27F8-800B-73B9-5D932C90C394}|MintCart.Api.Identity\\MintCart.Api.Identity.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.identity\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{0C9216BD-27F8-800B-73B9-5D932C90C394}|MintCart.Api.Identity\\MintCart.Api.Identity.csproj|solutionrelative:mintcart.api.identity\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\actionresult\\mintcartauthorizationresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\actionresult\\mintcartauthorizationresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\actionresult\\mintcartactionresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\actionresult\\mintcartactionresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A7E3012D-3617-47D6-93BB-A620B96E6FDD}|MintCart.Api.Customer\\MintCart.Api.Customer.Business\\MintCart.Api.Customer.Business.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.business\\interactor\\customerinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A7E3012D-3617-47D6-93BB-A620B96E6FDD}|MintCart.Api.Customer\\MintCart.Api.Customer.Business\\MintCart.Api.Customer.Business.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.business\\interactor\\customerinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\filters\\mintcartauthorization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\filters\\mintcartauthorization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\filters\\mintcartexceptionfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\filters\\mintcartexceptionfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\actionresult\\mintcartexceptionresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\actionresult\\mintcartexceptionresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\coreappsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\coreappsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\coreappsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\coreappsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{789EF86D-4BE3-E9E7-3FC8-F60B912C1A8E}|BuildingBlocks\\HelperService\\MintCart.Common\\MintCart.Common.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\buildingblocks\\helperservice\\mintcart.common\\constants\\appsettingconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{789EF86D-4BE3-E9E7-3FC8-F60B912C1A8E}|BuildingBlocks\\HelperService\\MintCart.Common\\MintCart.Common.csproj|solutionrelative:buildingblocks\\helperservice\\mintcart.common\\constants\\appsettingconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\attribute\\permissionsattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\attribute\\permissionsattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.core\\attribute\\modelvalidatorattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20103941-2495-F9DA-4DAF-1DC3C30DC5E8}|MintCart.Api.Core\\MintCart.Api.Core.csproj|solutionrelative:mintcart.api.core\\attribute\\modelvalidatorattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6BB9CB4F-B378-92EA-1965-6E1B99E66CAE}|MintCart.Api.Customer\\MintCart.Api.Customer.Domain\\MintCart.Api.Customer.Domain.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.domain\\entities\\customer\\customerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6BB9CB4F-B378-92EA-1965-6E1B99E66CAE}|MintCart.Api.Customer\\MintCart.Api.Customer.Domain\\MintCart.Api.Customer.Domain.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.domain\\entities\\customer\\customerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{266DC7C1-65AD-6B1A-9586-05FE14F3FB79}|MintCart.Api.Customer\\MintCart.Api.Customer.Data\\MintCart.Api.Customer.Data.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.data\\customerdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{266DC7C1-65AD-6B1A-9586-05FE14F3FB79}|MintCart.Api.Customer\\MintCart.Api.Customer.Data\\MintCart.Api.Customer.Data.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.data\\customerdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{266DC7C1-65AD-6B1A-9586-05FE14F3FB79}|MintCart.Api.Customer\\MintCart.Api.Customer.Data\\MintCart.Api.Customer.Data.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.data\\repository\\customer\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{266DC7C1-65AD-6B1A-9586-05FE14F3FB79}|MintCart.Api.Customer\\MintCart.Api.Customer.Data\\MintCart.Api.Customer.Data.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.data\\repository\\customer\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{89690B36-EE35-3981-F624-0862C7DF6FA4}|BuildingBlocks\\HelperService\\MintCart.Extensions\\MintCart.Extensions.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\buildingblocks\\helperservice\\mintcart.extensions\\iwebhostextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{89690B36-EE35-3981-F624-0862C7DF6FA4}|BuildingBlocks\\HelperService\\MintCart.Extensions\\MintCart.Extensions.csproj|solutionrelative:buildingblocks\\helperservice\\mintcart.extensions\\iwebhostextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -102,303 +18,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Properties\\launchSettings.json",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Properties\\launchSettings.json",
-              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-04-12T06:59:32.73Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MintCartActionResult.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\ActionResult\\MintCartActionResult.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\ActionResult\\MintCartActionResult.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\ActionResult\\MintCartActionResult.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\ActionResult\\MintCartActionResult.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "CustomerInteractor.cs",
+              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAmwCwAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:22:23.739Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MintCartAuthorizationResult.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\ActionResult\\MintCartAuthorizationResult.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\ActionResult\\MintCartAuthorizationResult.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\ActionResult\\MintCartAuthorizationResult.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\ActionResult\\MintCartAuthorizationResult.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:22:25.89Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "MintCartExceptionFilter.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Filters\\MintCartExceptionFilter.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\Filters\\MintCartExceptionFilter.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Filters\\MintCartExceptionFilter.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\Filters\\MintCartExceptionFilter.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAqwHcAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:23:14.219Z",
+              "WhenOpened": "2026-04-12T16:48:59.589Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.Development.json",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.Development.json",
-              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-04-11T17:02:58.354Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.json",
-              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.json",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.json",
-              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-04-11T17:02:33.145Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
               "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
               "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:10:27.421Z",
+              "WhenOpened": "2026-04-12T16:11:33.288Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "BaseController.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Controllers\\BaseController.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\Controllers\\BaseController.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Controllers\\BaseController.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\Controllers\\BaseController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:23:23.201Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Identity\\appsettings.json",
-              "RelativeDocumentMoniker": "MintCart.Api.Identity\\appsettings.json",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Identity\\appsettings.json",
-              "RelativeToolTip": "MintCart.Api.Identity\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-04-12T06:53:58.432Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MintCartCoreServiceConfiguration.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\MintCartCoreServiceConfiguration.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\MintCartCoreServiceConfiguration.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\MintCartCoreServiceConfiguration.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\MintCartCoreServiceConfiguration.cs",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAiwJ4AAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T05:41:30.332Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Identity\\Program.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Identity\\Program.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Identity\\Program.cs",
-              "RelativeToolTip": "MintCart.Api.Identity\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:54:07.216Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "MintCartAuthorization.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Filters\\MintCartAuthorization.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\Filters\\MintCartAuthorization.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Filters\\MintCartAuthorization.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\Filters\\MintCartAuthorization.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAgwA4AAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:32:20.482Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "coreappsettings.json",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\coreappsettings.json",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\coreappsettings.json",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\coreappsettings.json",
-              "RelativeToolTip": "MintCart.Api.Core\\coreappsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-04-11T17:03:09.588Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "coreappsettings.Development.json",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\coreappsettings.Development.json",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\coreappsettings.Development.json",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\coreappsettings.Development.json",
-              "RelativeToolTip": "MintCart.Api.Core\\coreappsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-04-12T06:30:45.482Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "MintCartExceptionResult.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\ActionResult\\MintCartExceptionResult.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\ActionResult\\MintCartExceptionResult.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\ActionResult\\MintCartExceptionResult.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\ActionResult\\MintCartExceptionResult.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:22:28.135Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "AppSettingConstants.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\BuildingBlocks\\HelperService\\MintCart.Common\\Constants\\AppSettingConstants.cs",
-              "RelativeDocumentMoniker": "BuildingBlocks\\HelperService\\MintCart.Common\\Constants\\AppSettingConstants.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\BuildingBlocks\\HelperService\\MintCart.Common\\Constants\\AppSettingConstants.cs",
-              "RelativeToolTip": "BuildingBlocks\\HelperService\\MintCart.Common\\Constants\\AppSettingConstants.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:24:53.418Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "PermissionsAttribute.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Attribute\\PermissionsAttribute.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\Attribute\\PermissionsAttribute.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Attribute\\PermissionsAttribute.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\Attribute\\PermissionsAttribute.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:22:36.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "ModelValidatorAttribute.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Attribute\\ModelValidatorAttribute.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Core\\Attribute\\ModelValidatorAttribute.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Core\\Attribute\\ModelValidatorAttribute.cs",
-              "RelativeToolTip": "MintCart.Api.Core\\Attribute\\ModelValidatorAttribute.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T06:22:31.693Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Program.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Program.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Program.cs",
-              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T05:36:41.705Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "CustomerEntity.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Domain\\Entities\\Customer\\CustomerEntity.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.Domain\\Entities\\Customer\\CustomerEntity.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Domain\\Entities\\Customer\\CustomerEntity.cs",
-              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.Domain\\Entities\\Customer\\CustomerEntity.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-11T17:10:45.611Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "CustomerRepository.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Data\\Repository\\Customer\\CustomerRepository.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.Data\\Repository\\Customer\\CustomerRepository.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Data\\Repository\\Customer\\CustomerRepository.cs",
-              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.Data\\Repository\\Customer\\CustomerRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-11T17:10:34.023Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "CustomerDbContext.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Data\\CustomerDbContext.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.Data\\CustomerDbContext.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Data\\CustomerDbContext.cs",
-              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.Data\\CustomerDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-11T17:10:39.829Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "IWebHostExtensions.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\BuildingBlocks\\HelperService\\MintCart.Extensions\\IWebHostExtensions.cs",
-              "RelativeDocumentMoniker": "BuildingBlocks\\HelperService\\MintCart.Extensions\\IWebHostExtensions.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\BuildingBlocks\\HelperService\\MintCart.Extensions\\IWebHostExtensions.cs",
-              "RelativeToolTip": "BuildingBlocks\\HelperService\\MintCart.Extensions\\IWebHostExtensions.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAowBAAAABRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-11T16:51:50.296Z"
             }
           ]
         }

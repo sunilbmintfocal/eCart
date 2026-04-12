@@ -6,7 +6,16 @@ import { apiClient } from './client';
  * @returns {Promise<Array>} A promise that resolves to an array of customers.
  */
 export async function getCustomers(skipToken = false) {
-  return apiClient.get('/api/customer/customers', {}, skipToken);
+  return apiClient.get('/api/customer/all', {}, skipToken);
+}
+
+/**
+ * Creates or updates a customer.
+ * Uses the route defined in CustomerController.cs: api/customer/create
+ * @param {Object} customerData - The customer details.
+ */
+export async function upsertCustomer(customerData) {
+  return apiClient.post('/api/customer/create', customerData);
 }
 
 /**
@@ -15,12 +24,4 @@ export async function getCustomers(skipToken = false) {
  */
 export async function getCustomerById(id) {
   return apiClient.get(`/api/customer/${id}`);
-}
-
-/**
- * Creates a new customer.
- * @param {Object} customerData - The customer details.
- */
-export async function createCustomer(customerData) {
-  return apiClient.post('/api/customer', customerData);
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import DataTable from '../../components/DataTable';
-import { getCustomers } from '../../api/customers';
+import { getCustomers, upsertCustomer } from '../../api/customers';
 
 export default function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -31,6 +31,11 @@ export default function Customers() {
     setIsModalOpen(true);
   };
 
+  const handleEdit = (customer) => {
+    setSelectedCustomer(customer);
+    setIsModalOpen(true);
+  };
+
   const filteredCustomers = customers.filter(customer => {
     if (!searchTerm) return true;
     const s = searchTerm.toLowerCase();
@@ -44,9 +49,41 @@ export default function Customers() {
     );
   });
 
-  const handleEdit = (customer) => {
-    setSelectedCustomer(customer);
-    setIsModalOpen(true);
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 10000);
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const customerData = {
+      Id: selectedCustomer.Id || selectedCustomer.id || 0,
+      CustomerName: formData.get('CustomerName').trim(),
+      PhoneNo: formData.get('PhoneNo').trim(),
+      Address: formData.get('Address'),
+      ShippingAddress: formData.get('ShippingAddress'),
+      GSTINNumber: formData.get('GSTINNumber'),
+      State: formData.get('State'),
+      IsActive: formData.get('IsActive') === 'on'
+    };
+
+    try {
+      setSaving(true);
+      await upsertCustomer(customerData);
+
+      setIsModalOpen(false);
+      showToast('Customer saved successfully!');
+      fetchCustomers();
+    } catch (error) {
+      console.error('Failed to save customer', error);
+      alert('Error saving customer. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const columns = [
@@ -152,114 +189,160 @@ export default function Customers() {
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-surface-container-highest/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
           <div className="bg-surface relative z-10 w-full max-w-2xl rounded-none ambient-shadow border border-outline-variant/10 overflow-hidden animate-in fade-in zoom-in duration-200">
-            <div className="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
-              <div>
-                <h3 className="text-xl font-headline font-bold text-on-surface tracking-tight">
-                  {selectedCustomer.Id || selectedCustomer.id ? 'Edit Customer Profile' : 'Register New Customer'}
-                </h3>
-                {(selectedCustomer.Id || selectedCustomer.id) && (
-                  <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">Ref: {selectedCustomer.Id || selectedCustomer.id}</p>
-                )}
+            <form onSubmit={handleSave}>
+              <div className="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+                <div>
+                  <h3 className="text-xl font-headline font-bold text-on-surface tracking-tight">
+                    {selectedCustomer.Id || selectedCustomer.id ? 'Edit Customer Profile' : 'Register New Customer'}
+                  </h3>
+                  {(selectedCustomer.Id || selectedCustomer.id) && (
+                    <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">Ref: {selectedCustomer.Id || selectedCustomer.id}</p>
+                  )}
+                </div>
+                <button type="button" onClick={() => setIsModalOpen(false)} className="text-on-surface-variant hover:text-error transition-colors">
+                  <span className="material-symbols-outlined">close</span>
+                </button>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="text-on-surface-variant hover:text-error transition-colors">
-                <span className="material-symbols-outlined">close</span>
-              </button>
-            </div>
 
-            <div className="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
-              <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-                {/* Basic Info */}
-                <div className="col-span-2 border-b border-outline-variant/5 pb-2 mb-2">
-                  <h4 className="text-[11px] font-bold text-primary uppercase tracking-widest">Primary Identity</h4>
-                </div>
+              <div className="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                  {/* Basic Info */}
+                  <div className="col-span-2 border-b border-outline-variant/10 pb-2 mb-2">
+                    <h4 className="text-[11px] font-bold text-primary uppercase tracking-widest leading-none">Primary Identity</h4>
+                  </div>
 
-                <div className="col-span-1">
-                  <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Customer Name</label>
-                  <input
-                    type="text"
-                    defaultValue={selectedCustomer.CustomerName || selectedCustomer.customerName}
-                    className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none"
-                  />
-                </div>
-
-                <div className="col-span-1">
-                  <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Phone Number</label>
-                  <input
-                    type="text"
-                    defaultValue={selectedCustomer.PhoneNo || selectedCustomer.phoneNo}
-                    className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none"
-                  />
-                </div>
-
-                <div className="col-span-2">
-                  <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Permanent Address</label>
-                  <textarea
-                    rows={2}
-                    defaultValue={selectedCustomer.Address || selectedCustomer.address}
-                    className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none"
-                  />
-                </div>
-
-                <div className="col-span-2">
-                  <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Shipping Address</label>
-                  <textarea
-                    rows={2}
-                    defaultValue={selectedCustomer.ShippingAddress || selectedCustomer.shippingAddress}
-                    className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none"
-                  />
-                </div>
-
-                {/* Tax / Registry Info */}
-                <div className="col-span-2 border-b border-outline-variant/5 pb-2 mt-4 mb-2">
-                  <h4 className="text-[11px] font-bold text-primary uppercase tracking-widest">Registry & Compliance</h4>
-                </div>
-
-                <div className="col-span-1">
-                  <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">GSTIN Number</label>
-                  <input
-                    type="text"
-                    defaultValue={selectedCustomer.GSTINNumber || selectedCustomer.gstinNumber}
-                    className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none"
-                  />
-                </div>
-
-                <div className="col-span-1">
-                  <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">State / Region</label>
-                  <input
-                    type="text"
-                    defaultValue={selectedCustomer.State || selectedCustomer.state}
-                    className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none"
-                  />
-                </div>
-
-                <div className="col-span-1 flex items-center gap-4 pt-4">
-                  <label className="flex items-center gap-3 cursor-pointer group">
+                  <div className="col-span-1">
+                    <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Customer Name</label>
                     <input
-                      type="checkbox"
-                      defaultChecked={selectedCustomer.IsActive ?? selectedCustomer.isActive}
-                      className="w-4 h-4 rounded-none border-outline-variant accent-primary"
+                      name="CustomerName"
+                      type="text"
+                      required
+                      disabled={saving}
+                      defaultValue={selectedCustomer.CustomerName || selectedCustomer.customerName}
+                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
                     />
-                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Account Active</span>
-                  </label>
+                  </div>
+
+                  <div className="col-span-1">
+                    <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Phone Number</label>
+                    <input
+                      name="PhoneNo"
+                      type="text"
+                      required
+                      disabled={saving}
+                      defaultValue={selectedCustomer.PhoneNo || selectedCustomer.phoneNo}
+                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Permanent Address</label>
+                    <textarea
+                      name="Address"
+                      rows={2}
+                      disabled={saving}
+                      defaultValue={selectedCustomer.Address || selectedCustomer.address}
+                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Shipping Address</label>
+                    <textarea
+                      name="ShippingAddress"
+                      rows={2}
+                      disabled={saving}
+                      defaultValue={selectedCustomer.ShippingAddress || selectedCustomer.shippingAddress}
+                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
+                    />
+                  </div>
+
+                  {/* Tax / Registry Info */}
+                  <div className="col-span-2 border-b border-outline-variant/10 pb-2 mt-4 mb-2">
+                    <h4 className="text-[11px] font-bold text-primary uppercase tracking-widest leading-none">Registry & Compliance</h4>
+                  </div>
+
+                  <div className="col-span-1">
+                    <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">GSTIN Number</label>
+                    <input
+                      name="GSTINNumber"
+                      type="text"
+                      disabled={saving}
+                      defaultValue={selectedCustomer.GSTINNumber || selectedCustomer.gstinNumber}
+                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
+                    />
+                  </div>
+
+                  <div className="col-span-1">
+                    <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">State / Region</label>
+                    <input
+                      name="State"
+                      type="text"
+                      disabled={saving}
+                      defaultValue={selectedCustomer.State || selectedCustomer.state}
+                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
+                    />
+                  </div>
+
+                  <div className="col-span-1 flex items-center gap-4 pt-4">
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <input
+                        name="IsActive"
+                        type="checkbox"
+                        disabled={saving}
+                        defaultChecked={selectedCustomer.IsActive ?? selectedCustomer.isActive}
+                        className="w-4 h-4 rounded-none border-outline-variant accent-primary disabled:opacity-50"
+                      />
+                      <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Account Active</span>
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="p-8 border-t border-outline-variant/10 bg-surface-container-low/30 flex gap-3">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="flex-1 px-6 py-3 border border-outline-variant/20 text-on-surface rounded-none font-bold text-xs uppercase tracking-widest hover:bg-surface-container-low transition-all"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="flex-1 px-6 py-3 btn-gradient rounded-none font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/10"
-              >
-                Update Profile
-              </button>
-            </div>
+              <div className="p-8 border-t border-outline-variant/10 bg-surface-container-low/30 flex gap-3">
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={() => setIsModalOpen(false)}
+                  className="flex-1 px-6 py-3 border border-outline-variant/20 text-on-surface rounded-none font-bold text-xs uppercase tracking-widest hover:bg-surface-container-low transition-all disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="flex-1 px-6 py-3 btn-gradient rounded-none font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/10 flex items-center justify-center gap-2 disabled:opacity-80"
+                >
+                  {saving ? (
+                    <>
+                      <span className="material-symbols-outlined text-base animate-spin">sync</span>
+                      Saving...
+                    </>
+                  ) : (
+                    selectedCustomer.Id || selectedCustomer.id ? 'Save Changes' : 'Create Customer'
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
+        </div>
+      )}
+
+      {/* Floating Toast Notification - Top Center */}
+      {toast && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] bg-surface-container-lowest border border-primary/20 p-4 min-w-[340px] shadow-xl backdrop-blur-md animate-in slide-in-from-top-12 duration-500">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-none bg-primary/10 flex items-center justify-center">
+              <span className="material-symbols-outlined text-primary text-base">check_circle</span>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-on-surface tracking-tight">{toast}</p>
+            </div>
+            <button onClick={() => setToast(null)} className="ml-auto text-on-surface-variant hover:text-error transition-colors">
+              <span className="material-symbols-outlined text-sm">close</span>
+            </button>
+          </div>
+          {/* Progress timer bar - 10s */}
+          <div className="absolute bottom-0 left-0 h-0.5 bg-primary/20 w-full animate-out fade-out duration-[10000ms] origin-left scale-x-0 transition-transform"></div>
         </div>
       )}
     </section>

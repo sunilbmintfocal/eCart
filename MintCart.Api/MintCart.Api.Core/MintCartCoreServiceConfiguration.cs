@@ -118,14 +118,15 @@ namespace MintCart.Api.Core
 
             app.UseMiddleware<RequestResponseHelperMiddleware>();
 
-            app.MapOpenApi("/openapi/{documentName}.json");
+            app.MapOpenApi("/mintcart/openapi/{documentName}.json");
             app.MapScalarApiReference(options =>
             {
                 options
                     .WithTitle("MintCart API")
                     .WithTheme(ScalarTheme.DeepSpace)
                     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
-                    .WithEndpointPrefix("/mintcart/docs");
+                    .WithEndpointPrefix("/mintcart/docs")
+                    .WithOpenApiRoutePattern("/mintcart/openapi/{documentName}.json");
             });
 
 
@@ -187,7 +188,7 @@ namespace MintCart.Api.Core
                         string response = JsonConvert.SerializeObject(new ApiResponse<string>("The access token provided has expired.", 401, new List<ApiErrors>() { new ApiErrors { ValidationKey = "Authentication", ValidationErrorMessage = "The access token provided is not valid." } }));
                         if (c.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
-                            c.Response.Headers.Add("Token-Expired", "true");
+                            c.Response.Headers.Append("Token-Expired", "true");
                             response = JsonConvert.SerializeObject(new ApiResponse<string>("The access token provided has expired.", 401, new List<ApiErrors>() { new ApiErrors { ValidationKey = "Authentication", ValidationErrorMessage = "The access token provided has expired." } }));
                         }
                         await c.Response.WriteAsync(response);

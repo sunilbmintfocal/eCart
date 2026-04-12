@@ -26,10 +26,18 @@ namespace MintCart.Api.Customer.API.Controllers
         /// </summary>
         /// <returns>Returns the list of Customers</returns>
         [HttpGet]
-        [Route("customers")]
+        [Route("all")]
         public async Task<IActionResult> GetCustomers()
         {
             var res = await _customerInteractor.GetCustomers();
+            return await CreateApiResponse(res);
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> CreateOrUpdateCustomer([FromBody] CustomerModel customer)
+        {
+            var res = await _customerInteractor.UpsertCustomer(customer);
             return await CreateApiResponse(res);
         }
     }

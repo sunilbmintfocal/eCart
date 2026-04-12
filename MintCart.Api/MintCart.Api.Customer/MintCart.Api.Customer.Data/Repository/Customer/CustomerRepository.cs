@@ -19,6 +19,21 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
         {
             return await _context.Customers.ToListAsync();
         }
+        
+        public async Task<CustomerEntity> UpsertCustomer(CustomerEntity customer)
+        {
+            if (customer.Id <= 0)
+            {
+                customer.dtAddedDate = DateTime.Now;
+                _context.Customers.Add(customer);
+            }
+            else
+            {
+                _context.Customers.Update(customer);
+            }
+            await _context.SaveChangesAsync();
+            return customer;
+        }
     }
 }
 
