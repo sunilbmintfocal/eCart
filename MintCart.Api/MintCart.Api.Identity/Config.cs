@@ -20,6 +20,16 @@ public static class Config
             new ApiScope("MintCart-api", "MintCart Web API")
         };
 
+    public static IEnumerable<ApiResource> ApiResources =>
+        new ApiResource[]
+        {
+            new ApiResource("MintCart-api", "MintCart Web API")
+            {
+                Scopes = { "MintCart-api" },
+                UserClaims = { "name", "email" }
+            }
+        };
+
     public static IEnumerable<Client> Clients =>
         new Client[]
         {

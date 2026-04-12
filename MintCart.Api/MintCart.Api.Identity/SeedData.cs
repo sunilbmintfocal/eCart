@@ -194,6 +194,32 @@ public class SeedData
             }
             configContext.SaveChanges();
 
+            // Sync ApiResources
+            foreach (var resource in Config.ApiResources)
+            {
+                var existingResource = configContext.ApiResources
+                    .Include(x => x.UserClaims)
+                    .Include(x => x.Scopes)
+                    .FirstOrDefault(x => x.Name == resource.Name);
+
+                if (existingResource == null)
+                {
+                    configContext.ApiResources.Add(resource.ToEntity());
+                    Log.Debug("Seeded new api resource: {Name}", resource.Name);
+                }
+                else
+                {
+                    // Sync User Claims
+                    existingResource.UserClaims.Clear();
+                    foreach (var claim in resource.UserClaims)
+                    {
+                        existingResource.UserClaims.Add(new Duende.IdentityServer.EntityFramework.Entities.ApiResourceClaim { Type = claim });
+                    }
+                    Log.Debug("Updated claims for api resource: {Name}", resource.Name);
+                }
+            }
+            configContext.SaveChanges();
+
             var persistedGrantContext = scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
             persistedGrantContext.Database.Migrate();
         }

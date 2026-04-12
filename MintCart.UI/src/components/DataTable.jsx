@@ -57,7 +57,7 @@ export default function DataTable({
               {columns.map((col, index) => (
                 <th
                   key={index}
-                  className={`px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
+                  className={`px-6 py-4 text-sm font-bold border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
                     col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
                   }`}
                 >

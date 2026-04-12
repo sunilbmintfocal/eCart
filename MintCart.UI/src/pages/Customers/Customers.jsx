@@ -12,7 +12,7 @@ export default function Customers() {
   const fetchCustomers = async () => {
     try {
       setLoading(true);
-      const response = await getCustomers(); 
+      const response = await getCustomers();
       const customerList = response?.Data || response?.data || (Array.isArray(response) ? response : []);
       setCustomers(customerList);
     } catch (error) {
@@ -105,7 +105,7 @@ export default function Customers() {
     <section className="p-8 bg-surface min-h-screen">
       <div className="flex justify-between items-center mb-10">
         <div>
-          <h1 className="text-2xl font-headline font-bold text-on-surface tracking-tight italic">Customer Management</h1>
+          <h1 className="text-2xl font-headline font-bold text-on-surface tracking-tight">Customer Management</h1>
         </div>
         <div className="flex gap-4 items-center">
           <div className="relative group">
@@ -119,7 +119,7 @@ export default function Customers() {
             />
           </div>
 
-          <button 
+          <button
             onClick={fetchCustomers}
             disabled={loading}
             className="w-11 h-11 flex items-center justify-center border border-outline-variant/20 text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all disabled:opacity-50"
@@ -128,7 +128,7 @@ export default function Customers() {
             <span className={`material-symbols-outlined text-[20px] ${loading ? 'animate-spin' : ''}`}>refresh</span>
           </button>
 
-          <button 
+          <button
             onClick={handleCreate}
             className="flex items-center gap-2 px-6 h-11 btn-gradient rounded-none font-bold text-xs uppercase tracking-widest whitespace-nowrap"
           >
@@ -139,10 +139,10 @@ export default function Customers() {
       </div>
 
       <div className="bg-surface-container-lowest rounded-none ambient-shadow border border-outline-variant/10 overflow-hidden">
-        <DataTable 
-          data={filteredCustomers} 
-          columns={columns} 
-          defaultPageSize={10} 
+        <DataTable
+          data={filteredCustomers}
+          columns={columns}
+          defaultPageSize={10}
           emptyMessage={loading ? "Loading customers..." : "No records found."}
         />
       </div>
@@ -165,14 +165,14 @@ export default function Customers() {
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
-            
+
             <div className="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-2 gap-x-8 gap-y-6">
                 {/* Basic Info */}
                 <div className="col-span-2 border-b border-outline-variant/5 pb-2 mb-2">
                   <h4 className="text-[11px] font-bold text-primary uppercase tracking-widest">Primary Identity</h4>
                 </div>
-                
+
                 <div className="col-span-1">
                   <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Customer Name</label>
                   <input
@@ -181,7 +181,7 @@ export default function Customers() {
                     className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none"
                   />
                 </div>
-                
+
                 <div className="col-span-1">
                   <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Phone Number</label>
                   <input
@@ -234,8 +234,8 @@ export default function Customers() {
 
                 <div className="col-span-1 flex items-center gap-4 pt-4">
                   <label className="flex items-center gap-3 cursor-pointer group">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       defaultChecked={selectedCustomer.IsActive ?? selectedCustomer.isActive}
                       className="w-4 h-4 rounded-none border-outline-variant accent-primary"
                     />
