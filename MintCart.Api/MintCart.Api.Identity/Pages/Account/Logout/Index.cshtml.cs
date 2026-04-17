@@ -99,6 +99,13 @@ public class Index : PageModel
             }
         }
 
+        var logout = await _interaction.GetLogoutContextAsync(LogoutId);
+
+        if (logout?.PostLogoutRedirectUri != null)
+        {
+            return Redirect(logout.PostLogoutRedirectUri);
+        }
+
         return RedirectToPage("/Account/Logout/LoggedOut", new { logoutId = LogoutId });
     }
 }

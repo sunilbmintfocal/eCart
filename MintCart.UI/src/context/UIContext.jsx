@@ -6,6 +6,7 @@ const UIContext = createContext();
 export function UIProvider({ children }) {
   const [rootFontSize, setRootFontSize] = useState(15);
   const [globalLoading, setGlobalLoading] = useState(false);
+  const [toast, setToast] = useState(null);
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty('--root-font-size', `${rootFontSize}px`);
@@ -15,8 +16,13 @@ export function UIProvider({ children }) {
     subscribeLoading(setGlobalLoading);
   }, []);
 
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 10000);
+  };
+
   return (
-    <UIContext.Provider value={{ rootFontSize, setRootFontSize, globalLoading }}>
+    <UIContext.Provider value={{ rootFontSize, setRootFontSize, globalLoading, toast, setToast, showToast }}>
       {/* Global API Loading Indicator */}
       {globalLoading && (
         <div className="fixed top-0 left-0 right-0 z-[100] h-1.5 bg-primary/20 overflow-hidden animate-in fade-in duration-300">

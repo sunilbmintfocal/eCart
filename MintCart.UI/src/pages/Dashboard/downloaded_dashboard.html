@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MintCart | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbcf",
+                    "surface-variant": "#e1e3e3",
+                    "on-primary-fixed-variant": "#005049",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#f8fafa",
+                    "secondary-fixed": "#c2ebe4",
+                    "on-secondary-fixed": "#00201d",
+                    "tertiary-fixed-dim": "#ffb59c",
+                    "inverse-surface": "#2e3131",
+                    "on-secondary-fixed-variant": "#274d48",
+                    "secondary-container": "#bfe8e1",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "surface-tint": "#006a61",
+                    "on-tertiary-fixed-variant": "#773218",
+                    "secondary-fixed-dim": "#a6cfc8",
+                    "surface-container": "#eceeee",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#89f5e7",
+                    "on-background": "#191c1d",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#390c00",
+                    "tertiary": "#95482d",
+                    "surface-container-high": "#e6e8e9",
+                    "error": "#ba1a1a",
+                    "primary-container": "#4cbcaf",
+                    "outline": "#6d7a77",
+                    "surface-bright": "#f8fafa",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#6bd8cb",
+                    "on-secondary-container": "#446964",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#004841",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#3f6560",
+                    "on-tertiary-container": "#6d2a11",
+                    "on-surface-variant": "#3d4947",
+                    "on-surface": "#191c1d",
+                    "surface-container-low": "#f2f4f4",
+                    "surface": "#f8fafa",
+                    "on-primary-fixed": "#00201d",
+                    "outline-variant": "#bcc9c6",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eff1f1",
+                    "surface-dim": "#d8dada",
+                    "primary": "#006a61",
+                    "tertiary-container": "#f29271",
+                    "surface-container-highest": "#e1e3e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+        .trend-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 3s linear forwards;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-950 flex flex-col border-r border-slate-200 dark:border-slate-800 z-50">
+<div class="px-6 py-8 flex flex-col gap-1 h-full">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="devices">devices</span>
+</div>
+<div>
+<h1 class="text-xl font-black text-teal-900 dark:text-teal-100 tracking-tight">MintCart</h1>
+<p class="text-[0.6875rem] font-medium text-slate-500 uppercase tracking-widest">Electronics Retail</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-teal-700 dark:text-teal-300 font-bold border-r-4 border-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-700 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-sm">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-700 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-sm">Sales</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-700 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_late">assignment_late</span>
+<span class="text-sm">Complaints</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-700 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="text-sm">Finances</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-700 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="text-sm">Distribution</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 space-y-1">
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-white py-3 rounded-xl font-semibold text-sm mb-4 shadow-lg shadow-primary-container/20 active:scale-95 transition-transform">
+                Register New Stock
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-teal-700 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-sm">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm flex justify-between items-center w-full px-8 py-4">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary-container text-sm" placeholder="Search inventory, sales or customers..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Admin User</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-tighter">Inventory Head</p>
+</div>
+<img alt="Administrator Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo2VGsLDtLmtVnYQoEpaZPlkAv3n_0fwoV8Al27QGN9L0w8Q3a4B1bzgw6FHvjXuiZGVIzPuiERy0hPErl1sLqvSDwhsjKZFDBnhYNEG5ckGGkv9Yr8nNFZe3ypDowX53VI0G6ha43cLQeIxx1ayLEdkgAESB2at0-NAm91h5rNZg0-6kUGfs7KbyLpmL7swfIJbEadIOmDSeHrYPOTXCWFQZs_I-yhWMMcfI-pTEFoj6QpKUz6rzL6Uhr-Rg03wq3feFxbzA7RA"/>
+</div>
+</div>
+</header>
+<section class="p-8 space-y-8">
+<!-- Header Welcome -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-display-lg text-4xl font-extrabold text-on-surface tracking-tight">Dashboard</h2>
+<p class="text-slate-500 mt-1">Real-time electronics retail performance metrics.</p>
+</div>
+<div class="flex gap-3">
+</div>
+</div>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Sales KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-fixed/20 rounded-full blur-2xl group-hover:bg-primary-fixed/40 transition-all"></div>
+<p class="text-label-sm font-semibold text-slate-500 uppercase tracking-widest mb-1">Total Sales (Today)</p>
+<h3 class="text-3xl font-black text-on-surface font-headline mb-4">₹1,02,482.00</h3>
+<div class="flex items-center gap-2 text-xs font-bold text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                    +14.2% from yesterday
+                </div>
+</div>
+<!-- Stock Alert KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary-fixed/30 rounded-full blur-2xl group-hover:bg-tertiary-fixed/50 transition-all"></div>
+<p class="text-label-sm font-semibold text-slate-500 uppercase tracking-widest mb-1">Low Stock Alerts</p>
+<h3 class="text-3xl font-black text-tertiary font-headline mb-4">08 Items</h3>
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] rounded-full font-bold">Pro Laptops (2)</span>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] rounded-full font-bold">Smartphones (6)</span>
+</div>
+</div>
+<!-- Complaints KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-error-container/30 rounded-full blur-2xl group-hover:bg-error-container/50 transition-all"></div>
+<p class="text-label-sm font-semibold text-slate-500 uppercase tracking-widest mb-1">Active Complaints</p>
+<h3 class="text-3xl font-black text-on-error-container font-headline mb-4">05</h3>
+<div class="flex items-center gap-2 text-xs font-bold text-error">
+<span class="material-symbols-outlined text-sm" data-icon="priority_high">priority_high</span>
+                    3 pending immediate action
+                </div>
+</div>
+<!-- Balance KPI -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary-fixed/30 rounded-full blur-2xl group-hover:bg-secondary-fixed/50 transition-all"></div>
+<p class="text-label-sm font-semibold text-slate-500 uppercase tracking-widest mb-1">Customer Balance</p>
+<h3 class="text-3xl font-black text-on-secondary-container font-headline mb-4">₹3,98,220.50</h3>
+<div class="flex items-center gap-2 text-xs font-bold text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="account_balance">account_balance</span>
+                    Pending collections
+                </div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Modified Sales Trend Section -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/5">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-2xl font-bold text-on-surface tracking-tight">Sales Trend</h3>
+<p class="text-sm text-slate-500">Weekly sales performance tracking</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+<span class="text-[10px] font-bold text-primary uppercase">Active Sales</span>
+</div>
+</div>
+</div>
+<div class="relative h-64 w-full mb-4">
+<!-- Updated SVG to represent Sales Trend -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 100">
+<defs>
+<lineargradient id="sales-gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#006a61" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#006a61" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M 0 90 Q 50 60 100 70 T 200 30 T 300 40 T 400 10 V 100 H 0 Z" fill="url(#sales-gradient)"></path>
+<path class="trend-line" d="M 0 90 Q 50 60 100 70 T 200 30 T 300 40 T 400 10" fill="none" stroke="#006a61" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex justify-between items-end text-[10px] text-slate-400 font-bold uppercase tracking-tighter pt-4">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+</div>
+</div>
+<!-- Total Collection Box & Operations -->
+<div class="space-y-6">
+<!-- Single Total Collection Box -->
+<div class="bg-primary text-white rounded-3xl p-6 shadow-xl shadow-primary/20">
+<h4 class="text-title-md font-bold mb-4 opacity-90">Total Collection</h4>
+<div class="space-y-4">
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-70">Collections</p>
+<p class="text-2xl font-black">₹1,50,82,450</p>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-70">Outstanding</p>
+<p class="text-base font-bold">₹20,24,115</p>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-70">Net Advance</p>
+<p class="text-base font-bold">₹12,45,000</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Operations Section (Moved from right column) -->
+<div class="bg-surface-container-high rounded-3xl p-6">
+<h4 class="text-title-md font-bold text-on-surface mb-6">Quick Operations</h4>
+<div class="grid grid-cols-1 gap-3">
+<button class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl hover:shadow-md transition-shadow group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+</div>
+<span class="font-semibold text-sm">Add New Stock</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl hover:shadow-md transition-shadow group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+</div>
+<span class="font-semibold text-sm">Register Sale</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Table -->
+<div class="bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/10 overflow-hidden">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-2xl font-bold text-on-surface tracking-tight">Recent Activity</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full cursor-pointer">All Items</span>
+<span class="px-3 py-1 text-slate-400 text-xs font-bold rounded-full hover:bg-slate-50 cursor-pointer transition-colors">Sales Only</span>
+<span class="px-3 py-1 text-slate-400 text-xs font-bold rounded-full hover:bg-slate-50 cursor-pointer transition-colors">Complaints Only</span>
+</div>
+</div>
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/10">
+<th class="pb-4 text-label-sm font-bold text-slate-400 uppercase tracking-widest px-4">Entity</th>
+<th class="pb-4 text-label-sm font-bold text-slate-400 uppercase tracking-widest px-4">Activity Type</th>
+<th class="pb-4 text-label-sm font-bold text-slate-400 uppercase tracking-widest px-4 text-right">Value</th>
+<th class="pb-4 text-label-sm font-bold text-slate-400 uppercase tracking-widest px-4">Timestamp</th>
+<th class="pb-4 text-label-sm font-bold text-slate-400 uppercase tracking-widest px-4">Status</th>
+<th class="pb-4 px-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-transparent">
+<tr class="group hover:bg-surface-container-low/50 transition-colors">
+<td class="py-6 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+</div>
+<div>
+<p class="text-sm font-bold">James Wilson</p>
+<p class="text-[10px] text-slate-400">Customer ID: #4402</p>
+</div>
+</div>
+</td>
+<td class="py-6 px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="shopping_bag">shopping_bag</span>
+<span class="text-sm font-medium">Sale: 2x Wireless Buds</span>
+</div>
+</td>
+<td class="py-6 px-4 text-right">
+<p class="text-sm font-black">₹32,998.00</p>
+</td>
+<td class="py-6 px-4">
+<p class="text-xs text-slate-500">Today, 02:14 PM</p>
+</td>
+<td class="py-6 px-4">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold rounded-full">Completed</span>
+</td>
+<td class="py-6 px-4 text-right">
+<button class="material-symbols-outlined text-slate-300 hover:text-on-surface" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low/50 transition-colors">
+<td class="py-6 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-sm" data-icon="report">report</span>
+</div>
+<div>
+<p class="text-sm font-bold">Elena Rodriguez</p>
+<p class="text-[10px] text-slate-400">Customer ID: #8812</p>
+</div>
+</div>
+</td>
+<td class="py-6 px-4">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-lg" data-icon="assignment_late">assignment_late</span>
+<span class="text-sm font-medium">Complaint: Screen Flicker</span>
+</div>
+</td>
+<td class="py-6 px-4 text-right">
+<p class="text-sm font-black text-slate-300">--</p>
+</td>
+<td class="py-6 px-4">
+<p class="text-xs text-slate-500">Today, 11:30 AM</p>
+</td>
+<td class="py-6 px-4">
+<span class="px-3 py-1 bg-error-container text-on-error-container text-[10px] font-bold rounded-full">Pending</span>
+</td>
+<td class="py-6 px-4 text-right">
+<button class="material-symbols-outlined text-slate-300 hover:text-on-surface" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low/50 transition-colors">
+<td class="py-6 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+</div>
+<div>
+<p class="text-sm font-bold">TechDistro Inc.</p>
+<p class="text-[10px] text-slate-400">Supplier ID: #SUP-10</p>
+</div>
+</div>
+</td>
+<td class="py-6 px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="local_shipping">local_shipping</span>
+<span class="text-sm font-medium">Restock: 50x Pro Laptops</span>
+</div>
+</td>
+<td class="py-6 px-4 text-right">
+<p class="text-sm font-black">₹37,45,000.00</p>
+</td>
+<td class="py-6 px-4">
+<p class="text-xs text-slate-500">Yesterday, 04:45 PM</p>
+</td>
+<td class="py-6 px-4">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full">In Transit</span>
+</td>
+<td class="py-6 px-4 text-right">
+<button class="material-symbols-outlined text-slate-300 hover:text-on-surface" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="mt-auto py-8 px-8 border-t border-outline-variant/10 text-center">
+<p class="text-label-sm text-slate-400 tracking-widest uppercase">MintCart Management System © 2024 • Precision Logistics Division</p>
+</footer>
+</main>
+</body></html>

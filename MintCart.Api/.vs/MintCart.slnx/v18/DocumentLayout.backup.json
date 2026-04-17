@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A7E3012D-3617-47D6-93BB-A620B96E6FDD}|MintCart.Api.Customer\\MintCart.Api.Customer.Business\\MintCart.Api.Customer.Business.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.business\\interactor\\customerinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A7E3012D-3617-47D6-93BB-A620B96E6FDD}|MintCart.Api.Customer\\MintCart.Api.Customer.Business\\MintCart.Api.Customer.Business.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.business\\interactor\\customerinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.customer\\mintcart.api.customer.api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{61F53A81-1919-BD3B-DD06-549ECE82C6B5}|MintCart.Api.Customer\\MintCart.Api.Customer.API\\MintCart.Api.Customer.API.csproj|solutionrelative:mintcart.api.customer\\mintcart.api.customer.api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -19,12 +23,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CustomerInteractor.cs",
+              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.Business\\Interactor\\CustomerInteractor.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowEUAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T16:48:59.589Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
               "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
               "RelativeToolTip": "MintCart.Api.Customer\\MintCart.Api.Customer.API\\Controllers\\CustomerController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACcAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-12T16:11:33.288Z",
               "EditorCaption": ""

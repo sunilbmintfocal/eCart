@@ -51,7 +51,7 @@ namespace MintCart.Api.Customer.Business.Interactor
                 vchPhoneNo = customer.PhoneNo,
                 vchOtherPhoneNo = customer.OtherPhoneNo,
                 vchIdCardNo = customer.IdCardNo,
-                dtAddedDate = customer.AddedDate,
+                dtAddedDate = DateTime.Now,
                 bitIsActive = customer.IsActive,
                 vchGSTINNumber = customer.GSTINNumber,
                 bitIsBusinessCustomer = customer.IsBusinessCustomer,

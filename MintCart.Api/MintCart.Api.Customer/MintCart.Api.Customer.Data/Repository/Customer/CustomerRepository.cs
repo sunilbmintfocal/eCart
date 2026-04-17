@@ -29,6 +29,11 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
             }
             else
             {
+                var existing = await _context.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.Id == customer.Id);
+                if (existing != null)
+                {
+                    customer.dtAddedDate = DateTime.Now;
+                }
                 _context.Customers.Update(customer);
             }
             await _context.SaveChangesAsync();

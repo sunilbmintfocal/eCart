@@ -22,7 +22,7 @@
   html {
     /* Dynamic root font size for global scaling. 
        Tailwind uses rem for consistent UI compression. */
-    font-size: var(--root-font-size, 14px);
+    font-size: var(--root-font-size, 13px);
   }
   
   /* If you want it even denser on mobile screens, we can scale down further */
@@ -52,4 +52,13 @@
 
 .animate-progress {
   animation: progress 2s infinite ease-in-out;
+}
+
+.trend-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 3s linear forwards;
+}
+@keyframes dash {
+  to { stroke-dashoffset: 0; }
 }

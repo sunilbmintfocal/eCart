@@ -1,14 +1,44 @@
 import { useState, useEffect } from 'react';
 import DataTable from '../../components/DataTable';
 import { getCustomers, upsertCustomer } from '../../api/customers';
+import { useUI } from '../../context/UIContext';
 
 export default function Customers() {
+  const { showToast } = useUI();
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedForMerge, setSelectedForMerge] = useState([]);
+  const [isMergeModalOpen, setIsMergeModalOpen] = useState(false);
 
+  const toggleForMerge = (customer) => {
+    const cid = customer.Id || customer.id;
+    setSelectedForMerge(prev =>
+      prev.find(c => (c.Id || c.id) === cid)
+        ? prev.filter(c => (c.Id || c.id) !== cid)
+        : [...prev, customer]
+    );
+  };
+
+  const handleMergeSubmit = async () => {
+    try {
+      setLoading(true);
+      // Dummy API Call Simulation
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      showToast(`${selectedForMerge.length} Profiles merged successfully!`);
+      setSelectedForMerge([]);
+      setIsMergeModalOpen(false);
+      fetchCustomers();
+    } catch (error) {
+      console.error('Merge failed', error);
+      alert('Failed to merge contacts.');
+    } finally {
+      setLoading(false);
+    }
+  };
   const fetchCustomers = async () => {
     try {
       setLoading(true);
@@ -50,11 +80,18 @@ export default function Customers() {
   });
 
   const [saving, setSaving] = useState(false);
-  const [toast, setToast] = useState(null);
+  const [errors, setErrors] = useState({});
 
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 10000);
+  const validateForm = (data) => {
+    const newErrors = {};
+    if (!data.CustomerName) newErrors.CustomerName = 'Customer Name is required';
+    else if (data.CustomerName.length < 2) newErrors.CustomerName = 'Name is too short';
+
+    if (!data.PhoneNo) newErrors.PhoneNo = 'Phone Number is required';
+    else if (!/^\d{10}$/.test(data.PhoneNo)) newErrors.PhoneNo = 'Must be exactly 10 digits';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSave = async (e) => {
@@ -68,8 +105,11 @@ export default function Customers() {
       ShippingAddress: formData.get('ShippingAddress'),
       GSTINNumber: formData.get('GSTINNumber'),
       State: formData.get('State'),
-      IsActive: formData.get('IsActive') === 'on'
+      IsActive: formData.get('IsActive') === 'on',
+      AddedDate: selectedCustomer.AddedDate || selectedCustomer.addedDate || null
     };
+
+    if (!validateForm(customerData)) return;
 
     try {
       setSaving(true);
@@ -104,7 +144,7 @@ export default function Customers() {
       render: (item) => item.PhoneNo || item.phoneNo || '-'
     },
     {
-      header: 'Added Date',
+      header: 'Registration Date',
       className: 'text-on-surface-variant',
       render: (item) => {
         const date = item.AddedDate || item.addedDate;
@@ -126,15 +166,29 @@ export default function Customers() {
     {
       header: 'Actions',
       align: 'right',
-      render: (customer) => (
-        <button
-          onClick={() => handleEdit(customer)}
-          className="w-10 h-10 flex items-center justify-center rounded-none hover:bg-primary/10 text-primary transition-all active:scale-95 group"
-          title="Edit Customer"
-        >
-          <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">edit_calendar</span>
-        </button>
-      )
+      render: (customer) => {
+        const isSelected = selectedForMerge.find(c => (c.Id || c.id) === (customer.Id || customer.id));
+        return (
+          <div className="flex items-center justify-end gap-1">
+            <button
+              onClick={() => toggleForMerge(customer)}
+              className={`w-10 h-10 flex items-center justify-center rounded-none transition-all active:scale-95 group ${isSelected ? 'bg-primary text-white' : 'hover:bg-primary/10 text-primary'}`}
+              title={isSelected ? "Remove from merge" : "Add for merging"}
+            >
+              <span className={`material-symbols-outlined text-[20px] ${isSelected ? '' : 'group-hover:scale-110'} transition-transform`}>
+                {isSelected ? 'check_circle' : 'merge_type'}
+              </span>
+            </button>
+            <button
+              onClick={() => handleEdit(customer)}
+              className="w-10 h-10 flex items-center justify-center rounded-none hover:bg-primary/10 text-primary transition-all active:scale-95 group"
+              title="Edit Customer"
+            >
+              <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">edit_calendar</span>
+            </button>
+          </div>
+        );
+      }
     }
   ];
 
@@ -163,7 +217,25 @@ export default function Customers() {
             title="Refresh list"
           >
             <span className={`material-symbols-outlined text-[20px] ${loading ? 'animate-spin' : ''}`}>refresh</span>
-          </button>
+          </button>          {selectedForMerge.length > 0 && (
+            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-4">
+              <button
+                onClick={() => setSelectedForMerge([])}
+                className="flex items-center gap-2 px-4 h-11 border border-outline-variant/30 text-on-surface-variant hover:text-error hover:border-error/30 transition-all rounded-none font-bold text-[10px] uppercase tracking-widest"
+                title="Clear all selections"
+              >
+                <span className="material-symbols-outlined text-base">backspace</span>
+                Clear
+              </button>
+              <button
+                onClick={() => setIsMergeModalOpen(true)}
+                className="flex items-center gap-2 px-6 h-11 border-2 border-primary text-primary hover:bg-primary/5 transition-all rounded-none font-bold text-xs uppercase tracking-widest whitespace-nowrap"
+              >
+                <span className="material-symbols-outlined text-base">merge_type</span>
+                Merge Profiles ({selectedForMerge.length})
+              </button>
+            </div>
+          )}
 
           <button
             onClick={handleCreate}
@@ -205,34 +277,39 @@ export default function Customers() {
               </div>
 
               <div className="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-                  {/* Basic Info */}
-                  <div className="col-span-2 border-b border-outline-variant/10 pb-2 mb-2">
-                    <h4 className="text-[11px] font-bold text-primary uppercase tracking-widest leading-none">Primary Identity</h4>
-                  </div>
-
+                <div className="grid grid-cols-2 gap-x-8 gap-y-6 pt-2">
                   <div className="col-span-1">
                     <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Customer Name</label>
                     <input
                       name="CustomerName"
                       type="text"
-                      required
                       disabled={saving}
+                      onFocus={() => setErrors({ ...errors, CustomerName: null })}
                       defaultValue={selectedCustomer.CustomerName || selectedCustomer.customerName}
-                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
+                      className={`w-full bg-surface-container-lowest border ${errors.CustomerName ? 'border-error' : 'border-outline-variant/20'} rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50`}
                     />
+                    {errors.CustomerName && (
+                      <p className="text-[10px] font-bold text-error uppercase tracking-widest mt-1.5 animate-in fade-in slide-in-from-top-1">{errors.CustomerName}</p>
+                    )}
                   </div>
 
                   <div className="col-span-1">
                     <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">Phone Number</label>
                     <input
                       name="PhoneNo"
-                      type="text"
-                      required
+                      type="tel"
                       disabled={saving}
+                      onFocus={() => setErrors({ ...errors, PhoneNo: null })}
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      }}
                       defaultValue={selectedCustomer.PhoneNo || selectedCustomer.phoneNo}
-                      className="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50"
+                      className={`w-full bg-surface-container-lowest border ${errors.PhoneNo ? 'border-error' : 'border-outline-variant/20'} rounded-none px-4 py-2.5 text-sm font-medium text-on-surface focus:border-primary transition-all outline-none disabled:opacity-50`}
+                      placeholder="Enter 10 digit number"
                     />
+                    {errors.PhoneNo && (
+                      <p className="text-[10px] font-bold text-error uppercase tracking-widest mt-1.5 animate-in fade-in slide-in-from-top-1">{errors.PhoneNo}</p>
+                    )}
                   </div>
 
                   <div className="col-span-2">
@@ -257,11 +334,6 @@ export default function Customers() {
                     />
                   </div>
 
-                  {/* Tax / Registry Info */}
-                  <div className="col-span-2 border-b border-outline-variant/10 pb-2 mt-4 mb-2">
-                    <h4 className="text-[11px] font-bold text-primary uppercase tracking-widest leading-none">Registry & Compliance</h4>
-                  </div>
-
                   <div className="col-span-1">
                     <label className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2 block">GSTIN Number</label>
                     <input
@@ -284,7 +356,7 @@ export default function Customers() {
                     />
                   </div>
 
-                  <div className="col-span-1 flex items-center gap-4 pt-4">
+                  <div className="col-span-1 flex items-center gap-4">
                     <label className="flex items-center gap-3 cursor-pointer group">
                       <input
                         name="IsActive"
@@ -298,6 +370,7 @@ export default function Customers() {
                   </div>
                 </div>
               </div>
+
               <div className="p-8 border-t border-outline-variant/10 bg-surface-container-low/30 flex gap-3">
                 <button
                   type="button"
@@ -327,24 +400,78 @@ export default function Customers() {
         </div>
       )}
 
-      {/* Floating Toast Notification - Top Center */}
-      {toast && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] bg-surface-container-lowest border border-primary/20 p-4 min-w-[340px] shadow-xl backdrop-blur-md animate-in slide-in-from-top-12 duration-500">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-none bg-primary/10 flex items-center justify-center">
-              <span className="material-symbols-outlined text-primary text-base">check_circle</span>
+      {/* Merge Contact Modal */}
+      {isMergeModalOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-surface-container-highest/60 backdrop-blur-sm" onClick={() => setIsMergeModalOpen(false)}></div>
+          <div className="bg-surface relative z-10 w-full max-w-xl rounded-none ambient-shadow border border-outline-variant/10 overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+              <div>
+                <h3 className="text-xl font-headline font-bold text-on-surface tracking-tight">Merge Customer Profiles</h3>
+                <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mt-1">Reviewing {selectedForMerge.length} candidates</p>
+              </div>
+              <button onClick={() => setIsMergeModalOpen(false)} className="text-on-surface-variant hover:text-error transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
             </div>
-            <div>
-              <p className="text-sm font-bold text-on-surface tracking-tight">{toast}</p>
+
+            <div className="p-8">
+              <div className="space-y-4 max-h-[40vh] overflow-y-auto custom-scrollbar pr-2">
+                {selectedForMerge.map((contact, index) => (
+                  <div key={contact.Id || contact.id} className="flex items-center justify-between p-4 bg-surface-container-lowest border border-outline-variant/10 shadow-sm relative group">
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 flex items-center justify-center bg-primary/10 text-primary font-bold text-xs">
+                        {index + 1}
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-on-surface leading-tight">{contact.CustomerName || contact.customerName}</p>
+                        <p className="text-[11px] text-on-surface-variant font-medium mt-0.5 tracking-tight">{contact.PhoneNo || contact.phoneNo}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => toggleForMerge(contact)}
+                      className="text-on-surface-variant hover:text-error opacity-0 group-hover:opacity-100 transition-all p-1"
+                    >
+                      <span className="material-symbols-outlined text-base">delete</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 p-4 bg-primary/5 border border-primary/10 flex items-start gap-3">
+                <span className="material-symbols-outlined text-primary text-sm mt-0.5">info</span>
+                <p className="text-[11px] text-on-surface-variant leading-relaxed">
+                  Merging these profiles will combine order history and activity logs into a single master identity. This action <span className="text-primary font-bold">cannot be undone</span>.
+                </p>
+              </div>
             </div>
-            <button onClick={() => setToast(null)} className="ml-auto text-on-surface-variant hover:text-error transition-colors">
-              <span className="material-symbols-outlined text-sm">close</span>
-            </button>
+
+            <div className="p-8 border-t border-outline-variant/10 bg-surface-container-low/30 flex gap-3">
+              <button
+                onClick={() => setIsMergeModalOpen(false)}
+                className="flex-1 px-6 py-3 border border-outline-variant/20 text-on-surface rounded-none font-bold text-xs uppercase tracking-widest hover:bg-surface-container-low transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleMergeSubmit}
+                disabled={loading || selectedForMerge.length < 2}
+                className="flex-1 px-6 py-3 btn-gradient rounded-none font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/10 flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {loading ? (
+                  <>
+                    <span className="material-symbols-outlined text-base animate-spin">sync</span>
+                    Processing...
+                  </>
+                ) : (
+                  'Confirm & Merge'
+                )}
+              </button>
+            </div>
           </div>
-          {/* Progress timer bar - 10s */}
-          <div className="absolute bottom-0 left-0 h-0.5 bg-primary/20 w-full animate-out fade-out duration-[10000ms] origin-left scale-x-0 transition-transform"></div>
         </div>
       )}
+
     </section>
   );
 }
