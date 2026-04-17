@@ -1,12 +1,5 @@
 <Solution>
 
-  <Folder Name="/Customer/">
-    <Project Path="MintCart.Api.Customer/MintCart.Api.Customer.API/MintCart.Api.Customer.API.csproj" />
-    <Project Path="MintCart.Api.Customer/MintCart.Api.Customer.Business/MintCart.Api.Customer.Business.csproj" Id="a7e3012d-3617-47d6-93bb-a620b96e6fdd" />
-    <Project Path="MintCart.Api.Customer/MintCart.Api.Customer.Data/MintCart.Api.Customer.Data.csproj" />
-    <Project Path="MintCart.Api.Customer/MintCart.Api.Customer.Domain/MintCart.Api.Customer.Domain.csproj" />
-  </Folder>
-
   <Folder Name="/BuildingBlocks/">
     <Project Path="BuildingBlocks/HelperService/MintCart.Caching/MintCart.Caching.csproj" />
     <Project Path="BuildingBlocks/HelperService/MintCart.Common/MintCart.Common.csproj" />
@@ -21,6 +14,10 @@
     <Project Path="BuildingBlocks/HelperService/MintCart.Validator/MintCart.Validator.csproj" />
     <Project Path="BuildingBlocks/Infra/Nvg.Infra/Nvg.Infra.csproj" />
   </Folder>
+  <Project Path="MintCart.Api.Web/MintCart.Api.Web.csproj" />
+  <Project Path="MintCart.Api.Business/MintCart.Api.Business.csproj" />
+  <Project Path="MintCart.Api.Data/MintCart.Api.Data.csproj" />
+  <Project Path="MintCart.Api.Domain/MintCart.Api.Domain.csproj" />
   <Project Path="MintCart.Api.Core/MintCart.Api.Core.csproj" />
   <Project Path="MintCart.Api.Identity/MintCart.Api.Identity.csproj" />
 </Solution>

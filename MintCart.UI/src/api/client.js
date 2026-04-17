@@ -3,7 +3,13 @@
  * Automatically handles authentication headers by extracting the OIDC token from storage.
  */
 
-const API_BASE_URL = 'https://localhost:7200';
+export const API_URLS = {
+  customer:  'https://localhost:7200',
+  dashboard: 'https://localhost:7200',
+};
+
+// Default base URL (Customer API kept for backwards compatibility)
+const API_BASE_URL = API_URLS.customer;
 
 import { startLoading, stopLoading } from './loadingService';
 
