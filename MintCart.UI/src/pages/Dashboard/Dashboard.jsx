@@ -78,7 +78,7 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <SalesTrend />
+          <SalesTrend trendData={data.salesTrend} />
           <div className="space-y-6">
             <CompanyPayables data={data.payables} />
             <QuickOperations />

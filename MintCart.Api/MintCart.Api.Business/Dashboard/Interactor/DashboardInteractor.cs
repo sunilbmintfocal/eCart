@@ -1,12 +1,17 @@
 using MintCart.Api.Dashboard.Business.Interface;
 using MintCart.Api.Dashboard.Business.Model;
+using MintCart.Api.Domain.Sale.Interfaces;
+using System.Linq;
 
 namespace MintCart.Api.Dashboard.Business.Interactor
 {
     public class DashboardInteractor : IDashboardInteractor
     {
-        public DashboardInteractor()
+        private readonly ISaleRepository _saleRepository;
+
+        public DashboardInteractor(ISaleRepository saleRepository)
         {
+            _saleRepository = saleRepository;
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -14,31 +19,52 @@ namespace MintCart.Api.Dashboard.Business.Interactor
         // ─────────────────────────────────────────────────────────────────────
         public async Task<DashboardMetricsModel> GetDashboardMetricsAsync()
         {
-            var kpisTask       = GetKpisAsync();
-            var payablesTask   = GetPayablesAsync();
+            // Database operations must be sequential because DbContext is not thread-safe
+            var kpis = await GetKpisAsync();
+            var salesTrend = await GetSalesTrendAsync();
+
+            var payablesTask = GetPayablesAsync();
             var activitiesTask = GetRecentActivitiesAsync();
 
-            await Task.WhenAll(kpisTask, payablesTask, activitiesTask);
+            await Task.WhenAll(payablesTask, activitiesTask);
 
             return new DashboardMetricsModel
             {
-                Kpis       = await kpisTask,
-                Payables   = await payablesTask,
-                Activities = await activitiesTask
+                Kpis = kpis,
+                Payables = await payablesTask,
+                Activities = await activitiesTask,
+                SalesTrend = salesTrend
             };
         }
 
         // ─────────────────────────────────────────────────────────────────────
         // KPIs
         // ─────────────────────────────────────────────────────────────────────
-        public Task<DashboardKpiModel> GetKpisAsync()
+        public async Task<DashboardKpiModel> GetKpisAsync()
         {
+            var todaysSales = await _saleRepository.GetTodaysSalesAsync();
+            var totalSalesValue = todaysSales.Sum(s => s.GrandTotalAmount ?? 0);
+
+            var yesterdaysSales = await _saleRepository.GetYesterdaysSalesAsync();
+            var yesterdayTotalValue = yesterdaysSales.Sum(s => s.GrandTotalAmount ?? 0);
+
+            string trendString = "+0% from yesterday";
+            if (yesterdayTotalValue > 0)
+            {
+                var percentageChange = ((totalSalesValue - yesterdayTotalValue) / yesterdayTotalValue) * 100;
+                trendString = $"{(percentageChange >= 0 ? "+" : "")}{percentageChange:F2}% from yesterday";
+            }
+            else if (totalSalesValue > 0)
+            {
+                trendString = "+100% from yesterday";
+            }
+
             var result = new DashboardKpiModel
             {
                 TotalSales = new DashboardKpiItem
                 {
-                    Value = FormatCurrency(102482.00m),
-                    Trend = "+11.99% from yesterday"
+                    Value = FormatCurrency(totalSalesValue),
+                    Trend = trendString
                 },
                 LowStock = new DashboardKpiLowStockItem
                 {
@@ -61,7 +87,7 @@ namespace MintCart.Api.Dashboard.Business.Interactor
                 }
             };
 
-            return Task.FromResult(result);
+            return result;
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -164,5 +190,34 @@ namespace MintCart.Api.Dashboard.Business.Interactor
             "cancelled"  => "error",
             _            => "secondary"
         };
+
+        public async Task<DashboardSalesTrendModel> GetSalesTrendAsync()
+        {
+            var result = new DashboardSalesTrendModel();
+            var today = DateTime.Today;
+            var startDate = today.AddDays(-4);
+
+            // Fetch actual sales from the repository for the 5-day window
+            var sales = await _saleRepository.GetSalesByDateRangeAsync(startDate, today.AddDays(1).AddTicks(-1));
+
+            // Generate last 5 days
+            for (int i = 4; i >= 0; i--)
+            {
+                var date = today.AddDays(-i);
+                
+                // Sum grand totals for the specific date
+                var dayTotal = sales
+                    .Where(s => s.SaleDate.HasValue && s.SaleDate.Value.Date == date.Date)
+                    .Sum(s => s.GrandTotalAmount ?? 0);
+
+                result.Points.Add(new DashboardSalesTrendPoint
+                {
+                    Label = date.ToString("dd MMM"),
+                    Value = dayTotal
+                });
+            }
+
+            return result;
+        }
     }
 }

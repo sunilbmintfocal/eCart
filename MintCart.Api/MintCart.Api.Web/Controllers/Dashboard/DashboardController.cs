@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MintCart.Api.Dashboard.API.Controllers
 {
+    [Authorize]
     [Route("api/dashboard")]
     public class DashboardController : BaseController<DashboardController>
     {

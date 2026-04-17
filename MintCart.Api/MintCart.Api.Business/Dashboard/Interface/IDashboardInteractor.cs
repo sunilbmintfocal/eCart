@@ -8,5 +8,6 @@ namespace MintCart.Api.Dashboard.Business.Interface
         Task<DashboardKpiModel> GetKpisAsync();
         Task<DashboardPayablesModel> GetPayablesAsync();
         Task<List<DashboardActivityModel>> GetRecentActivitiesAsync(int topN = 10);
+        Task<DashboardSalesTrendModel> GetSalesTrendAsync();
     }
 }

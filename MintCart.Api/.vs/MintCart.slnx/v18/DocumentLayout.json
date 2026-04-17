@@ -5,18 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{38271B30-0131-6490-A220-0A81D65D0623}|MintCart.Api.Business\\MintCart.Api.Business.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.business\\dashboard\\interactor\\dashboardinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38271B30-0131-6490-A220-0A81D65D0623}|MintCart.Api.Business\\MintCart.Api.Business.csproj|solutionrelative:mintcart.api.business\\dashboard\\interactor\\dashboardinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38271B30-0131-6490-A220-0A81D65D0623}|MintCart.Api.Business\\MintCart.Api.Business.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.business\\dashboard\\interface\\idashboardinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38271B30-0131-6490-A220-0A81D65D0623}|MintCart.Api.Business\\MintCart.Api.Business.csproj|solutionrelative:mintcart.api.business\\dashboard\\interface\\idashboardinteractor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1069DF8F-79B3-0DDE-2FA3-AC0A1719DD01}|MintCart.Api.Data\\MintCart.Api.Data.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.data\\customer\\repository\\customer\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1069DF8F-79B3-0DDE-2FA3-AC0A1719DD01}|MintCart.Api.Data\\MintCart.Api.Data.csproj|solutionrelative:mintcart.api.data\\customer\\repository\\customer\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13A7394B-240C-FC06-8B77-B178A48B828F}|MintCart.Api.Domain\\MintCart.Api.Domain.csproj|d:\\mintfocal\\projects\\sourcecode\\mintcart\\mintcart.api\\mintcart.api.domain\\customer\\interfaces\\customer\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13A7394B-240C-FC06-8B77-B178A48B828F}|MintCart.Api.Domain\\MintCart.Api.Domain.csproj|solutionrelative:mintcart.api.domain\\customer\\interfaces\\customer\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,47 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CustomerRepository.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Data\\Customer\\Repository\\Customer\\CustomerRepository.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Data\\Customer\\Repository\\Customer\\CustomerRepository.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Data\\Customer\\Repository\\Customer\\CustomerRepository.cs",
-              "RelativeToolTip": "MintCart.Api.Data\\Customer\\Repository\\Customer\\CustomerRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T14:01:41.997Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ICustomerRepository.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Domain\\Customer\\Interfaces\\Customer\\ICustomerRepository.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Domain\\Customer\\Interfaces\\Customer\\ICustomerRepository.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Domain\\Customer\\Interfaces\\Customer\\ICustomerRepository.cs",
-              "RelativeToolTip": "MintCart.Api.Domain\\Customer\\Interfaces\\Customer\\ICustomerRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T14:01:22.524Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IDashboardInteractor.cs",
-              "DocumentMoniker": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Business\\Dashboard\\Interface\\IDashboardInteractor.cs",
-              "RelativeDocumentMoniker": "MintCart.Api.Business\\Dashboard\\Interface\\IDashboardInteractor.cs",
-              "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Business\\Dashboard\\Interface\\IDashboardInteractor.cs",
-              "RelativeToolTip": "MintCart.Api.Business\\Dashboard\\Interface\\IDashboardInteractor.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T13:58:25.281Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -75,9 +24,9 @@
               "RelativeDocumentMoniker": "MintCart.Api.Business\\Dashboard\\Interactor\\DashboardInteractor.cs",
               "ToolTip": "D:\\MintFocal\\Projects\\SourceCode\\MintCart\\MintCart.Api\\MintCart.Api.Business\\Dashboard\\Interactor\\DashboardInteractor.cs",
               "RelativeToolTip": "MintCart.Api.Business\\Dashboard\\Interactor\\DashboardInteractor.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAmwJ4AAABeAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowCgAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T13:58:03.103Z",
+              "WhenOpened": "2026-04-17T17:07:48.159Z",
               "EditorCaption": ""
             }
           ]

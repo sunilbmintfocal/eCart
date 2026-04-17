@@ -7,6 +7,9 @@ using MintCart.Api.Customer.Data.Repository.Customer;
 using MintCart.Api.Customer.Data;
 using MintCart.Api.Dashboard.Business.Interface;
 using MintCart.Api.Dashboard.Business.Interactor;
+using MintCart.Api.Data.Sale;
+using MintCart.Api.Domain.Sale.Interfaces;
+using MintCart.Api.Data.Sale.Repository;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +32,12 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 // Register Dashboard Module Specific Services
 builder.Services.AddScoped<IDashboardInteractor, DashboardInteractor>();
+
+// Register Sale Module Specific Services
+builder.Services.AddDbContext<SaleDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString")));
+
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 var app = builder.Build();
 

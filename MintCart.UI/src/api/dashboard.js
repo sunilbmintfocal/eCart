@@ -11,10 +11,22 @@ export const getDashboardMetrics = async () => {
     const response = await apiClient.get(`${BASE}/metrics`);
     // The backend wraps responses — unwrap if needed
     const data = response?.data ?? response?.Data ?? response;
+
+    const rawKpis = data?.kpis ?? data?.Kpis;
+    const rawPayables = data?.payables ?? data?.Payables;
+    const rawActivities = data?.activities ?? data?.Activities ?? [];
+    const rawSalesTrend = data?.salesTrend ?? data?.SalesTrend;
+
     return {
-      kpis:       mapKpis(data.kpis),
-      payables:   data.payables,
-      activities: data.activities ?? [],
+      kpis:       mapKpis(rawKpis),
+      payables:   rawPayables,
+      activities: rawActivities,
+      salesTrend: {
+        points: (rawSalesTrend?.points ?? rawSalesTrend?.Points ?? []).map(p => ({
+          label: p.label ?? p.Label ?? p.day ?? p.Day,
+          value: p.value ?? p.Value
+        }))
+      },
     };
   } catch (err) {
     console.warn('[Dashboard] API unavailable, falling back to mock data.', err);
@@ -27,7 +39,8 @@ export const getDashboardMetrics = async () => {
  */
 export const getDashboardKpis = async () => {
   const response = await apiClient.get(`${BASE}/kpis`);
-  return mapKpis(response?.data ?? response?.Data ?? response);
+  const data = response?.data ?? response?.Data ?? response;
+  return mapKpis(data);
 };
 
 /**
@@ -35,7 +48,8 @@ export const getDashboardKpis = async () => {
  */
 export const getDashboardPayables = async () => {
   const response = await apiClient.get(`${BASE}/payables`);
-  return response?.data ?? response?.Data ?? response;
+  const data = response?.data ?? response?.Data ?? response;
+  return data;
 };
 
 /**
@@ -44,7 +58,8 @@ export const getDashboardPayables = async () => {
  */
 export const getDashboardActivities = async (top = 10) => {
   const response = await apiClient.get(`${BASE}/activities?top=${top}`);
-  return response?.data ?? response?.Data ?? response;
+  const data = response?.data ?? response?.Data ?? response;
+  return data;
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -53,24 +68,34 @@ export const getDashboardActivities = async (top = 10) => {
  * Normalises the KPI object from the API into the shape the components expect.
  */
 const mapKpis = (kpis) => {
-  if (!kpis) return {};
+  if (!kpis) return {
+    totalSales: { value: '₹0.00', trend: '' },
+    lowStock: { value: '0 Items', alerts: [] },
+    complaints: { value: '0', trend: '' },
+    balance: { value: '₹0.00', trend: '' },
+  };
+
+  const getKpi = (obj) => ({
+    value: obj?.value ?? obj?.Value ?? '',
+    trend: obj?.trend ?? obj?.Trend ?? '',
+  });
+
+  const rawTotalSales = kpis.totalSales ?? kpis.TotalSales;
+  const rawLowStock = kpis.lowStock ?? kpis.LowStock;
+  const rawComplaints = kpis.complaints ?? kpis.Complaints;
+  const rawBalance = kpis.balance ?? kpis.Balance;
+
   return {
-    totalSales: {
-      value: kpis.totalSales?.value ?? '₹0.00',
-      trend: kpis.totalSales?.trend ?? '',
-    },
+    totalSales: getKpi(rawTotalSales),
     lowStock: {
-      value:  kpis.lowStock?.value ?? '00 Items',
-      alerts: kpis.lowStock?.alerts?.map(a => ({ name: a.name, count: a.count })) ?? [],
+      value:  rawLowStock?.value ?? rawLowStock?.Value ?? '0 Items',
+      alerts: (rawLowStock?.alerts ?? rawLowStock?.Alerts ?? []).map(a => ({ 
+        name: a.name ?? a.Name, 
+        count: a.count ?? a.Count 
+      })),
     },
-    complaints: {
-      value: kpis.complaints?.value ?? '00',
-      trend: kpis.complaints?.trend ?? '',
-    },
-    balance: {
-      value: kpis.balance?.value ?? '₹0.00',
-      trend: kpis.balance?.trend ?? '',
-    },
+    complaints: getKpi(rawComplaints),
+    balance: getKpi(rawBalance),
   };
 };
 
@@ -106,4 +131,13 @@ const getMockDashboardMetrics = () => ({
       time: 'Yesterday, 04:45 PM', status: 'In Transit', statusVariant: 'secondary',
     },
   ],
+  salesTrend: {
+    points: [
+      { label: '13 Apr', value: 12000 },
+      { label: '14 Apr', value: 18000 },
+      { label: '15 Apr', value: 15000 },
+      { label: '16 Apr', value: 22000 },
+      { label: '17 Apr', value: 35000 },
+    ]
+  }
 });

@@ -59,5 +59,17 @@ namespace MintCart.Api.Dashboard.Business.Model
         public DashboardKpiModel Kpis { get; set; } = new();
         public DashboardPayablesModel Payables { get; set; } = new();
         public List<DashboardActivityModel> Activities { get; set; } = new();
+        public DashboardSalesTrendModel SalesTrend { get; set; } = new();
+    }
+
+    public class DashboardSalesTrendModel
+    {
+        public List<DashboardSalesTrendPoint> Points { get; set; } = new();
+    }
+
+    public class DashboardSalesTrendPoint
+    {
+        public string Label { get; set; } = string.Empty;
+        public decimal Value { get; set; }
     }
 }
