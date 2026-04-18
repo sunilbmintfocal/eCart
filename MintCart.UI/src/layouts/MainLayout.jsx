@@ -22,20 +22,36 @@ export default function MainLayout() {
 
       {/* Global Toast Notification */}
       {toast && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] bg-[#F0FDF4] border border-primary/15 p-4 min-w-[340px] shadow-[0_8px_30px_rgb(16,185,129,0.1)] backdrop-blur-sm animate-in slide-in-from-top-12 duration-500">
+        <div 
+          className={`fixed top-24 left-1/2 -translate-x-1/2 z-[150] p-4 min-w-[340px] shadow-xl backdrop-blur-md animate-in slide-in-from-top-12 duration-500 border-l-4 ${
+            toast.type === 'error' 
+              ? 'bg-error-container text-on-error-container border-error' 
+              : toast.type === 'warning'
+                ? 'bg-warning-container text-on-warning-container border-warning'
+                : 'bg-primary-container text-on-primary-container border-primary'
+          }`}
+        >
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-none bg-primary/10 flex items-center justify-center">
-              <span className="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+              toast.type === 'error' ? 'bg-error/10' : 'bg-primary/10'
+            }`}>
+              <span className={`material-symbols-outlined text-[20px] ${
+                toast.type === 'error' ? 'text-error' : 'text-primary'
+              }`}>
+                {toast.type === 'error' ? 'report' : toast.type === 'warning' ? 'warning' : 'check_circle'}
+              </span>
             </div>
-            <div>
-              <p className="text-sm font-bold text-[#064E3B] tracking-tight">{toast}</p>
+            <div className="flex-1">
+              <p className="text-sm font-bold tracking-tight">{toast.message}</p>
             </div>
-            <button onClick={() => setToast(null)} className="ml-auto text-primary/40 hover:text-primary transition-colors p-1">
+            <button onClick={() => setToast(null)} className="opacity-40 hover:opacity-100 transition-opacity p-1">
               <span className="material-symbols-outlined text-sm">close</span>
             </button>
           </div>
-          {/* Progress timer bar - 10s */}
-          <div className="absolute bottom-0 left-0 h-0.5 bg-primary/20 w-full animate-out fade-out duration-[10000ms] origin-left scale-x-0 transition-transform"></div>
+          {/* Progress timer bar */}
+          <div className={`absolute bottom-0 left-0 h-1 w-full origin-left animate-toast-progress ${
+            toast.type === 'error' ? 'bg-error/30' : 'bg-primary/30'
+          }`}></div>
         </div>
       )}
     </div>

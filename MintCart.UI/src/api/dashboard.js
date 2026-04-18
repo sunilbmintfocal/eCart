@@ -19,7 +19,7 @@ export const getDashboardMetrics = async () => {
 
     return {
       kpis:       mapKpis(rawKpis),
-      payables:   rawPayables,
+      payables:   rawPayables || getEmptyPayables(),
       activities: rawActivities,
       salesTrend: {
         points: (rawSalesTrend?.points ?? rawSalesTrend?.Points ?? []).map(p => ({
@@ -29,8 +29,8 @@ export const getDashboardMetrics = async () => {
       },
     };
   } catch (err) {
-    console.warn('[Dashboard] API unavailable, falling back to mock data.', err);
-    return getMockDashboardMetrics();
+    console.error('[Dashboard] API Error:', err);
+    return getEmptyDashboardMetrics();
   }
 };
 
@@ -38,18 +38,26 @@ export const getDashboardMetrics = async () => {
  * Fetches only the KPI cards.
  */
 export const getDashboardKpis = async () => {
-  const response = await apiClient.get(`${BASE}/kpis`);
-  const data = response?.data ?? response?.Data ?? response;
-  return mapKpis(data);
+  try {
+    const response = await apiClient.get(`${BASE}/kpis`);
+    const data = response?.data ?? response?.Data ?? response;
+    return mapKpis(data);
+  } catch (err) {
+    return mapKpis(null);
+  }
 };
 
 /**
  * Fetches only the payables summary.
  */
 export const getDashboardPayables = async () => {
-  const response = await apiClient.get(`${BASE}/payables`);
-  const data = response?.data ?? response?.Data ?? response;
-  return data;
+  try {
+    const response = await apiClient.get(`${BASE}/payables`);
+    const data = response?.data ?? response?.Data ?? response;
+    return data || getEmptyPayables();
+  } catch (err) {
+    return getEmptyPayables();
+  }
 };
 
 /**
@@ -57,9 +65,13 @@ export const getDashboardPayables = async () => {
  * @param {number} top - Max number of records.
  */
 export const getDashboardActivities = async (top = 10) => {
-  const response = await apiClient.get(`${BASE}/activities?top=${top}`);
-  const data = response?.data ?? response?.Data ?? response;
-  return data;
+  try {
+    const response = await apiClient.get(`${BASE}/activities?top=${top}`);
+    const data = response?.data ?? response?.Data ?? response;
+    return data || [];
+  } catch (err) {
+    return [];
+  }
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -68,16 +80,18 @@ export const getDashboardActivities = async (top = 10) => {
  * Normalises the KPI object from the API into the shape the components expect.
  */
 const mapKpis = (kpis) => {
+  const emptyKpi = { value: '-', trend: '-' };
+  
   if (!kpis) return {
-    totalSales: { value: '₹0.00', trend: '' },
-    lowStock: { value: '0 Items', alerts: [] },
-    complaints: { value: '0', trend: '' },
-    balance: { value: '₹0.00', trend: '' },
+    totalSales: emptyKpi,
+    lowStock: { value: '-', alerts: [] },
+    complaints: emptyKpi,
+    balance: emptyKpi,
   };
 
   const getKpi = (obj) => ({
-    value: obj?.value ?? obj?.Value ?? '',
-    trend: obj?.trend ?? obj?.Trend ?? '',
+    value: obj?.value ?? obj?.Value ?? '-',
+    trend: obj?.trend ?? obj?.Trend ?? '-',
   });
 
   const rawTotalSales = kpis.totalSales ?? kpis.TotalSales;
@@ -88,7 +102,7 @@ const mapKpis = (kpis) => {
   return {
     totalSales: getKpi(rawTotalSales),
     lowStock: {
-      value:  rawLowStock?.value ?? rawLowStock?.Value ?? '0 Items',
+      value:  rawLowStock?.value ?? rawLowStock?.Value ?? '-',
       alerts: (rawLowStock?.alerts ?? rawLowStock?.Alerts ?? []).map(a => ({ 
         name: a.name ?? a.Name, 
         count: a.count ?? a.Count 
@@ -99,45 +113,16 @@ const mapKpis = (kpis) => {
   };
 };
 
-// ─── Mock Fallback ────────────────────────────────────────────────────────────
-
-const getMockDashboardMetrics = () => ({
-  kpis: {
-    totalSales:  { value: '₹1,02,482.00', trend: '+14.2% from yesterday' },
-    lowStock:    { value: '08 Items', alerts: [{ name: 'Pro Laptops', count: 2 }, { name: 'Smartphones', count: 6 }] },
-    complaints:  { value: '05', trend: '3 pending immediate action' },
-    balance:     { value: '₹3,98,220.50', trend: 'Pending collections' },
-  },
-  payables: {
-    total: '₹1,50,82,450',
-    today: '₹12,450',
-    week:  '₹82,000',
-    month: '₹2,45,000',
-  },
-  activities: [
-    {
-      id: '#4402', name: 'James Wilson', type: 'Sale: 2x Wireless Buds',
-      icon: 'shopping_bag', value: '₹32,998.00',
-      time: 'Today, 02:14 PM', status: 'Completed', statusVariant: 'primary',
-    },
-    {
-      id: '#8812', name: 'Elena Rodriguez', type: 'Complaint: Screen Flicker',
-      icon: 'assignment_late', value: '--',
-      time: 'Today, 11:30 AM', status: 'Pending', statusVariant: 'error',
-    },
-    {
-      id: '#SUP-10', name: 'TechDistro Inc.', type: 'Restock: 50x Pro Laptops',
-      icon: 'local_shipping', value: '₹37,45,000.00',
-      time: 'Yesterday, 04:45 PM', status: 'In Transit', statusVariant: 'secondary',
-    },
-  ],
-  salesTrend: {
-    points: [
-      { label: '13 Apr', value: 12000 },
-      { label: '14 Apr', value: 18000 },
-      { label: '15 Apr', value: 15000 },
-      { label: '16 Apr', value: 22000 },
-      { label: '17 Apr', value: 35000 },
-    ]
-  }
+const getEmptyPayables = () => ({
+  total: '-', today: '-', week: '-', month: '-'
 });
+
+// ─── Empty/Error Fallback ──────────────────────────────────────────────────────
+
+const getEmptyDashboardMetrics = () => ({
+  kpis: mapKpis(null),
+  payables: getEmptyPayables(),
+  activities: [],
+  salesTrend: { points: [] }
+});
+

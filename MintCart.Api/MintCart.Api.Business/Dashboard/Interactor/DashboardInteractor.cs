@@ -1,22 +1,32 @@
 using MintCart.Api.Dashboard.Business.Interface;
 using MintCart.Api.Dashboard.Business.Model;
 using MintCart.Api.Domain.Sale.Interfaces;
+using MintCart.Common;
 using System.Linq;
 
 namespace MintCart.Api.Dashboard.Business.Interactor
 {
+    /// <summary>
+    /// Handles the business logic for the Dashboard.
+    /// </summary>
     public class DashboardInteractor : IDashboardInteractor
     {
         private readonly ISaleRepository _saleRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DashboardInteractor"/> class.
+        /// </summary>
+        /// <param name="saleRepository">The sale repository.</param>
         public DashboardInteractor(ISaleRepository saleRepository)
         {
             _saleRepository = saleRepository;
         }
 
-        // ─────────────────────────────────────────────────────────────────────
-        // Aggregated single-call endpoint
-        // ─────────────────────────────────────────────────────────────────────
+        #region Public Methods
+        /// <summary>
+        /// Retrieves all aggregated dashboard metrics in a single call.
+        /// </summary>
+        /// <returns>A model containing KPIs, payables, activities, and sales trends.</returns>
         public async Task<DashboardMetricsModel> GetDashboardMetricsAsync()
         {
             // Database operations must be sequential because DbContext is not thread-safe
@@ -37,9 +47,10 @@ namespace MintCart.Api.Dashboard.Business.Interactor
             };
         }
 
-        // ─────────────────────────────────────────────────────────────────────
-        // KPIs
-        // ─────────────────────────────────────────────────────────────────────
+        /// <summary>
+        /// Calculates and retrieves Key Performance Indicators (KPIs) for the dashboard.
+        /// </summary>
+        /// <returns>A model containing various KPI items.</returns>
         public async Task<DashboardKpiModel> GetKpisAsync()
         {
             var todaysSales = await _saleRepository.GetTodaysSalesAsync();
@@ -63,12 +74,12 @@ namespace MintCart.Api.Dashboard.Business.Interactor
             {
                 TotalSales = new DashboardKpiItem
                 {
-                    Value = FormatCurrency(totalSalesValue),
+                    Value = CommonHelper.FormatCurrency(totalSalesValue),
                     Trend = trendString
                 },
                 LowStock = new DashboardKpiLowStockItem
                 {
-                    Value  = "08 Items",
+                    Value = "08 Items",
                     Alerts = new List<LowStockAlertModel>
                     {
                         new() { Name = "Pro Laptops", Count = 2 },
@@ -82,7 +93,7 @@ namespace MintCart.Api.Dashboard.Business.Interactor
                 },
                 Balance = new DashboardKpiItem
                 {
-                    Value = FormatCurrency(398220.50m),
+                    Value = CommonHelper.FormatCurrency(398220.50m),
                     Trend = "Pending collections"
                 }
             };
@@ -90,107 +101,74 @@ namespace MintCart.Api.Dashboard.Business.Interactor
             return result;
         }
 
-        // ─────────────────────────────────────────────────────────────────────
-        // Payables
-        // ─────────────────────────────────────────────────────────────────────
+        /// <summary>
+        /// Retrieves the payable metrics for the dashboard.
+        /// </summary>
+        /// <returns>A model containing total, daily, weekly, and monthly payables.</returns>
         public Task<DashboardPayablesModel> GetPayablesAsync()
         {
             var result = new DashboardPayablesModel
             {
-                Total = FormatCurrency(15082450m),
-                Today = FormatCurrency(12450m),
-                Week  = FormatCurrency(82000m),
-                Month = FormatCurrency(245000m)
+                Total = CommonHelper.FormatCurrency(15082450m),
+                Today = CommonHelper.FormatCurrency(12450m),
+                Week = CommonHelper.FormatCurrency(82000m),
+                Month = CommonHelper.FormatCurrency(245000m)
             };
 
             return Task.FromResult(result);
         }
 
-        // ─────────────────────────────────────────────────────────────────────
-        // Recent Activities
-        // ─────────────────────────────────────────────────────────────────────
+        /// <summary>
+        /// Retrieves a list of recent activities.
+        /// </summary>
+        /// <param name="topN">The number of activities to retrieve.</param>
+        /// <returns>A list of dashboard activity models.</returns>
         public Task<List<DashboardActivityModel>> GetRecentActivitiesAsync(int topN = 10)
         {
             var result = new List<DashboardActivityModel>
             {
                 new()
                 {
-                    Id            = "#4402",
-                    Name          = "James Wilson",
-                    Type          = "Sale: 2x Wireless Buds",
-                    Icon          = ResolveIcon("Sale"),
-                    Value         = FormatCurrency(32998.00m),
-                    Time          = FormatActivityTime(DateTime.Now.AddHours(-2)),
-                    Status        = "Completed",
-                    StatusVariant = ResolveStatusVariant("Completed")
+                    Id = "#4402",
+                    Name = "James Wilson",
+                    Type = "Sale: 2x Wireless Buds",
+                    Icon = CommonHelper.ResolveIcon("Sale"),
+                    Value = CommonHelper.FormatCurrency(32998.00m),
+                    Time = CommonHelper.FormatActivityTime(DateTime.Now.AddHours(-2)),
+                    Status = "Completed",
+                    StatusVariant = CommonHelper.ResolveStatusVariant("Completed")
                 },
                 new()
                 {
-                    Id            = "#8812",
-                    Name          = "Elena Rodriguez",
-                    Type          = "Complaint: Screen Flicker",
-                    Icon          = ResolveIcon("Complaint"),
-                    Value         = "--",
-                    Time          = FormatActivityTime(DateTime.Now.AddHours(-5)),
-                    Status        = "Pending",
-                    StatusVariant = ResolveStatusVariant("Pending")
+                    Id = "#8812",
+                    Name = "Elena Rodriguez",
+                    Type = "Complaint: Screen Flicker",
+                    Icon = CommonHelper.ResolveIcon("Complaint"),
+                    Value = "--",
+                    Time = CommonHelper.FormatActivityTime(DateTime.Now.AddHours(-5)),
+                    Status = "Pending",
+                    StatusVariant = CommonHelper.ResolveStatusVariant("Pending")
                 },
                 new()
                 {
-                    Id            = "#SUP-10",
-                    Name          = "TechDistro Inc.",
-                    Type          = "Purchase: 50x Pro Laptops",
-                    Icon          = ResolveIcon("Purchase"),
-                    Value         = FormatCurrency(3745000.00m),
-                    Time          = FormatActivityTime(DateTime.Now.AddDays(-1)),
-                    Status        = "In Transit",
-                    StatusVariant = ResolveStatusVariant("In Transit")
+                    Id = "#SUP-10",
+                    Name = "TechDistro Inc.",
+                    Type = "Purchase: 50x Pro Laptops",
+                    Icon = CommonHelper.ResolveIcon("Purchase"),
+                    Value = CommonHelper.FormatCurrency(3745000.00m),
+                    Time = CommonHelper.FormatActivityTime(DateTime.Now.AddDays(-1)),
+                    Status = "In Transit",
+                    StatusVariant = CommonHelper.ResolveStatusVariant("In Transit")
                 }
             };
-            
+
             return Task.FromResult(result);
         }
 
-        // ─────────────────────────────────────────────────────────────────────
-        // Private helpers
-        // ─────────────────────────────────────────────────────────────────────
-        private static string FormatCurrency(decimal amount)
-        {
-            // Indian number format with ₹ symbol
-            return $"₹{amount:##,##,##0.00}";
-        }
-
-        private static string FormatActivityTime(DateTime date)
-        {
-            var today     = DateTime.Today;
-            var yesterday = today.AddDays(-1);
-
-            if (date.Date == today)
-                return $"Today, {date:hh:mm tt}";
-
-            if (date.Date == yesterday)
-                return $"Yesterday, {date:hh:mm tt}";
-
-            return date.ToString("dd MMM yyyy, hh:mm tt");
-        }
-
-        private static string ResolveIcon(string? activityType) => activityType switch
-        {
-            "Sale"      => "shopping_bag",
-            "Complaint" => "assignment_late",
-            "Purchase"  => "local_shipping",
-            _           => "receipt_long"
-        };
-
-        private static string ResolveStatusVariant(string? status) => status?.ToLower() switch
-        {
-            "completed"  => "primary",
-            "pending"    => "error",
-            "in transit" => "secondary",
-            "cancelled"  => "error",
-            _            => "secondary"
-        };
-
+        /// <summary>
+        /// Retrieves the sales trend data for the last 5 days.
+        /// </summary>
+        /// <returns>A model containing a list of data points representing the sales trend.</returns>
         public async Task<DashboardSalesTrendModel> GetSalesTrendAsync()
         {
             var result = new DashboardSalesTrendModel();
@@ -204,7 +182,7 @@ namespace MintCart.Api.Dashboard.Business.Interactor
             for (int i = 4; i >= 0; i--)
             {
                 var date = today.AddDays(-i);
-                
+
                 // Sum grand totals for the specific date
                 var dayTotal = sales
                     .Where(s => s.SaleDate.HasValue && s.SaleDate.Value.Date == date.Date)
@@ -219,5 +197,6 @@ namespace MintCart.Api.Dashboard.Business.Interactor
 
             return result;
         }
+        #endregion
     }
 }

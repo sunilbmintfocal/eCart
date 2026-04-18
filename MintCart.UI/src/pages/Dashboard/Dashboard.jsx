@@ -9,11 +9,25 @@ import RecentActivity from "../../components/Dashboard/RecentActivity";
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchData = async (isRefreshing = false) => {
+    if (isRefreshing) setRefreshing(true);
+    else setLoading(true);
+
+    try {
+      const res = await getDashboardMetrics();
+      setData(res);
+    } catch (error) {
+      console.error("Failed to fetch dashboard metrics:", error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
 
   useEffect(() => {
-    getDashboardMetrics()
-      .then((res) => setData(res))
-      .finally(() => setLoading(false));
+    fetchData();
   }, []);
 
   if (loading) {
@@ -31,11 +45,21 @@ export default function Dashboard() {
     <div className="flex-1 flex flex-col min-h-screen">
       <section className="p-8 space-y-8">
         {/* Header Welcome */}
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between items-center">
           <div>
             <h2 className="text-display-lg text-3xl font-extrabold text-on-surface tracking-tight">Dashboard</h2>
             <p className="text-slate-500 mt-1">Real-time electronics retail performance metrics.</p>
           </div>
+          <button
+            onClick={() => fetchData(true)}
+            disabled={refreshing}
+            title="Refresh Dashboard"
+            className="group flex items-center justify-center w-12 h-12 rounded-full bg-surface-container-high hover:bg-surface-container-highest transition-all duration-300 border border-outline-variant/30 active:scale-90 disabled:opacity-50 shadow-sm hover:shadow-md"
+          >
+            <span className={`material-symbols-outlined text-2xl text-primary transition-transform duration-700 ${refreshing ? 'animate-spin' : 'group-hover:rotate-180'}`}>
+              sync
+            </span>
+          </button>
         </div>
 
         {/* KPI Bento Grid */}

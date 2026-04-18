@@ -9,15 +9,27 @@ using MintCart.Api.Customer.Domain.Interfaces.Customer;
 
 namespace MintCart.Api.Customer.Business.Interactor
 {
+    /// <summary>
+    /// Handles the business logic for customer management.
+    /// </summary>
     public class CustomerInteractor : ICustomerInteractor
     {
         private readonly ICustomerRepository _repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomerInteractor"/> class.
+        /// </summary>
+        /// <param name="repository">The customer repository.</param>
         public CustomerInteractor(ICustomerRepository repository)
         {
             _repository = repository;
         }
 
+        #region Public Methods
+        /// <summary>
+        /// Retrieves a list of all customers.
+        /// </summary>
+        /// <returns>A list of <see cref="CustomerModel"/>.</returns>
         public async Task<List<CustomerModel>> GetCustomers()
         {
             var entities = await _repository.GetCustomers();
@@ -40,6 +52,11 @@ namespace MintCart.Api.Customer.Business.Interactor
             }).ToList();
         }
 
+        /// <summary>
+        /// Creates or updates a customer.
+        /// </summary>
+        /// <param name="customer">The customer data to upsert.</param>
+        /// <returns>The upserted <see cref="CustomerModel"/>.</returns>
         public async Task<CustomerModel> UpsertCustomer(CustomerModel customer)
         {
             var entity = new CustomerEntity
@@ -80,6 +97,7 @@ namespace MintCart.Api.Customer.Business.Interactor
                 VCNo = result.vchVCNo
             };
         }
+        #endregion
     }
 }
 

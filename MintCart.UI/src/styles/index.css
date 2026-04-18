@@ -62,3 +62,12 @@
 @keyframes dash {
   to { stroke-dashoffset: 0; }
 }
+
+@keyframes toast-progress {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+.animate-toast-progress {
+  animation: toast-progress 6s linear forwards;
+}

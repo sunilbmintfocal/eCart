@@ -12,6 +12,7 @@ export const API_URLS = {
 const API_BASE_URL = API_URLS.customer;
 
 import { startLoading, stopLoading } from './loadingService';
+import { triggerToast } from './toastService';
 
 /**
  * Retrieves the access token from session storage.
@@ -44,8 +45,11 @@ const handleResponse = async (response) => {
       errorData = { message: response.statusText };
     }
 
+    const message = errorData.message || `API Request failed with status ${response.status}`;
+    triggerToast(message, 'error');
+
     // Create a descriptive error
-    const error = new Error(errorData.message || `API Request failed with status ${response.status}`);
+    const error = new Error(message);
     error.status = response.status;
     error.data = errorData;
     throw error;
@@ -92,6 +96,9 @@ const request = async (method, url, data = null, customHeaders = {}, skipToken =
     return await handleResponse(response);
   } catch (error) {
     console.error(`[API Client Error] ${method} ${fullUrl}:`, error);
+    if (!error.status) {
+      triggerToast('Network error: Unable to connect to the server.', 'error');
+    }
     throw error;
   } finally {
     stopLoading();

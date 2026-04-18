@@ -9,22 +9,31 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MintCart.Api.Customer.API.Controllers
 {
+    /// <summary>
+    /// API controller for customer-related operations.
+    /// </summary>
     [Route("api/customer")]
     public class CustomerController : BaseController<CustomerController>
     {
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerInteractor _customerInteractor;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomerController"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="customerInteractor">The customer interactor.</param>
         public CustomerController(ILogger<CustomerController> logger, ICustomerInteractor customerInteractor) : base(logger)
         {
             _logger = logger;
             _customerInteractor = customerInteractor;
         }
 
+        #region Public Endpoints
         /// <summary>
-        /// Gives all the Customers as a list of objects
+        /// Retrieves all customers as a list of models.
         /// </summary>
-        /// <returns>Returns the list of Customers</returns>
+        /// <returns>A list of CustomerModel objects.</returns>
         [HttpGet]
         [Route("all")]
         public async Task<IActionResult> GetCustomers()
@@ -33,6 +42,11 @@ namespace MintCart.Api.Customer.API.Controllers
             return await CreateApiResponse(res);
         }
 
+        /// <summary>
+        /// Creates a new customer or updates an existing one based on the provided data.
+        /// </summary>
+        /// <param name="customer">The customer data to create or update.</param>
+        /// <returns>The created or updated CustomerModel.</returns>
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> CreateOrUpdateCustomer([FromBody] CustomerModel customer)
@@ -40,6 +54,7 @@ namespace MintCart.Api.Customer.API.Controllers
             var res = await _customerInteractor.UpsertCustomer(customer);
             return await CreateApiResponse(res);
         }
+        #endregion
     }
 }
 

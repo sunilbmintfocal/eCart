@@ -1,12 +1,13 @@
 import { createContext, useContext, useState, useLayoutEffect, useEffect } from 'react';
 import { subscribeLoading } from '../api/loadingService';
+import { subscribeToast } from '../api/toastService';
 
 const UIContext = createContext();
 
 export function UIProvider({ children }) {
   const [rootFontSize, setRootFontSize] = useState(15);
   const [globalLoading, setGlobalLoading] = useState(false);
-  const [toast, setToast] = useState(null);
+  const [toast, setToast] = useState(null); // { message, type }
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty('--root-font-size', `${rootFontSize}px`);
@@ -14,11 +15,12 @@ export function UIProvider({ children }) {
 
   useEffect(() => {
     subscribeLoading(setGlobalLoading);
+    subscribeToast((t) => showToast(t.message, t.type));
   }, []);
 
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 10000);
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 6000);
   };
 
   return (
