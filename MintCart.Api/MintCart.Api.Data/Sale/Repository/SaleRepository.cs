@@ -35,6 +35,7 @@ namespace MintCart.Api.Data.Sale.Repository
             var tomorrow = today.AddDays(1);
 
             return await _context.Sales
+                .AsNoTracking()
                 .Where(s => s.SaleDate >= today && s.SaleDate < tomorrow)
                 .ToListAsync();
         }
@@ -49,6 +50,7 @@ namespace MintCart.Api.Data.Sale.Repository
             var yesterday = today.AddDays(-1);
 
             return await _context.Sales
+                .AsNoTracking()
                 .Where(s => s.SaleDate >= yesterday && s.SaleDate < today)
                 .ToListAsync();
         }
@@ -62,6 +64,7 @@ namespace MintCart.Api.Data.Sale.Repository
         public async Task<IEnumerable<SaleEntity>> GetSalesByDateRangeAsync(DateTime fromDate, DateTime toDate)
         {
             return await _context.Sales
+                .AsNoTracking()
                 .Where(s => s.SaleDate >= fromDate && s.SaleDate <= toDate && s.IsCancelled != true)
                 .ToListAsync();
         }

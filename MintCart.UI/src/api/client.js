@@ -4,8 +4,8 @@
  */
 
 export const API_URLS = {
-  customer:  'https://localhost:7200',
-  dashboard: 'https://localhost:7200',
+  customer:  import.meta.env.VITE_API_BASE_URL || 'https://localhost:7200',
+  dashboard: import.meta.env.VITE_API_BASE_URL || 'https://localhost:7200',
 };
 
 // Default base URL (Customer API kept for backwards compatibility)

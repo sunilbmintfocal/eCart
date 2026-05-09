@@ -1,6 +1,7 @@
 using MintCart.Api.Dashboard.Business.Interface;
 using MintCart.Api.Dashboard.Business.Model;
 using MintCart.Api.Domain.Sale.Interfaces;
+using MintCart.Api.Business.Inventory.Interface;
 using MintCart.Common;
 using System.Linq;
 
@@ -12,14 +13,17 @@ namespace MintCart.Api.Dashboard.Business.Interactor
     public class DashboardInteractor : IDashboardInteractor
     {
         private readonly ISaleRepository _saleRepository;
+        private readonly IInventoryInteractor _inventoryInteractor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DashboardInteractor"/> class.
         /// </summary>
         /// <param name="saleRepository">The sale repository.</param>
-        public DashboardInteractor(ISaleRepository saleRepository)
+        /// <param name="inventoryInteractor">The inventory interactor.</param>
+        public DashboardInteractor(ISaleRepository saleRepository, IInventoryInteractor inventoryInteractor)
         {
             _saleRepository = saleRepository;
+            _inventoryInteractor = inventoryInteractor;
         }
 
         #region Public Methods
@@ -29,22 +33,31 @@ namespace MintCart.Api.Dashboard.Business.Interactor
         /// <returns>A model containing KPIs, payables, activities, and sales trends.</returns>
         public async Task<DashboardMetricsModel> GetDashboardMetricsAsync()
         {
-            // Database operations must be sequential because DbContext is not thread-safe
-            var kpis = await GetKpisAsync();
-            var salesTrend = await GetSalesTrendAsync();
-
-            var payablesTask = GetPayablesAsync();
-            var activitiesTask = GetRecentActivitiesAsync();
-
-            await Task.WhenAll(payablesTask, activitiesTask);
-
-            return new DashboardMetricsModel
+            try
             {
-                Kpis = kpis,
-                Payables = await payablesTask,
-                Activities = await activitiesTask,
-                SalesTrend = salesTrend
-            };
+                // Database operations must be sequential because DbContext is not thread-safe
+                var kpis = await GetKpisAsync();
+                var salesTrend = await GetSalesTrendAsync();
+
+                var payablesTask = GetPayablesAsync();
+                var activitiesTask = GetRecentActivitiesAsync();
+
+                await Task.WhenAll(payablesTask, activitiesTask);
+
+                return new DashboardMetricsModel
+                {
+                    Kpis = kpis,
+                    Payables = await payablesTask,
+                    Activities = await activitiesTask,
+                    SalesTrend = salesTrend
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetDashboardMetricsAsync: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+                throw;
+            }
         }
 
         /// <summary>
@@ -53,52 +66,69 @@ namespace MintCart.Api.Dashboard.Business.Interactor
         /// <returns>A model containing various KPI items.</returns>
         public async Task<DashboardKpiModel> GetKpisAsync()
         {
-            var todaysSales = await _saleRepository.GetTodaysSalesAsync();
-            var totalSalesValue = todaysSales.Sum(s => s.GrandTotalAmount ?? 0);
-
-            var yesterdaysSales = await _saleRepository.GetYesterdaysSalesAsync();
-            var yesterdayTotalValue = yesterdaysSales.Sum(s => s.GrandTotalAmount ?? 0);
-
-            string trendString = "+0% from yesterday";
-            if (yesterdayTotalValue > 0)
+            try
             {
-                var percentageChange = ((totalSalesValue - yesterdayTotalValue) / yesterdayTotalValue) * 100;
-                trendString = $"{(percentageChange >= 0 ? "+" : "")}{percentageChange:F2}% from yesterday";
-            }
-            else if (totalSalesValue > 0)
-            {
-                trendString = "+100% from yesterday";
-            }
+                var todaysSales = await _saleRepository.GetTodaysSalesAsync();
+                var totalSalesValue = todaysSales.Sum(s => s.GrandTotalAmount ?? 0);
 
-            var result = new DashboardKpiModel
-            {
-                TotalSales = new DashboardKpiItem
+                var yesterdaysSales = await _saleRepository.GetYesterdaysSalesAsync();
+                var yesterdayTotalValue = yesterdaysSales.Sum(s => s.GrandTotalAmount ?? 0);
+
+                string trendString = "+0% from yesterday";
+                if (yesterdayTotalValue > 0)
                 {
-                    Value = CommonHelper.FormatCurrency(totalSalesValue),
-                    Trend = trendString
-                },
-                LowStock = new DashboardKpiLowStockItem
-                {
-                    Value = "08 Items",
-                    Alerts = new List<LowStockAlertModel>
-                    {
-                        new() { Name = "Pro Laptops", Count = 2 },
-                        new() { Name = "Smartphones", Count = 6 }
-                    }
-                },
-                Complaints = new DashboardKpiItem
-                {
-                    Value = "05",
-                    Trend = "3 pending immediate action"
-                },
-                Balance = new DashboardKpiItem
-                {
-                    Value = CommonHelper.FormatCurrency(398220.50m),
-                    Trend = "Pending collections"
+                    var percentageChange = ((totalSalesValue - yesterdayTotalValue) / yesterdayTotalValue) * 100;
+                    trendString = $"{(percentageChange >= 0 ? "+" : "")}{percentageChange:F2}% from yesterday";
                 }
-            };
+                else if (totalSalesValue > 0)
+                {
+                    trendString = "+100% from yesterday";
+                }
 
-            return result;
+                var lowStockItems = await _inventoryInteractor.GetLowStockItemsAsync();
+                var lowStockList = lowStockItems.ToList();
+                
+                // Show total count in the header, but only the top 2 most critical alerts in the UI
+                var topLowStockAlerts = lowStockList
+                    .Take(2)
+                    .Select(s => new LowStockAlertModel 
+                    { 
+                        Name = s.ItemMaster?.vchItemDisplayName ?? "Unknown Item", 
+                        Count = (int)(s.numInStock ?? 0) 
+                    }).ToList();
+
+                var result = new DashboardKpiModel
+                {
+                    TotalSales = new DashboardKpiItem
+                    {
+                        Value = CommonHelper.FormatCurrency(totalSalesValue),
+                        Trend = trendString
+                    },
+                    LowStock = new DashboardKpiLowStockItem
+                    {
+                        Value = $"{lowStockList.Count:N0} Items",
+                        Alerts = topLowStockAlerts
+                    },
+                    Complaints = new DashboardKpiItem
+                    {
+                        Value = "05",
+                        Trend = "3 pending immediate action"
+                    },
+                    Balance = new DashboardKpiItem
+                    {
+                        Value = CommonHelper.FormatCurrency(398220.50m),
+                        Trend = "Pending collections"
+                    }
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetKpisAsync: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+                throw;
+            }
         }
 
         /// <summary>

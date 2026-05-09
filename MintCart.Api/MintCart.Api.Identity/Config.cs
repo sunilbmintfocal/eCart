@@ -1,4 +1,5 @@
 using Duende.IdentityServer.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace MintCart;
 
@@ -30,8 +31,11 @@ public static class Config
             }
         };
 
-    public static IEnumerable<Client> Clients =>
-        new Client[]
+    public static IEnumerable<Client> GetClients(IConfiguration configuration)
+    {
+        var webUIUrls = configuration.GetSection("ClientUrls:WebUI").Get<string[]>() ?? new[] { "https://localhost:5173", "http://localhost:5173" };
+        
+        return new Client[]
         {
             // m2m client credentials flow client
             new Client
@@ -72,13 +76,14 @@ public static class Config
                 RequirePkce = true,
                 RequireClientSecret = false,
 
-                RedirectUris = { "https://localhost:5173/callback", "https://localhost:5173/silent-renew", "https://localhost:5173", "http://localhost:5173/callback", "http://localhost:5173/silent-renew", "http://localhost:5173" },
-                PostLogoutRedirectUris = { "https://localhost:5173", "http://localhost:5173" },
-                AllowedCorsOrigins = { "https://localhost:5173", "http://localhost:5173" },
+                RedirectUris = webUIUrls.SelectMany(url => new[] { $"{url}/callback", $"{url}/silent-renew", url }).ToList(),
+                PostLogoutRedirectUris = webUIUrls.ToList(),
+                AllowedCorsOrigins = webUIUrls.ToList(),
                 AlwaysIncludeUserClaimsInIdToken = true,
 
                 AllowedScopes = { "openid", "profile", "email", "MintCart-api" },
                 AllowOfflineAccess = true
             },
         };
+    }
 }

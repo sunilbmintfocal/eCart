@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using MintCart.Api.Dashboard.Business.Interface;
+using MintCart.Api.Business.Inventory.Interface;
 using MintCart.Api.Core.Controllers;
 using Microsoft.AspNetCore.Authorization;
 
@@ -13,13 +14,16 @@ namespace MintCart.Api.Dashboard.API.Controllers
     {
         private readonly ILogger<DashboardController> _logger;
         private readonly IDashboardInteractor _dashboardInteractor;
+        private readonly IInventoryInteractor _inventoryInteractor;
 
         public DashboardController(
             ILogger<DashboardController> logger,
-            IDashboardInteractor dashboardInteractor) : base(logger)
+            IDashboardInteractor dashboardInteractor,
+            IInventoryInteractor inventoryInteractor) : base(logger)
         {
             _logger = logger;
             _dashboardInteractor = dashboardInteractor;
+            _inventoryInteractor = inventoryInteractor;
         }
 
         /// <summary>
@@ -67,5 +71,6 @@ namespace MintCart.Api.Dashboard.API.Controllers
             var res = await _dashboardInteractor.GetRecentActivitiesAsync(top);
             return await CreateApiResponse(res);
         }
+
     }
 }

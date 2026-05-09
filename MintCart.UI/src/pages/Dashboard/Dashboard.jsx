@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getDashboardMetrics } from "../../api/dashboard";
 import KPIBox from "../../components/Dashboard/KPIBox";
 import SalesTrend from "../../components/Dashboard/SalesTrend";
@@ -74,16 +75,42 @@ export default function Dashboard() {
           <KPIBox
             title="Low Stock Alerts"
             value={data.kpis.lowStock.value}
+            icon="inventory_2"
             subtext={
-              <>
-                {data.kpis.lowStock.alerts.map((a, i) => (
-                  <span key={i} className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] rounded-full font-bold">
-                    {a.name} ({a.count})
+              <div className="flex flex-col gap-3 w-full mt-2">
+                {data.kpis.lowStock.alerts.slice(0, 2).map((a, i) => {
+                  const percentage = Math.max(0, Math.min(100, (a.count / 10) * 100));
+                  return (
+                    <div key={i} className="space-y-1">
+                      <div className="flex justify-between items-center text-[10px]">
+                        <span className="font-bold text-slate-600 truncate max-w-[220px] uppercase tracking-tight">
+                          {a.name}
+                        </span>
+                        <span className={`font-black ${a.count <= 0 ? 'text-error' : 'text-secondary'}`}>
+                          {a.count} Units
+                        </span>
+                      </div>
+                      <div className="h-1.5 w-full bg-secondary-fixed/20 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-1000 ease-out ${a.count <= 0 ? 'bg-error' : 'bg-secondary'}`}
+                          style={{ width: `${a.count <= 0 ? 100 : percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+                <Link 
+                  to="/inventory" 
+                  className="mt-1 group/link flex items-center gap-1.5 text-[10px] font-bold text-secondary hover:text-primary transition-colors duration-300"
+                >
+                  VIEW ALL DETAILS
+                  <span className="material-symbols-outlined text-[14px] group-hover/link:translate-x-1 transition-transform">
+                    arrow_forward
                   </span>
-                ))}
-              </>
+                </Link>
+              </div>
             }
-            variant="tertiary"
+            variant="secondary"
           />
           <KPIBox
             title="Active Complaints"

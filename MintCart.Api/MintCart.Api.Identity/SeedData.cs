@@ -120,7 +120,7 @@ public class SeedData
             configContext.Database.Migrate();
 
             // Sync Clients
-            foreach (var client in Config.Clients)
+            foreach (var client in Config.GetClients(app.Configuration))
             {
                 var existingClient = configContext.Clients
                     .Include(x => x.AllowedScopes)

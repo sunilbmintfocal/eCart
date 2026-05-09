@@ -6,7 +6,7 @@ import './styles/index.css'
 import App from './App.jsx'
 
 const oidcConfig = {
-  authority: "https://localhost:5001",
+  authority: import.meta.env.VITE_OIDC_AUTHORITY || "https://localhost:5001",
   client_id: "MintCart-webui",
   redirect_uri: window.location.origin,
   post_logout_redirect_uri: window.location.origin,

@@ -29,6 +29,15 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           )}
         </NavLink>
 
+        <NavLink to="/inventory" className={({ isActive }) => `flex items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'} py-3 rounded-none cursor-pointer transition-all duration-300 font-body font-medium text-sm ${isActive ? 'bg-surface-container-lowest text-on-surface font-bold shadow-sm' : 'text-on-surface-variant hover:text-on-surface hover:translate-x-1'}`}>
+          {({ isActive }) => (
+            <>
+              <span className="material-symbols-outlined" data-icon="inventory_2" style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>inventory_2</span>
+              {!isCollapsed && <span>Inventory</span>}
+            </>
+          )}
+        </NavLink>
+
         <NavLink to="/customers" className={({ isActive }) => `flex items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'} py-3 rounded-none cursor-pointer transition-all duration-300 font-body font-medium text-sm ${isActive ? 'bg-surface-container-lowest text-on-surface font-bold shadow-sm' : 'text-on-surface-variant hover:text-on-surface hover:translate-x-1'}`}>
           {({ isActive }) => (
             <>
@@ -38,12 +47,21 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           )}
         </NavLink>
 
+        <NavLink to="/reports" className={({ isActive }) => `flex items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-4'} py-3 rounded-none cursor-pointer transition-all duration-300 font-body font-medium text-sm ${isActive ? 'bg-surface-container-lowest text-on-surface font-bold shadow-sm' : 'text-on-surface-variant hover:text-on-surface hover:translate-x-1'}`}>
+          {({ isActive }) => (
+            <>
+              <span className="material-symbols-outlined" data-icon="assessment" style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>assessment</span>
+              {!isCollapsed && <span>Reports</span>}
+            </>
+          )}
+        </NavLink>
+
       </nav>
-      {/* <div className="mt-auto px-1 pb-4">
-        <button className={`w-full btn-gradient py-3 rounded-none font-headline font-bold flex justify-center items-center ${isCollapsed ? 'px-0' : 'px-4'}`}>
-          {isCollapsed ? <span className="material-symbols-outlined">add</span> : 'Create New Customer'}
-        </button>
-      </div> */}
+      <div className="mt-auto px-4 pb-4">
+        <div className={`text-[10px] text-on-surface-variant font-mono transition-opacity duration-300 ${isCollapsed ? 'opacity-0' : 'opacity-40'}`}>
+          v{import.meta.env.VITE_APP_VERSION || '0.0.0'}
+        </div>
+      </div>
     </aside>
   );
 }

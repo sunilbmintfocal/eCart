@@ -10,6 +10,11 @@ using MintCart.Api.Dashboard.Business.Interactor;
 using MintCart.Api.Data.Sale;
 using MintCart.Api.Domain.Sale.Interfaces;
 using MintCart.Api.Data.Sale.Repository;
+using MintCart.Api.Domain.Inventory.Interfaces;
+using MintCart.Api.Data.Inventory;
+using MintCart.Api.Data.Inventory.Repository;
+using MintCart.Api.Business.Inventory.Interface;
+using MintCart.Api.Business.Inventory.Interactor;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -25,19 +30,25 @@ builder.ConfigureCoreMintCartService();
 
 // Register Customer Module Specific Services
 builder.Services.AddDbContext<CustomerDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString")));
+    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString"), sqlOptions => sqlOptions.CommandTimeout(60)));
 
 builder.Services.AddScoped<ICustomerInteractor, CustomerInteractor>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 // Register Dashboard Module Specific Services
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddScoped<IDashboardInteractor, DashboardInteractor>();
 
 // Register Sale Module Specific Services
 builder.Services.AddDbContext<SaleDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString")));
+    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString"), sqlOptions => sqlOptions.CommandTimeout(60)));
 
-builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+// Register Inventory Module Specific Services
+builder.Services.AddDbContext<InventoryDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString"), sqlOptions => sqlOptions.CommandTimeout(60)));
+
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryInteractor, InventoryInteractor>();
 
 var app = builder.Build();
 
