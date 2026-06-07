@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/MintFocal/Projects/SourceCode/MintCart/MintCart.Api/MintCart.Api.Business/Customer/Interface/**)",
+      "Read(//d/MintFocal/Projects/SourceCode/MintCart/MintCart.Api/MintCart.Api.Business/Customer/Model/**)",
+      "Read(//d/MintFocal/Projects/SourceCode/MintCart/MintCart.Api/MintCart.Api.Web/**)",
+      "Read(//d/MintFocal/Projects/SourceCode/MintCart/MintCart.Api/MintCart.Api.Web/Controllers/Customer/**)",
+      "Read(//d/MintFocal/Projects/SourceCode/MintCart/MintCart.Api/MintCart.Api.Business/Customer/Interactor/**)",
+      "Read(//d/MintFocal/Projects/SourceCode/MintCart/MintCart.Api/**)"
+    ]
+  }
+}

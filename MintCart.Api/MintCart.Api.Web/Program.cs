@@ -15,6 +15,17 @@ using MintCart.Api.Data.Inventory;
 using MintCart.Api.Data.Inventory.Repository;
 using MintCart.Api.Business.Inventory.Interface;
 using MintCart.Api.Business.Inventory.Interactor;
+using MintCart.Api.Business.Reports.Interface;
+using MintCart.Api.Business.Reports.Interactor;
+using MintCart.Api.Domain.Reports.Interfaces;
+using MintCart.Api.Data.Reports;
+using MintCart.Api.Data.Reports.Repository;
+using MintCart.Api.Domain.Complaint.Interfaces;
+using MintCart.Api.Data.Complaint;
+using MintCart.Api.Data.Complaint.Repository;
+using MintCart.Api.Domain.Recharge.Interfaces;
+using MintCart.Api.Data.Recharge;
+using MintCart.Api.Data.Recharge.Repository;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -49,6 +60,25 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
 
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IInventoryInteractor, InventoryInteractor>();
+
+// Register Complaint Module Specific Services
+builder.Services.AddDbContext<ComplaintDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString"), sqlOptions => sqlOptions.CommandTimeout(60)));
+
+builder.Services.AddScoped<IComplaintRepository, ComplaintRepository>();
+
+// Register Recharge Module Specific Services
+builder.Services.AddDbContext<RechargeDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString"), sqlOptions => sqlOptions.CommandTimeout(60)));
+
+builder.Services.AddScoped<IRechargeRepository, RechargeRepository>();
+
+// Register Report Module Specific Services
+builder.Services.AddDbContext<ReportDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionString"), sqlOptions => sqlOptions.CommandTimeout(60)));
+
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IReportInteractor, ReportInteractor>();
 
 var app = builder.Build();
 

@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MintCart.Api.Customer.Domain.Entities.Customer;
 using MintCart.Api.Customer.Domain.Interfaces.Customer;
+using MintCart.Api.Domain.Sale.Interfaces;
+using MintCart.Api.Domain.Complaint.Interfaces;
+using MintCart.Api.Domain.Recharge.Interfaces;
 
 namespace MintCart.Api.Customer.Data.Repository.Customer
 {
@@ -13,14 +17,20 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
     public class CustomerRepository : ICustomerRepository
     {
         private readonly CustomerDbContext _context;
+        private readonly ISaleRepository _saleRepository;
+        private readonly IComplaintRepository _complaintRepository;
+        private readonly IRechargeRepository _rechargeRepository;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerRepository"/> class.
-        /// </summary>
-        /// <param name="context">The customer database context.</param>
-        public CustomerRepository(CustomerDbContext context)
+        public CustomerRepository(
+            CustomerDbContext context,
+            ISaleRepository saleRepository,
+            IComplaintRepository complaintRepository,
+            IRechargeRepository rechargeRepository)
         {
             _context = context;
+            _saleRepository = saleRepository;
+            _complaintRepository = complaintRepository;
+            _rechargeRepository = rechargeRepository;
         }
 
         #region Public Methods
@@ -30,7 +40,28 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
         /// <returns>A list of CustomerEntity objects.</returns>
         public async Task<List<CustomerEntity>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            return await _context.Customers.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<(List<CustomerEntity> Items, int TotalCount)> GetCustomersPaged(int page, int pageSize, string? search)
+        {
+            var query = _context.Customers.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(c =>
+                    (c.vchCustomerName != null && c.vchCustomerName.Contains(search)) ||
+                    (c.vchPhoneNo != null && c.vchPhoneNo.Contains(search)));
+            }
+
+            var total = await query.CountAsync();
+            var items = await query
+                .OrderByDescending(c => c.dtAddedDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (items, total);
         }
 
         /// <summary>
@@ -56,6 +87,55 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
             }
             await _context.SaveChangesAsync();
             return customer;
+        }
+        /// <summary>
+        /// Merges multiple customers into the primary customer:
+        /// 1. Reassigns all FK references (Sale, SaleTransactions, ComplaintReg, Recharge) to the primary ID.
+        /// 2. Updates the primary customer's details.
+        /// 3. Deactivates all secondary customers.
+        /// </summary>
+        public async Task<CustomerEntity> MergeCustomers(int primaryCustomerId, List<int> secondaryCustomerIds, CustomerEntity customerDetails)
+        {
+            await _saleRepository.ReassignCustomerReferencesAsync(secondaryCustomerIds, primaryCustomerId);
+            await _complaintRepository.UpdateCustomerIdAsync(secondaryCustomerIds, primaryCustomerId);
+            await _rechargeRepository.UpdateCustomerIdAsync(secondaryCustomerIds, primaryCustomerId);
+
+            var primary = await _context.Customers.FirstOrDefaultAsync(x => x.Id == primaryCustomerId);
+            if (primary == null)
+                throw new InvalidOperationException($"Customer with ID {primaryCustomerId} not found.");
+
+            primary.vchCustomerName = customerDetails.vchCustomerName;
+            primary.vchAddress = customerDetails.vchAddress;
+            primary.vchShippingAddress = customerDetails.vchShippingAddress;
+            primary.vchPhoneNo = customerDetails.vchPhoneNo;
+            primary.vchOtherPhoneNo = customerDetails.vchOtherPhoneNo;
+            primary.vchIdCardNo = customerDetails.vchIdCardNo;
+            primary.vchGSTINNumber = customerDetails.vchGSTINNumber;
+            primary.vchState = customerDetails.vchState;
+            primary.vchStateCode = customerDetails.vchStateCode;
+            primary.vchVCNo = customerDetails.vchVCNo;
+            primary.bitIsActive = customerDetails.bitIsActive;
+            primary.bitIsBusinessCustomer = customerDetails.bitIsBusinessCustomer;
+
+            await _context.SaveChangesAsync();
+
+            await DeleteCustomersAsync(secondaryCustomerIds);
+
+            return primary;
+        }
+
+        /// <summary>
+        /// Permanently deletes the given customers via a LINQ-based bulk delete.
+        /// Iterates per ID rather than using Contains(), since the database's
+        /// compatibility level (100) does not support the OPENJSON translation
+        /// EF Core generates for parameterized Contains() queries.
+        /// </summary>
+        public async Task DeleteCustomersAsync(List<int> customerIds)
+        {
+            foreach (var id in customerIds)
+            {
+                await _context.Customers.Where(x => x.Id == id).ExecuteDeleteAsync();
+            }
         }
         #endregion
     }

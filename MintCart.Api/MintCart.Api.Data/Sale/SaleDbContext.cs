@@ -12,6 +12,7 @@ namespace MintCart.Api.Data.Sale
 
         public DbSet<SaleEntity> Sales { get; set; }
         public DbSet<SaleChildEntity> SaleChildren { get; set; }
+        public DbSet<SaleTransactionEntity> SaleTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -10,5 +10,6 @@ namespace MintCart.Api.Domain.Sale.Interfaces
         Task<IEnumerable<SaleEntity>> GetTodaysSalesAsync();
         Task<IEnumerable<SaleEntity>> GetYesterdaysSalesAsync();
         Task<IEnumerable<SaleEntity>> GetSalesByDateRangeAsync(DateTime fromDate, DateTime toDate);
+        Task ReassignCustomerReferencesAsync(List<int> fromCustomerIds, int toCustomerId);
     }
 }

@@ -1,38 +1,50 @@
+import { apiClient } from './client';
 
-export const getReportsList = async () => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 800));
-  
-  return [
-    { id: 'daily-revenue', title: 'Daily Revenue Reconciliation', category: 'Financials', description: 'Real-time financial matching for high-velocity SKUs' },
-    { id: 'inventory-audit', title: 'Full Inventory Audit', category: 'Inventory', description: 'Comprehensive stock levels and valuation' },
-    { id: 'sku-performance', title: 'SKU Velocity & Performance', category: 'Analytics', description: 'Analysis of top-performing products over time' },
-    { id: 'warehouse-efficiency', title: 'Warehouse Efficiency Report', category: 'Analytics', description: 'Picking and packing speed metrics by zone' },
-    { id: 'return-analytics', title: 'Returns & Defect Rates', category: 'Inventory', description: 'Tracking product quality and return reasons' }
-  ];
-};
+const BASE = '/api/report';
 
-export const getReportData = async (reportId) => {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  if (reportId === 'daily-revenue') {
-    return {
-      title: 'Daily Revenue Reconciliation',
-      description: 'Real-time financial matching for high-velocity SKUs',
-      stats: [
-        { label: 'Total Revenue', value: '$124,500.00', change: '+12.5%', trend: 'up' },
-        { label: 'Reconciled', value: '98.2%', change: '+0.5%', trend: 'up' },
-        { label: 'Pending', value: '$2,340.00', change: '-5.2%', trend: 'down' }
-      ],
-      transactions: [
-        { id: 1, name: 'Precision Monitor XL', sku: 'MON-449', amount: '$1,299.00', status: 'Reconciled', date: '2026-04-25 14:20' },
-        { id: 2, name: 'Artisan Tactile Deck', sku: 'KBD-912', amount: '$450.00', status: 'Reconciled', date: '2026-04-25 14:15' },
-        { id: 3, name: 'Fiber-Optic Interconnect', sku: 'CBL-004', amount: '$85.00', status: 'Pending', date: '2026-04-25 14:10' },
-        { id: 4, name: 'Advanced Sensor Core', sku: 'SNS-201', amount: '$3,200.00', status: 'Reconciled', date: '2026-04-25 13:55' },
-        { id: 5, name: 'ErgoPoint Laser Mouse', sku: 'MSE-109', amount: '$120.00', status: 'Reconciled', date: '2026-04-25 13:45' }
-      ]
-    };
+// ─── Normaliser ───────────────────────────────────────────────────────────────
+
+const mapSalesRow = (row, index) => ({
+  id:             row.SlNo            ?? row.slNo            ?? index + 1,
+  Company:        row.Company         ?? row.company         ?? '',
+  ItemCode:       row.ItemCode        ?? row.itemCode        ?? '',
+  ItemName:       row.ItemName        ?? row.itemName        ?? '',
+  InvoiceNo:      row.InvoiceNo       ?? row.invoiceNo       ?? '',
+  SaleDateString: row.SaleDateString  ?? row.saleDateString  ?? '',
+  Rate:           row.Rate            ?? row.rate            ?? 0,
+  Quantity:       row.Quantity        ?? row.quantity        ?? 0,
+  TaxableAmount:  row.TaxableAmount   ?? row.taxableAmount   ?? 0,
+  GSTRate:        row.GSTRate         ?? row.gstRate         ?? 0,
+  TotalGSTAmount: row.TotalGSTAmount  ?? row.totalGSTAmount  ?? 0,
+  TotalAmount:    row.TotalAmount     ?? row.totalAmount     ?? 0,
+});
+
+// ─── Exports ──────────────────────────────────────────────────────────────────
+
+/**
+ * Fetches daily sales report data from the backend.
+ * Falls back to an empty list if the API is unavailable.
+ *
+ * @param {Object} filters - Optional filters forwarded as query params.
+ * @param {string} filters.fromDate - ISO date string (yyyy-MM-dd).
+ * @param {string} filters.toDate   - ISO date string (yyyy-MM-dd).
+ * @param {string} filters.company  - Company name to filter by.
+ * @returns {Promise<Array>} Normalised array of daily sales rows.
+ */
+export const getDailySalesReport = async (filters = {}) => {
+  try {
+    const params = new URLSearchParams();
+    if (filters.fromDate) params.append('fromDate', filters.fromDate);
+    if (filters.toDate)   params.append('toDate',   filters.toDate);
+    if (filters.company && filters.company !== 'All') params.append('company', filters.company);
+
+    const query = params.toString() ? `?${params.toString()}` : '';
+    const response = await apiClient.get(`${BASE}/daily-sales${query}`);
+    const data = response?.data ?? response?.Data ?? response;
+
+    return Array.isArray(data) ? data.map(mapSalesRow) : [];
+  } catch (err) {
+    console.error('[Reports] Daily Sales API error:', err);
+    return [];
   }
-  
-  return null;
 };

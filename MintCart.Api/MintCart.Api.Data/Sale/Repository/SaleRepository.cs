@@ -26,6 +26,22 @@ namespace MintCart.Api.Data.Sale.Repository
 
         #region Public Methods
         /// <summary>
+        /// Reassigns customer ID references across Sale, SaleTransactions, ComplaintReg, and Recharge
+        /// tables from the secondary customer IDs to the primary customer ID during a merge.
+        /// </summary>
+        public async Task ReassignCustomerReferencesAsync(List<int> fromCustomerIds, int toCustomerId)
+        {
+            foreach (var fromId in fromCustomerIds)
+            {
+                await _context.Database.ExecuteSqlInterpolatedAsync(
+                    $"UPDATE Sale SET intBillingCustomerId = {toCustomerId} WHERE intBillingCustomerId = {fromId}");
+
+                await _context.Database.ExecuteSqlInterpolatedAsync(
+                    $"UPDATE SaleTransactions SET intCustomerId = {toCustomerId} WHERE intCustomerId = {fromId}");
+            }
+        }
+
+        /// <summary>
         /// Retrieves sales from the current date.
         /// </summary>
         /// <returns>A collection of SaleEntity objects.</returns>

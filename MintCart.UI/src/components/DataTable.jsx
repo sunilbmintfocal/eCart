@@ -22,6 +22,14 @@ export default function DataTable({
   emptyMessage = 'No records found.',
   selectable = true,
   onRowSelect = null,
+  maxHeight = null,
+  showSummary = false,
+  // Server-side pagination props
+  serverSide = false,
+  totalCount = 0,
+  page: serverPage = 1,
+  onPageChange = null,
+  onPageSizeChange = null,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(defaultPageSize);
@@ -35,29 +43,39 @@ export default function DataTable({
     onRowSelect?.(next !== null ? item : null);
   };
 
-  const paginate = pageSize > 0;
-  const totalPages = paginate ? Math.ceil(data.length / pageSize) : 1;
-  const startIndex = paginate ? (currentPage - 1) * pageSize : 0;
-  const visibleData = paginate ? data.slice(startIndex, startIndex + pageSize) : data;
+  const activePage = serverSide ? serverPage : currentPage;
+  const activePageSize = serverSide ? pageSize : pageSize;
+  const activeTotalCount = serverSide ? totalCount : data.length;
 
-  const goToPage = (page) => setCurrentPage(Math.min(Math.max(page, 1), totalPages));
+  const paginate = activePageSize > 0;
+  const totalPages = paginate ? Math.ceil(activeTotalCount / activePageSize) : 1;
+  const startIndex = paginate ? (activePage - 1) * activePageSize : 0;
+  const visibleData = serverSide ? data : (paginate ? data.slice(startIndex, startIndex + activePageSize) : data);
+
+  const goToPage = (p) => {
+    const clamped = Math.min(Math.max(p, 1), totalPages);
+    if (serverSide) onPageChange?.(clamped);
+    else setCurrentPage(clamped);
+  };
 
   const handlePageSizeChange = (e) => {
-    setPageSize(Number(e.target.value));
-    setCurrentPage(1);
+    const newSize = Number(e.target.value);
+    setPageSize(newSize);
+    if (serverSide) { onPageSizeChange?.(newSize); onPageChange?.(1); }
+    else setCurrentPage(1);
   };
 
   return (
     <div className={className}>
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className={`overflow-x-auto ${maxHeight ? 'overflow-y-auto' : ''}`} style={maxHeight ? { maxHeight } : undefined}>
         <table className="w-full text-left border-collapse">
-          <thead className="bg-primary/20 text-primary sticky top-0 z-10">
+          <thead className="bg-surface-container text-primary sticky top-0 z-10">
             <tr>
               {columns.map((col, index) => (
                 <th
                   key={index}
-                  className={`px-6 py-4 text-sm font-bold border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
+                  className={`px-6 py-4 text-sm font-bold whitespace-nowrap border-r border-primary/20 last:border-r-0 ${col.headerClassName || ''} ${
                     col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
                   }`}
                 >
@@ -88,11 +106,11 @@ export default function DataTable({
                     {columns.map((col, colIndex) => (
                       <td
                         key={colIndex}
-                        className={`px-6 py-2 text-sm font-medium border-r border-outline-variant/10 last:border-r-0 ${col.className || ''} ${
+                        className={`px-6 py-2 text-sm font-medium text-on-surface border-r border-outline-variant/10 last:border-r-0 ${col.className || ''} ${
                           col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
                         }`}
                       >
-                        {col.render ? col.render(item) : item[col.key]}
+                        {col.render ? col.render(item, startIndex + rowIndex) : item[col.key]}
                       </td>
                     ))}
                   </tr>
@@ -109,6 +127,33 @@ export default function DataTable({
               </tr>
             )}
           </tbody>
+
+          {/* Summary / totals row — columns with sumKey are summed across the full dataset */}
+          {showSummary && data.length > 0 && (
+            <tfoot className="sticky bottom-0 z-10">
+              <tr className="border-t-2 border-primary/30 bg-surface-container">
+                {columns.map((col, colIndex) => {
+                  const sum = col.sumKey
+                    ? data.reduce((s, r) => s + (Number(r[col.sumKey]) || 0), 0)
+                    : null;
+                  return (
+                    <td
+                      key={colIndex}
+                      className={`px-6 py-3 text-sm font-bold border-r border-outline-variant/10 last:border-r-0 ${col.className || ''} ${
+                        col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : ''
+                      }`}
+                    >
+                      {colIndex === 0
+                        ? <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Totals</span>
+                        : sum !== null
+                          ? col.render({ [col.sumKey]: sum }, -1)
+                          : null}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tfoot>
+          )}
         </table>
       </div>
 
@@ -117,7 +162,7 @@ export default function DataTable({
         <div className="flex items-center justify-between border-t border-outline-variant/10 px-6 py-4">
           {/* Record count — left */}
           <span className="text-[11px] font-bold text-on-surface-variant tracking-wide">
-            Showing {data.length === 0 ? 0 : startIndex + 1}–{Math.min(startIndex + pageSize, data.length)} of {data.length}
+            Showing {activeTotalCount === 0 ? 0 : startIndex + 1}–{Math.min(startIndex + activePageSize, activeTotalCount)} of {activeTotalCount}
           </span>
 
           {/* Page nav + controls — right */}
@@ -127,7 +172,7 @@ export default function DataTable({
               <div className="flex items-center gap-2">
                 <span className="text-[11px] font-bold text-on-surface-variant tracking-wide whitespace-nowrap">Go to page</span>
                 <select
-                  value={currentPage}
+                  value={activePage}
                   onChange={(e) => goToPage(Number(e.target.value))}
                   className="bg-surface-container-lowest border border-outline-variant/20 rounded-none px-2 py-1 text-[11px] font-bold text-on-surface-variant focus:border-primary focus:outline-none transition-all appearance-none cursor-pointer hover:bg-surface-container-low min-w-[50px] text-center"
                 >
@@ -142,8 +187,8 @@ export default function DataTable({
             {totalPages > 1 && (
               <div className="flex gap-1.5 items-center border-l border-outline-variant/15 pl-6">
                 <button
-                  disabled={currentPage === 1}
-                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={activePage === 1}
+                  onClick={() => goToPage(activePage - 1)}
                   className="px-4 py-1.5 rounded-none border border-outline-variant/20 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low transition-all disabled:opacity-30 disabled:pointer-events-none"
                 >
                   Previous
@@ -151,10 +196,10 @@ export default function DataTable({
                 
                 {(() => {
                   const maxVisible = 3;
-                  let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                  let start = Math.max(1, activePage - Math.floor(maxVisible / 2));
                   let end = Math.min(totalPages, start + maxVisible - 1);
                   if (end - start + 1 < maxVisible) start = Math.max(1, end - maxVisible + 1);
-                  
+
                   return [...Array(end - start + 1)].map((_, i) => {
                     const pageNum = start + i;
                     return (
@@ -162,7 +207,7 @@ export default function DataTable({
                         key={pageNum}
                         onClick={() => goToPage(pageNum)}
                         className={`w-8 h-8 flex items-center justify-center rounded-none font-bold text-[10px] transition-all ${
-                          currentPage === pageNum
+                          activePage === pageNum
                             ? 'bg-primary text-on-primary shadow-sm'
                             : 'hover:bg-surface-container-low text-on-surface-variant'
                         }`}
@@ -174,8 +219,8 @@ export default function DataTable({
                 })()}
 
                 <button
-                  disabled={currentPage === totalPages}
-                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={activePage === totalPages}
+                  onClick={() => goToPage(activePage + 1)}
                   className="px-4 py-1.5 rounded-none border border-outline-variant/20 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low transition-all disabled:opacity-30 disabled:pointer-events-none"
                 >
                   Next

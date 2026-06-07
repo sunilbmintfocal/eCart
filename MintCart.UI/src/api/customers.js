@@ -9,6 +9,12 @@ export async function getCustomers(skipToken = false) {
   return apiClient.get('/api/customer/all', {}, skipToken);
 }
 
+export async function getCustomersPaged(page = 1, pageSize = 10, search = '') {
+  const params = new URLSearchParams({ page, pageSize });
+  if (search) params.append('search', search);
+  return apiClient.get(`/api/customer/list?${params.toString()}`);
+}
+
 /**
  * Creates or updates a customer.
  * Uses the route defined in CustomerController.cs: api/customer/create
@@ -24,4 +30,13 @@ export async function upsertCustomer(customerData) {
  */
 export async function getCustomerById(id) {
   return apiClient.get(`/api/customer/${id}`);
+}
+
+/**
+ * Merges multiple customer profiles into the first (primary) customer.
+ * @param {number[]} customerIds - IDs to merge; first ID is the primary.
+ * @param {Object} customerDetails - The details to apply to the primary customer.
+ */
+export async function mergeCustomers(customerIds, customerDetails) {
+  return apiClient.post('/api/customer/merge', { CustomerIds: customerIds, CustomerDetails: customerDetails });
 }

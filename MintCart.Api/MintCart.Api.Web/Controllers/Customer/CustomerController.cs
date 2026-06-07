@@ -42,6 +42,14 @@ namespace MintCart.Api.Customer.API.Controllers
             return await CreateApiResponse(res);
         }
 
+        [HttpGet]
+        [Route("list")]
+        public async Task<IActionResult> GetCustomersPaged([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string? search = null)
+        {
+            var res = await _customerInteractor.GetCustomersPaged(page, pageSize, search);
+            return await CreateApiResponse(res);
+        }
+
         /// <summary>
         /// Creates a new customer or updates an existing one based on the provided data.
         /// </summary>
@@ -52,6 +60,20 @@ namespace MintCart.Api.Customer.API.Controllers
         public async Task<IActionResult> CreateOrUpdateCustomer([FromBody] CustomerModel customer)
         {
             var res = await _customerInteractor.UpsertCustomer(customer);
+            return await CreateApiResponse(res);
+        }
+
+        /// <summary>
+        /// Merges multiple customer profiles into the primary customer (first ID in the list).
+        /// Updates the primary customer's details with the provided information.
+        /// </summary>
+        /// <param name="mergeRequest">The merge request containing customer IDs and new customer details.</param>
+        /// <returns>The updated primary CustomerModel.</returns>
+        [HttpPost]
+        [Route("merge")]
+        public async Task<IActionResult> MergeCustomers([FromBody] MergeCustomerModel mergeRequest)
+        {
+            var res = await _customerInteractor.MergeCustomers(mergeRequest);
             return await CreateApiResponse(res);
         }
         #endregion
