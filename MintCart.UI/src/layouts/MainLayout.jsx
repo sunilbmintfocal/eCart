@@ -22,13 +22,13 @@ export default function MainLayout() {
 
       {/* Global Toast Notification */}
       {toast && (
-        <div 
-          className={`fixed top-24 left-1/2 -translate-x-1/2 z-[150] p-4 min-w-[340px] shadow-xl backdrop-blur-md animate-in slide-in-from-top-12 duration-500 border-l-4 ${
-            toast.type === 'error' 
-              ? 'bg-error-container text-on-error-container border-error' 
+        <div
+          className={`fixed top-24 left-1/2 -translate-x-1/2 z-[150] p-4 min-w-[340px] rounded-none shadow-lg backdrop-blur-md animate-in slide-in-from-top-12 duration-500 ${
+            toast.type === 'error'
+              ? 'bg-error-container/25 text-error'
               : toast.type === 'warning'
-                ? 'bg-warning-container text-on-warning-container border-warning'
-                : 'bg-primary-container text-on-primary-container border-primary'
+                ? 'bg-warning-container/25 text-on-warning-container'
+                : 'bg-primary-container/20 text-primary'
           }`}
         >
           <div className="flex items-center gap-4">

@@ -268,13 +268,15 @@ const customerIds = selectedForMerge.map(c => c.Id || c.id);
                 <span className="material-symbols-outlined text-base">backspace</span>
                 Clear
               </button>
-              <button
-                onClick={() => { setMergeErrors({}); setMergeEditCustomer(selectedForMerge[0] || null); setIsMergeModalOpen(true); }}
-                className="flex items-center gap-2 px-6 h-11 border-2 border-primary text-primary hover:bg-primary/5 transition-all rounded-none font-bold text-xs uppercase tracking-widest whitespace-nowrap"
-              >
-                <span className="material-symbols-outlined text-base">merge_type</span>
-                Merge Profiles ({selectedForMerge.length})
-              </button>
+              {selectedForMerge.length > 1 && (
+                <button
+                  onClick={() => { setMergeErrors({}); setMergeEditCustomer(selectedForMerge[0] || null); setIsMergeModalOpen(true); }}
+                  className="flex items-center gap-2 px-6 h-11 border-2 border-primary text-primary hover:bg-primary/5 transition-all rounded-none font-bold text-xs uppercase tracking-widest whitespace-nowrap"
+                >
+                  <span className="material-symbols-outlined text-base">merge_type</span>
+                  Merge Profiles ({selectedForMerge.length})
+                </button>
+              )}
             </div>
           )}
 

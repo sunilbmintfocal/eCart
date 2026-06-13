@@ -2,6 +2,8 @@ using Duende.IdentityServer;
 using MintCart.Data;
 using MintCart.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -50,6 +52,10 @@ internal static class HostingExtensions
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
+                // Browsers reject SameSite=None cookies that aren't Secure; since we're served over plain HTTP, use Lax (safe for our same-origin nginx proxy setup)
+                options.Authentication.CookieSameSiteMode = SameSiteMode.Lax;
+                options.Authentication.CheckSessionCookieSameSiteMode = SameSiteMode.Lax;
+
                 // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                 options.EmitStaticAudienceClaim = true;
             })
@@ -64,7 +70,14 @@ internal static class HostingExtensions
                     sql => sql.MigrationsAssembly(migrationsAssembly));
             })
             .AddAspNetIdentity<ApplicationUser>();
-        
+
+        // ASP.NET Core Identity's own auth cookie defaults to SameSite=None, which browsers
+        // reject without Secure; force Lax since we're served same-origin over plain HTTP.
+        builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options =>
+        {
+            options.Cookie.SameSite = SameSiteMode.Lax;
+        });
+
         builder.Services.AddAuthentication()
             .AddGoogle(options =>
             {
