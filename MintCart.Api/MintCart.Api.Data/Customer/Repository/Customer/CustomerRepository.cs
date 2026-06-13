@@ -43,6 +43,12 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
             return await _context.Customers.AsNoTracking().ToListAsync();
         }
 
+        /// <summary>
+        /// Paginates in memory rather than via OrderBy().Skip().Take(), since the EF Core
+        /// translation for that uses OFFSET/FETCH NEXT, which requires SQL Server
+        /// compatibility level 110+. The database's compatibility level (100) does not
+        /// support it (see DeleteCustomersAsync for the related OPENJSON issue).
+        /// </summary>
         public async Task<(List<CustomerEntity> Items, int TotalCount)> GetCustomersPaged(int page, int pageSize, string? search)
         {
             var query = _context.Customers.AsNoTracking();
@@ -54,14 +60,10 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
                     (c.vchPhoneNo != null && c.vchPhoneNo.Contains(search)));
             }
 
-            var total = await query.CountAsync();
-            var items = await query
-                .OrderByDescending(c => c.dtAddedDate)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var ordered = await query.OrderByDescending(c => c.dtAddedDate).ToListAsync();
+            var items = ordered.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            return (items, total);
+            return (items, ordered.Count);
         }
 
         /// <summary>
