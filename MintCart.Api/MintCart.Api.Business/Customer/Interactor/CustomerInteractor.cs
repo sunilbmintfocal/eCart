@@ -48,6 +48,17 @@ namespace MintCart.Api.Customer.Business.Interactor
             };
         }
 
+        public async Task<List<CustomerSuggestionModel>> SuggestCustomers(string q)
+        {
+            var entities = await _repository.SuggestCustomers(q);
+            return entities.Select(e => new CustomerSuggestionModel
+            {
+                Id = e.Id,
+                CustomerName = e.vchCustomerName,
+                PhoneNo = e.vchPhoneNo
+            }).ToList();
+        }
+
         private static CustomerModel MapToModel(CustomerEntity e) => new CustomerModel
         {
             Id = e.Id,

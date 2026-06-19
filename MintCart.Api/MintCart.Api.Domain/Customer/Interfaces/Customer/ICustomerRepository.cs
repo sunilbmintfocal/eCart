@@ -8,6 +8,7 @@ namespace MintCart.Api.Customer.Domain.Interfaces.Customer
     {
         Task<List<CustomerEntity>> GetCustomers();
         Task<(List<CustomerEntity> Items, int TotalCount)> GetCustomersPaged(int page, int pageSize, string? search);
+        Task<List<CustomerEntity>> SuggestCustomers(string q);
         Task<CustomerEntity> UpsertCustomer(CustomerEntity customer);
         Task<CustomerEntity> MergeCustomers(int primaryCustomerId, List<int> secondaryCustomerIds, CustomerEntity customerDetails);
         Task DeleteCustomersAsync(List<int> customerIds);
