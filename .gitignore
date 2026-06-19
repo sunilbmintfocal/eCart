@@ -37,3 +37,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 .vs/
+MintCart.Api/.vs/MintCart.slnx/DesignTimeBuild/.dtbcache.v2
+
+MintCart.Api/.vs/MintCart.slnx/DesignTimeBuild/.dtbcache.v2
+MintCart.Api/.vs/MintCart.slnx/v18/DocumentLayout.backup.json
