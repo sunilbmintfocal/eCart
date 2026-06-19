@@ -67,6 +67,22 @@ namespace MintCart.Api.Customer.Data.Repository.Customer
         }
 
         /// <summary>
+        /// Returns up to 10 customers whose name or phone contains the query.
+        /// Uses Take() which translates to SELECT TOP in SQL Server (compat level 100 safe).
+        /// </summary>
+        public async Task<List<CustomerEntity>> SuggestCustomers(string q)
+        {
+            return await _context.Customers
+                .AsNoTracking()
+                .Where(c =>
+                    (c.vchCustomerName != null && c.vchCustomerName.Contains(q)) ||
+                    (c.vchPhoneNo != null && c.vchPhoneNo.Contains(q)))
+                .OrderBy(c => c.vchCustomerName)
+                .Take(10)
+                .ToListAsync();
+        }
+
+        /// <summary>
         /// Upserts a customer entity. Creates a new record if Id is 0, otherwise updates existing.
         /// </summary>
         /// <param name="customer">The customer entity to save.</param>

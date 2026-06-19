@@ -50,6 +50,16 @@ namespace MintCart.Api.Customer.API.Controllers
             return await CreateApiResponse(res);
         }
 
+        [HttpGet]
+        [Route("suggest")]
+        public async Task<IActionResult> SuggestCustomers([FromQuery] string q = "")
+        {
+            if (string.IsNullOrWhiteSpace(q) || q.Trim().Length < 2)
+                return await CreateApiResponse(new List<MintCart.Api.Customer.Business.Model.CustomerSuggestionModel>());
+            var res = await _customerInteractor.SuggestCustomers(q.Trim());
+            return await CreateApiResponse(res);
+        }
+
         /// <summary>
         /// Creates a new customer or updates an existing one based on the provided data.
         /// </summary>

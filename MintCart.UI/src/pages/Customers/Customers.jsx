@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import DataTable from '../../components/DataTable';
 import ConfirmDialog from '../../components/ConfirmDialog';
+import CustomerSearchInput from '../../components/CustomerSearchInput';
 import { getCustomers, getCustomersPaged, upsertCustomer, mergeCustomers } from '../../api/customers';
 import { useUI } from '../../context/UIContext';
 
@@ -10,11 +11,33 @@ export default function Customers() {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
   const [activeSearch, setActiveSearch] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
-  const [searchNonce, setSearchNonce] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  // All customers loaded on mount for autocomplete — grid still uses paginated API
+  const [allCustomers, setAllCustomers] = useState([]);
+  const [cacheLoading, setCacheLoading] = useState(false);
+
+  const loadCustomerCache = async () => {
+    try {
+      setCacheLoading(true);
+      const response = await getCustomers();
+      const items = response?.Data || response?.data || response || [];
+      setAllCustomers(Array.isArray(items) ? items : []);
+    } catch (err) {
+      console.error('Failed to load customer cache', err);
+    } finally {
+      setCacheLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCustomerCache();
+    const interval = setInterval(loadCustomerCache, 60 * 60 * 1000); // refresh every 1 hour
+    return () => clearInterval(interval);
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedForMerge, setSelectedForMerge] = useState([]);
@@ -57,6 +80,7 @@ const customerIds = selectedForMerge.map(c => c.Id || c.id);
       setMergeEditCustomer(null);
       setIsMergeModalOpen(false);
       setPage(1);
+      loadCustomerCache();
       if (hasSearched) fetchCustomers(1, pageSize, activeSearch);
     } catch (error) {
       console.error('Merge failed', error);
@@ -79,20 +103,21 @@ const customerIds = selectedForMerge.map(c => c.Id || c.id);
     }
   };
 
-  const handleSearch = () => {
+  const handleSearchApply = (term) => {
+    const trimmed = term.trim();
     setHasSearched(true);
-    setActiveSearch(searchTerm);
+    setActiveSearch(trimmed);
     setPage(1);
-    setSearchNonce(n => n + 1);
+    fetchCustomers(1, pageSize, trimmed);
   };
 
-  // Fetch on search (button click) and on pagination changes after the first search
+  // Re-fetch when pagination changes after the first search
   useEffect(() => {
     if (hasSearched) {
       fetchCustomers(page, pageSize, activeSearch);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, pageSize, activeSearch, hasSearched, searchNonce]);
+  }, [page, pageSize]);
 
   const handleCreate = () => {
     setSelectedCustomer({}); // Empty object for new customer
@@ -147,6 +172,7 @@ const customerIds = selectedForMerge.map(c => c.Id || c.id);
 
       setIsModalOpen(false);
       showToast('Customer saved successfully!');
+      loadCustomerCache();
       if (hasSearched) fetchCustomers(page, pageSize, activeSearch);
     } catch (error) {
       console.error('Failed to save customer', error);
@@ -229,27 +255,11 @@ const customerIds = selectedForMerge.map(c => c.Id || c.id);
           <h1 className="text-2xl font-headline font-bold text-on-surface tracking-tight">Customer Management</h1>
         </div>
         <div className="flex gap-4 items-center">
-          <div className="relative group">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base group-focus-within:text-primary transition-colors">search</span>
-            <input
-              type="text"
-              placeholder="Search customers..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
-              className="pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant/20 rounded-none text-[13px] font-medium text-on-surface focus:border-primary focus:ring-1 focus:ring-primary/10 transition-all outline-none min-w-[280px] h-11"
-            />
-          </div>
-
-          <button
-            onClick={handleSearch}
-            disabled={loading}
-            className="flex items-center gap-2 px-6 h-11 border border-outline-variant/20 text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all rounded-none font-bold text-xs uppercase tracking-widest disabled:opacity-50"
-            title="Search customers"
-          >
-            <span className="material-symbols-outlined text-base">search</span>
-            Search
-          </button>
+          <CustomerSearchInput
+            customers={allCustomers}
+            isLoadingCache={cacheLoading}
+            onSearch={handleSearchApply}
+          />
 
           <button
             onClick={() => { if (hasSearched) fetchCustomers(page, pageSize, activeSearch); }}
@@ -296,7 +306,7 @@ const customerIds = selectedForMerge.map(c => c.Id || c.id);
           columns={columns}
           defaultPageSize={10}
           pageSizeOptions={[10, 20, 50, 100]}
-          emptyMessage={loading ? "Loading customers..." : (hasSearched ? "No records found." : "Click Search to load customer records.")}
+          emptyMessage={loading ? "Loading customers..." : (hasSearched ? "No records found." : "Type a name or phone number to search customers.")}
           serverSide={true}
           totalCount={totalCount}
           page={page}

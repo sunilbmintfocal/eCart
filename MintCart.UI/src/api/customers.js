@@ -15,6 +15,10 @@ export async function getCustomersPaged(page = 1, pageSize = 10, search = '') {
   return apiClient.get(`/api/customer/list?${params.toString()}`);
 }
 
+export async function searchCustomerSuggestions(q) {
+  return apiClient.get(`/api/customer/suggest?q=${encodeURIComponent(q)}`);
+}
+
 /**
  * Creates or updates a customer.
  * Uses the route defined in CustomerController.cs: api/customer/create

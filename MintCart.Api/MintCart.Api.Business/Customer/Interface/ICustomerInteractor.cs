@@ -8,6 +8,7 @@ namespace MintCart.Api.Customer.Business.Interface
     {
         Task<List<CustomerModel>> GetCustomers();
         Task<PagedResult<CustomerModel>> GetCustomersPaged(int page, int pageSize, string? search);
+        Task<List<CustomerSuggestionModel>> SuggestCustomers(string q);
         Task<CustomerModel> UpsertCustomer(CustomerModel customer);
         Task<CustomerModel> MergeCustomers(MergeCustomerModel mergeRequest);
     }
